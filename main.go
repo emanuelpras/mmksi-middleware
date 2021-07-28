@@ -13,7 +13,8 @@ func main() {
 	err := godotenv.Load()
 
 	var (
-		mrpController controller.MrpController = controller.NewMrpController(util.ProvideMrpService())
+		mrpController   controller.MrpController   = controller.NewMrpController(util.ProvideMrpService())
+		tokenController controller.MmksiController = controller.NewMmksiController(util.ProvideTokenService())
 	)
 
 	if err != nil {
@@ -31,6 +32,10 @@ func main() {
 
 	r.POST("/prediction", func(c *gin.Context) {
 		mrpController.GetPrediction(c)
+	})
+
+	r.POST("/token", func(c *gin.Context) {
+		tokenController.GetToken(c)
 	})
 
 	r.Run()

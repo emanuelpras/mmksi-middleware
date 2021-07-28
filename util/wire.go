@@ -13,6 +13,7 @@ import (
 )
 
 var (
+	mmksiRepo  repo.MmksiRepo
 	mrpRepo    repo.MrpRepo
 	httpClient *http.Client
 )
@@ -27,6 +28,14 @@ func ProvideMrpService() service.MrpService {
 
 func ProvideMrpRepo() repo.MrpRepo {
 	return repo.NewMrpRepo(os.Getenv("MRP_SERVER"), os.Getenv("MRP_API_KEY"), ProvideHttpClient())
+}
+
+func ProvideTokenService() service.MmksiService {
+	return service.NewMmksiService(ProvideTokenRepo())
+}
+
+func ProvideTokenRepo() repo.MmksiRepo {
+	return repo.NewMmksiRepo(os.Getenv("BASEURL_TOKEN"), ProvideHttpClient())
 }
 
 func ProvideHttpClient() *http.Client {
