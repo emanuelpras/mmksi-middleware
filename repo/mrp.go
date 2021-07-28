@@ -11,8 +11,8 @@ import (
 )
 
 type GetVehiclesParams struct {
-	BrandId int64 `json:"brand"`
-	ModelId int64 `json:"model"`
+	BrandId string `json:"brand"`
+	ModelId string `json:"model"`
 }
 
 type GetRegionsParams struct {
