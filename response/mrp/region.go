@@ -1,4 +1,4 @@
-package response
+package mrp
 
 type GetRegionsResponse struct {
 	Data []Province

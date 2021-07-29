@@ -15,6 +15,7 @@ func main() {
 	var (
 		mrpController   controller.MrpController   = controller.NewMrpController(util.ProvideMrpService())
 		tokenController controller.MmksiController = controller.NewMmksiController(util.ProvideTokenService())
+		mmksiController controller.MmksiController = controller.NewMmksiController(util.ProvideMmksiService())
 	)
 
 	if err != nil {
@@ -36,6 +37,10 @@ func main() {
 
 	r.POST("/token", func(c *gin.Context) {
 		tokenController.GetToken(c)
+	})
+
+	r.POST("/mmksi/vehicles", func(c *gin.Context) {
+		mmksiController.GetVehicles(c)
 	})
 
 	r.Run()

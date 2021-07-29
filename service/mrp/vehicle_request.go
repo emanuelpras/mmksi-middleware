@@ -1,8 +1,8 @@
 package mrp
 
 type GetVehicleRequest struct {
-	BrandId string `form:"brand"`
-	ModelId string `form:"model"`
+	BrandName string `form:"brand"`
+	ModelName string `form:"model"`
 }
 
 func (f *GetVehicleRequest) Validate() error {

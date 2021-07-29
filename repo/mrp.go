@@ -7,12 +7,12 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/refactory-id/middleware-poc/response"
+	response "github.com/refactory-id/middleware-poc/response/mrp"
 )
 
 type GetVehiclesParams struct {
-	BrandId string `json:"brand"`
-	ModelId string `json:"model"`
+	BrandName string `json:"brand"`
+	ModelName string `json:"model"`
 }
 
 type GetRegionsParams struct {

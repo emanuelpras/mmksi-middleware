@@ -38,6 +38,14 @@ func ProvideTokenRepo() repo.MmksiRepo {
 	return repo.NewMmksiRepo(os.Getenv("BASEURL_TOKEN"), ProvideHttpClient())
 }
 
+func ProvideMmksiService() service.MmksiService {
+	return service.NewMmksiService(ProvideMmksiRepo())
+}
+
+func ProvideMmksiRepo() repo.MmksiRepo {
+	return repo.NewMmksiRepo(os.Getenv("MMKSI_SERVER"), ProvideHttpClient())
+}
+
 func ProvideHttpClient() *http.Client {
 	transport, ok := http.DefaultTransport.(*http.Transport) // get default roundtripper transport
 	if !ok {

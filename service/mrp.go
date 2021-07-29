@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/refactory-id/middleware-poc/repo"
-	"github.com/refactory-id/middleware-poc/response"
+	response "github.com/refactory-id/middleware-poc/response/mrp"
 	"github.com/refactory-id/middleware-poc/service/mrp"
 )
 
@@ -30,8 +30,8 @@ func (s *mrpService) GetVehicles(params mrp.GetVehicleRequest) (*response.GetVeh
 	}
 
 	result, err := s.mrpRepo.GetVehicles(repo.GetVehiclesParams{
-		BrandId: params.BrandId,
-		ModelId: params.ModelId,
+		BrandName: params.BrandName,
+		ModelName: params.ModelName,
 	})
 
 	if err != nil {
