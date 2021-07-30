@@ -6,7 +6,7 @@ import (
 )
 
 type VehicleRequest struct {
-	Page int64 `json:"page"`
+	Page int64 `json:"pages"`
 }
 
 type VehicleRequestAuthorization struct {
@@ -18,7 +18,7 @@ func (f *VehicleRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "nothing page",
+				"en": "page not found",
 				"id": "halaman tidak ditemukan",
 			},
 		}

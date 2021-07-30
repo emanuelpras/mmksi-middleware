@@ -18,7 +18,7 @@ type GetTokenParams struct {
 }
 
 type GetVehicleParams struct {
-	Page int64 `json:"page"`
+	Page int64 `json:"pages"`
 }
 
 type GetVehicleHeaderAuthorization struct {
