@@ -50,13 +50,13 @@ func (c *mmksiController) GetVehicles(gc *gin.Context) {
 		return
 	}
 
-	var formHeader mmksi.VehicleRequestAuthorization
-	if err := gc.ShouldBindHeader(&formHeader); err != nil {
+	var authorizationMmksi mmksi.VehicleRequestAuthorization
+	if err := gc.ShouldBindHeader(&authorizationMmksi); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	res, err := c.mmksiService.GetVehicles(form, formHeader)
+	res, err := c.mmksiService.GetVehicles(form, authorizationMmksi)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
