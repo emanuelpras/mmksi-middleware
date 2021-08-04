@@ -21,13 +21,14 @@ type GetVehicleParams struct {
 	Page int64 `json:"pages"`
 }
 
-type GetVehicleHeaderAuthorization struct {
-	Authorization string `json:"Authorization"`
+type GetHeaderAuthorization struct {
+	AccessToken string `json:"AccessToken"`
+	TokenType   string `json:"TokenType"`
 }
 
 type MmksiRepo interface {
 	GetToken(params GetTokenParams) (*response.TokenResponse, error)
-	GetVehicles(params GetVehicleParams, paramHeader GetVehicleHeaderAuthorization) (*response.VehicleResponse, error)
+	GetVehicle(params GetVehicleParams, authorization GetHeaderAuthorization) (*response.VehicleResponse, error)
 }
 
 type mmksiRepo struct {
@@ -74,7 +75,8 @@ func (r *mmksiRepo) GetToken(params GetTokenParams) (*response.TokenResponse, er
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *mmksiRepo) GetVehicles(params GetVehicleParams, authorizationMmksi GetVehicleHeaderAuthorization) (*response.VehicleResponse, error) {
+func (r *mmksiRepo) GetVehicle(params GetVehicleParams, authorizationMmksi GetHeaderAuthorization) (*response.VehicleResponse, error) {
+
 	payload, err := json.Marshal(params)
 	if err != nil {
 		return nil, err
@@ -86,7 +88,8 @@ func (r *mmksiRepo) GetVehicles(params GetVehicleParams, authorizationMmksi GetV
 		return nil, err
 	}
 
-	req.Header.Set("Authorization", authorizationMmksi.Authorization)
+	dnetToken := authorizationMmksi.TokenType + " " + authorizationMmksi.AccessToken
+	req.Header.Set("Authorization", dnetToken)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {

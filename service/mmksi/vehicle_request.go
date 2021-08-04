@@ -10,7 +10,8 @@ type VehicleRequest struct {
 }
 
 type VehicleRequestAuthorization struct {
-	Authorization string `form:"Authorization"`
+	AccessToken string `form:"AccessToken"`
+	TokenType   string `form:"TokenType"`
 }
 
 func (f *VehicleRequest) Validate() error {
@@ -20,19 +21,6 @@ func (f *VehicleRequest) Validate() error {
 			Msg: map[string]string{
 				"en": "page not found",
 				"id": "halaman tidak ditemukan",
-			},
-		}
-	}
-	return nil
-}
-
-func (f *VehicleRequestAuthorization) Validate() error {
-	if err := validation.Validate(f.Authorization, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 401,
-			Msg: map[string]string{
-				"en": "authorization not allowed",
-				"id": "otorisasi tidak diizinkan",
 			},
 		}
 	}
