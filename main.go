@@ -25,23 +25,23 @@ func main() {
 	}
 
 	r := gin.Default()
-	r.GET("/vehicles", func(c *gin.Context) {
+	r.GET("/dsf/tradein/vehicles", func(c *gin.Context) {
 		mrpController.GetVehicles(c)
 	})
 
-	r.GET("/regions", func(c *gin.Context) {
+	r.GET("/dsf/tradein/regions", func(c *gin.Context) {
 		mrpController.GetRegions(c)
 	})
 
-	r.POST("/prediction", func(c *gin.Context) {
+	r.POST("/dsf/tradein/prediction", func(c *gin.Context) {
 		mrpController.GetPrediction(c)
 	})
 
-	r.POST("/create/token", func(c *gin.Context) {
+	r.POST("/auth/token", func(c *gin.Context) {
 		jwtController.GetFirstToken(c)
 	})
 
-	r.POST("/getData",
+	r.POST("/mmmksi/getData",
 		func(c *gin.Context) {
 			authController.Auth(c)
 		},
