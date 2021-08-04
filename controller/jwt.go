@@ -3,12 +3,10 @@ package controller
 import (
 	"fmt"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"github.com/refactory-id/middleware-poc/service"
 	serviceJwt "github.com/refactory-id/middleware-poc/service/jwt"
 )
@@ -49,22 +47,16 @@ func (c *jwtController) GetFirstToken(gc *gin.Context) {
 			},
 		}
 
-		if err := godotenv.Load(".env"); err != nil {
-			gc.JSON(http.StatusBadRequest, gin.H{
-				"message": ".env ngga ketemu",
-			})
-			return
-		} else {
-			sign := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claims)
-			token, _ := sign.SignedString([]byte(os.Getenv("SECRET_TOKEN")))
-			gc.JSON(http.StatusOK, gin.H{
-				"token": token,
-			})
-			return
-		}
+		sign := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claims)
+		token, _ := sign.SignedString([]byte("secret"))
+		gc.JSON(http.StatusOK, gin.H{
+			"token": token,
+		})
+		return
+
 	} else {
 		gc.JSON(http.StatusBadRequest, gin.H{
-			"message": "company ngga kedaftar",
+			"message": "company tidak terdaftar",
 		})
 		return
 	}
@@ -72,13 +64,12 @@ func (c *jwtController) GetFirstToken(gc *gin.Context) {
 }
 
 func (c *jwtController) Auth(gc *gin.Context) {
-	secret := os.Getenv("SECRET_TOKEN")
 	tokenStringHeader := gc.Request.Header.Get("MmksiAuth")
 	token, err := jwt.Parse(tokenStringHeader, func(token *jwt.Token) (interface{}, error) {
 		if jwt.GetSigningMethod("HS256") != token.Method {
 			return nil, fmt.Errorf("Method tidk diketahui atau bukan HS256 , method %V", token.Header["alg"])
 		}
-		return []byte(secret), nil
+		return []byte("secret"), nil
 	})
 	if err != nil {
 		gc.JSON(http.StatusUnauthorized, gin.H{

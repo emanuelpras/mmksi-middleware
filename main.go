@@ -25,33 +25,17 @@ func main() {
 	}
 
 	r := gin.Default()
-	r.GET("/dsf/tradein/vehicles", func(c *gin.Context) {
-		mrpController.GetVehicles(c)
-	})
 
-	r.GET("/dsf/tradein/regions", func(c *gin.Context) {
-		mrpController.GetRegions(c)
-	})
+	// token route
+	r.POST("/auth/token", jwtController.GetFirstToken)
 
-	r.POST("/dsf/tradein/prediction", func(c *gin.Context) {
-		mrpController.GetPrediction(c)
-	})
+	// dsf route
+	r.GET("/dsf/tradein/vehicles", mrpController.GetVehicles)
+	r.GET("/dsf/tradein/regions", mrpController.GetRegions)
+	r.POST("/dsf/tradein/prediction", mrpController.GetPrediction)
 
-	r.POST("/auth/token", func(c *gin.Context) {
-		jwtController.GetFirstToken(c)
-	})
-
-	r.POST("/mmmksi/getData",
-		func(c *gin.Context) {
-			authController.Auth(c)
-		},
-		func(c *gin.Context) {
-			tokenController.GetToken(c)
-		},
-		func(c *gin.Context) {
-			mmksiController.GetVehicle(c)
-		},
-	)
+	//mmksi route
+	r.POST("/mmmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
 
 	r.Run()
 }
