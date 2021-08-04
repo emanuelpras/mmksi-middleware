@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/refactory-id/middleware-poc/response"
+	response "github.com/refactory-id/middleware-poc/response/mrp"
 )
 
 type GetVehiclesParams struct {

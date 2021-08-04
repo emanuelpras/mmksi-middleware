@@ -14,6 +14,7 @@ type mmksiController struct {
 
 type MmksiController interface {
 	GetToken(context *gin.Context)
+	GetVehicle(context *gin.Context)
 }
 
 func NewMmksiController(
@@ -24,17 +25,38 @@ func NewMmksiController(
 	}
 }
 
+var DnetToken = mmksi.VehicleRequestAuthorization{}
+
 func (c *mmksiController) GetToken(gc *gin.Context) {
 
-	var form mmksi.TokenRequest
-	if err := gc.ShouldBind(&form); err != nil {
+	res, err := c.mmksiService.GetToken(mmksi.TokenRequest{})
+	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	res, err := c.mmksiService.GetToken(form)
+	DnetToken = mmksi.VehicleRequestAuthorization{
+		AccessToken: res.AccessToken,
+		TokenType:   res.TokenType,
+	}
+
+	if res.AccessToken != "" {
+		gc.Next()
+	} else {
+		gc.Abort()
+	}
+}
+
+func (c *mmksiController) GetVehicle(gc *gin.Context) {
+	var form mmksi.VehicleRequest
+	if err := gc.ShouldBindJSON(&form); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})
+		return
+	}
+
+	res, err := c.mmksiService.GetVehicle(form, DnetToken)
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error 2": err.Error()})
 		return
 	}
 

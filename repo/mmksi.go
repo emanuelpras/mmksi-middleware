@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/refactory-id/middleware-poc/response"
+	response "github.com/refactory-id/middleware-poc/response/mmksi"
 )
 
 type GetTokenParams struct {
@@ -17,8 +17,18 @@ type GetTokenParams struct {
 	Password   string `json:"password"`
 }
 
+type GetVehicleParams struct {
+	Page int64 `json:"pages"`
+}
+
+type GetHeaderAuthorization struct {
+	AccessToken string `json:"AccessToken"`
+	TokenType   string `json:"TokenType"`
+}
+
 type MmksiRepo interface {
 	GetToken(params GetTokenParams) (*response.TokenResponse, error)
+	GetVehicle(params GetVehicleParams, authorization GetHeaderAuthorization) (*response.VehicleResponse, error)
 }
 
 type mmksiRepo struct {
@@ -62,5 +72,40 @@ func (r *mmksiRepo) GetToken(params GetTokenParams) (*response.TokenResponse, er
 	}
 
 	response := new(response.TokenResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *mmksiRepo) GetVehicle(params GetVehicleParams, authorizationMmksi GetHeaderAuthorization) (*response.VehicleResponse, error) {
+
+	payload, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/Master/WebsiteVehicleType/Read", r.mmksiServer)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	dnetToken := authorizationMmksi.TokenType + " " + authorizationMmksi.AccessToken
+	req.Header.Set("Authorization", dnetToken)
+	req.Header.Set("Content-Type", "application/json")
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("mmksi: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.VehicleResponse)
 	return response, json.Unmarshal(result, response)
 }

@@ -1,4 +1,4 @@
-package response
+package mmksi
 
 type TokenResponse struct {
 	AccessToken string `json:"access_token"`

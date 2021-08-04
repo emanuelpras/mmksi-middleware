@@ -1,4 +1,4 @@
-package response
+package mrp
 
 type PredictionResponse struct {
 	PredictionPrice int64   `json:"ProvinceId"`

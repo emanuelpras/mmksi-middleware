@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/refactory-id/middleware-poc/repo"
-	"github.com/refactory-id/middleware-poc/response"
+	response "github.com/refactory-id/middleware-poc/response/mrp"
 	"github.com/refactory-id/middleware-poc/service/mrp"
 )
 

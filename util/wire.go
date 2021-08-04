@@ -13,10 +13,27 @@ import (
 )
 
 var (
+	jwtRepo    repo.JwtRepo
 	mmksiRepo  repo.MmksiRepo
 	mrpRepo    repo.MrpRepo
 	httpClient *http.Client
 )
+
+func ProvideJwtRepo() repo.JwtRepo {
+	return repo.NewJwtRepo(os.Getenv("BASEURL_JWT"), ProvideHttpClient())
+}
+
+func ProvideJwtService() service.JwtService {
+	return service.NewJwtService(ProvideJwtRepo())
+}
+
+func ProvideAuthRepo() repo.JwtRepo {
+	return repo.NewJwtRepo(os.Getenv("BASEURL_JWT"), ProvideHttpClient())
+}
+
+func ProvideAuthService() service.JwtService {
+	return service.NewJwtService(ProvideAuthRepo())
+}
 
 func ProvideMrpController() controller.MrpController {
 	return controller.NewMrpController(ProvideMrpService())
@@ -36,6 +53,14 @@ func ProvideTokenService() service.MmksiService {
 
 func ProvideTokenRepo() repo.MmksiRepo {
 	return repo.NewMmksiRepo(os.Getenv("BASEURL_TOKEN"), ProvideHttpClient())
+}
+
+func ProvideMmksiService() service.MmksiService {
+	return service.NewMmksiService(ProvideMmksiRepo())
+}
+
+func ProvideMmksiRepo() repo.MmksiRepo {
+	return repo.NewMmksiRepo(os.Getenv("MMKSI_SERVER"), ProvideHttpClient())
 }
 
 func ProvideHttpClient() *http.Client {

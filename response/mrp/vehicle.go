@@ -1,4 +1,4 @@
-package response
+package mrp
 
 type GetVehiclesResponse struct {
 	Data []Vehicle
