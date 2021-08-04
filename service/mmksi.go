@@ -28,10 +28,10 @@ func NewMmksiService(
 func (s *mmksiService) GetToken(params mmksi.TokenRequest) (*response.TokenResponse, error) {
 
 	result, err := s.mmksiRepo.GetToken(repo.GetTokenParams{
-		Clientid:   os.Getenv("CLIENT_ID"),
-		Dealercode: os.Getenv("DEALER_CODE"),
-		Username:   os.Getenv("USERNAME"),
-		Password:   os.Getenv("PASSWORD"),
+		Clientid:   os.Getenv("DNET_CLIENT_ID"),
+		Dealercode: os.Getenv("DNET_DEALER_CODE"),
+		Username:   os.Getenv("DNET_USERNAME"),
+		Password:   os.Getenv("DNET_PASSWORD"),
 	})
 
 	if err != nil {
