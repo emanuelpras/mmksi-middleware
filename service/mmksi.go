@@ -11,6 +11,7 @@ import (
 type MmksiService interface {
 	GetToken(params mmksi.TokenRequest) (*response.TokenResponse, error)
 	GetVehicle(params mmksi.VehicleRequest, authorizationMmksi mmksi.VehicleRequestAuthorization) (*response.VehicleResponse, error)
+	GetVehicleColor(params mmksi.VehicleRequest, authorizationMmksi mmksi.VehicleRequestAuthorization) (*response.VehicleColorResponse, error)
 }
 
 type mmksiService struct {
@@ -60,12 +61,12 @@ func (s *mmksiService) GetVehicle(params mmksi.VehicleRequest, authorizationMmks
 	return result, nil
 }
 
-func (s *mmksiService) GetVehicles(params mmksi.VehicleRequest, authorizationMmksi mmksi.VehicleRequestAuthorization) (*response.VehicleResponse, error) {
+func (s *mmksiService) GetVehicleColor(params mmksi.VehicleRequest, authorizationMmksi mmksi.VehicleRequestAuthorization) (*response.VehicleColorResponse, error) {
 	if err := params.Validate(); err != nil {
 		return nil, err
 	}
 
-	result, err := s.mmksiRepo.GetVehicle(repo.GetVehicleParams{
+	result, err := s.mmksiRepo.GetVehicleColor(repo.GetVehicleParams{
 		Page: params.Page,
 	}, repo.GetHeaderAuthorization{
 		AccessToken: authorizationMmksi.AccessToken,

@@ -35,7 +35,8 @@ func main() {
 	r.POST("/dsf/tradein/prediction", mrpController.GetPrediction)
 
 	//mmksi route
-	r.POST("/mmmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
+	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
+	r.POST("/mmksi/getData/color", authController.Auth, tokenController.GetToken, mmksiController.GetVehicleColor)
 
 	r.Run()
 }

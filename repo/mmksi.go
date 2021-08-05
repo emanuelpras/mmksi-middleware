@@ -29,6 +29,7 @@ type GetHeaderAuthorization struct {
 type MmksiRepo interface {
 	GetToken(params GetTokenParams) (*response.TokenResponse, error)
 	GetVehicle(params GetVehicleParams, authorization GetHeaderAuthorization) (*response.VehicleResponse, error)
+	GetVehicleColor(params GetVehicleParams, authorization GetHeaderAuthorization) (*response.VehicleColorResponse, error)
 }
 
 type mmksiRepo struct {
@@ -107,5 +108,40 @@ func (r *mmksiRepo) GetVehicle(params GetVehicleParams, authorizationMmksi GetHe
 	}
 
 	response := new(response.VehicleResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *mmksiRepo) GetVehicleColor(params GetVehicleParams, authorizationMmksi GetHeaderAuthorization) (*response.VehicleColorResponse, error) {
+
+	payload, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/Master/QuickProduct/Read", r.mmksiServer)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	dnetToken := authorizationMmksi.TokenType + " " + authorizationMmksi.AccessToken
+	req.Header.Set("Authorization", dnetToken)
+	req.Header.Set("Content-Type", "application/json")
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("mmksi: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.VehicleColorResponse)
 	return response, json.Unmarshal(result, response)
 }

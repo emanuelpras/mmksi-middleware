@@ -15,6 +15,7 @@ type mmksiController struct {
 type MmksiController interface {
 	GetToken(context *gin.Context)
 	GetVehicle(context *gin.Context)
+	GetVehicleColor(context *gin.Context)
 }
 
 func NewMmksiController(
@@ -50,34 +51,27 @@ func (c *mmksiController) GetToken(gc *gin.Context) {
 func (c *mmksiController) GetVehicle(gc *gin.Context) {
 	var form mmksi.VehicleRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	res, err := c.mmksiService.GetVehicle(form, DnetToken)
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error 2": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	gc.JSON(http.StatusOK, res)
 }
 
-func (c *mmksiController) GetVehicles(gc *gin.Context) {
-
+func (c *mmksiController) GetVehicleColor(gc *gin.Context) {
 	var form mmksi.VehicleRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	var authorizationMmksi mmksi.VehicleRequestAuthorization
-	if err := gc.ShouldBindHeader(&authorizationMmksi); err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	res, err := c.mmksiService.GetVehicle(form, authorizationMmksi)
+	res, err := c.mmksiService.GetVehicleColor(form, DnetToken)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
