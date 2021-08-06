@@ -30,13 +30,13 @@ func main() {
 	r.POST("/auth/token", jwtController.GetFirstToken)
 
 	// dsf route
-	r.GET("/dsf/tradein/vehicles", mrpController.GetVehicles)
-	r.GET("/dsf/tradein/regions", mrpController.GetRegions)
-	r.POST("/dsf/tradein/prediction", mrpController.GetPrediction)
+	r.GET("/dsf/tradein/vehicles", authController.Auth, mrpController.GetVehicles)
+	r.GET("/dsf/tradein/regions", authController.Auth, mrpController.GetRegions)
+	r.POST("/dsf/tradein/prediction", authController.Auth, mrpController.GetPrediction)
 
 	// mmksi route
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
-	r.POST("/mmksi/getData/product", authController.Auth, tokenController.GetToken, mmksiController.GetVehicleColor)
+	r.POST("/mmksi/vehicle", authController.Auth, tokenController.GetToken, mmksiController.GetVehicleColor)
 
 	r.Run()
 }
