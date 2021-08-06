@@ -3,6 +3,7 @@ package controller
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -64,27 +65,32 @@ func (c *jwtController) GetFirstToken(gc *gin.Context) {
 }
 
 func (c *jwtController) Auth(gc *gin.Context) {
-	tokenStringHeader := gc.Request.Header.Get("MmksiAuth")
-	token, err := jwt.Parse(tokenStringHeader, func(token *jwt.Token) (interface{}, error) {
-		if jwt.GetSigningMethod("HS256") != token.Method {
-			return nil, fmt.Errorf("Method tidk diketahui atau bukan HS256 , method %V", token.Header["alg"])
-		}
-		return []byte("secret"), nil
-	})
-	if err != nil {
-		gc.JSON(http.StatusUnauthorized, gin.H{
-			"error": err.Error(), "message": "Unauthorized",
+	option := os.Getenv("MIDDLEWARE_AUTH")
+	if option == "YES" {
+		tokenStringHeader := gc.Request.Header.Get("Auth")
+		token, err := jwt.Parse(tokenStringHeader, func(token *jwt.Token) (interface{}, error) {
+			if jwt.GetSigningMethod("HS256") != token.Method {
+				return nil, fmt.Errorf("Method tidk diketahui atau bukan HS256 , method %V", token.Header["alg"])
+			}
+			return []byte("secret"), nil
 		})
-		gc.Abort()
-	} else if token != nil {
-		claims, _ := token.Claims.(jwt.MapClaims)
-		if (claims["company"] == "dsf") || (claims["company"] == "mmksi") {
-			gc.Next()
-		} else {
+		if err != nil {
 			gc.JSON(http.StatusUnauthorized, gin.H{
-				"error": "token invalid",
+				"error": err.Error(), "message": "Unauthorized",
 			})
 			gc.Abort()
+		} else if token != nil {
+			claims, _ := token.Claims.(jwt.MapClaims)
+			if (claims["company"] == "dsf") || (claims["company"] == "mmksi") {
+				gc.Next()
+			} else {
+				gc.JSON(http.StatusUnauthorized, gin.H{
+					"error": "token invalid",
+				})
+				gc.Abort()
+			}
 		}
+	} else {
+		gc.Next()
 	}
 }
