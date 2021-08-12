@@ -7,60 +7,53 @@ import (
 	"os"
 	"time"
 
-	"github.com/refactory-id/middleware-poc/controller"
-	"github.com/refactory-id/middleware-poc/repo"
-	"github.com/refactory-id/middleware-poc/service"
+	mrpController "middleware-mmksi/dsf/mrp/controller"
+	mrpRepository "middleware-mmksi/dsf/mrp/repo"
+	mrpService "middleware-mmksi/dsf/mrp/service"
+	jwtRepository "middleware-mmksi/jwt/repo"
+	jwtService "middleware-mmksi/jwt/service"
+	mmksiRepository "middleware-mmksi/mmksi/repo"
+	mmksiService "middleware-mmksi/mmksi/service"
 )
 
 var (
-	jwtRepo    repo.JwtRepo
-	mmksiRepo  repo.MmksiRepo
-	mrpRepo    repo.MrpRepo
 	httpClient *http.Client
 )
 
-func ProvideJwtRepo() repo.JwtRepo {
-	return repo.NewJwtRepo(os.Getenv("BASEURL_JWT"), ProvideHttpClient())
+func ProvideAuthRepo() jwtRepository.JwtRepo {
+	return jwtRepository.NewJwtRepo(os.Getenv("BASEURL_JWT"), ProvideHttpClient())
 }
 
-func ProvideJwtService() service.JwtService {
-	return service.NewJwtService(ProvideJwtRepo())
+func ProvideAuthService() jwtService.JwtService {
+	return jwtService.NewJwtService(ProvideAuthRepo())
 }
 
-func ProvideAuthRepo() repo.JwtRepo {
-	return repo.NewJwtRepo(os.Getenv("BASEURL_JWT"), ProvideHttpClient())
+func ProvideMrpController() mrpController.MrpController {
+	return mrpController.NewMrpController(ProvideMrpService())
 }
 
-func ProvideAuthService() service.JwtService {
-	return service.NewJwtService(ProvideAuthRepo())
+func ProvideMrpService() mrpService.MrpService {
+	return mrpService.NewMrpService(ProvideMrpRepo())
 }
 
-func ProvideMrpController() controller.MrpController {
-	return controller.NewMrpController(ProvideMrpService())
+func ProvideMrpRepo() mrpRepository.MrpRepo {
+	return mrpRepository.NewMrpRepo(os.Getenv("MRP_SERVER"), os.Getenv("MRP_API_KEY"), ProvideHttpClient())
 }
 
-func ProvideMrpService() service.MrpService {
-	return service.NewMrpService(ProvideMrpRepo())
+func ProvideTokenService() mmksiService.MmksiService {
+	return mmksiService.NewMmksiService(ProvideTokenRepo())
 }
 
-func ProvideMrpRepo() repo.MrpRepo {
-	return repo.NewMrpRepo(os.Getenv("MRP_SERVER"), os.Getenv("MRP_API_KEY"), ProvideHttpClient())
+func ProvideTokenRepo() mmksiRepository.MmksiRepo {
+	return mmksiRepository.NewMmksiRepo(os.Getenv("BASEURL_TOKEN"), ProvideHttpClient())
 }
 
-func ProvideTokenService() service.MmksiService {
-	return service.NewMmksiService(ProvideTokenRepo())
+func ProvideMmksiService() mmksiService.MmksiService {
+	return mmksiService.NewMmksiService(ProvideMmksiRepo())
 }
 
-func ProvideTokenRepo() repo.MmksiRepo {
-	return repo.NewMmksiRepo(os.Getenv("BASEURL_TOKEN"), ProvideHttpClient())
-}
-
-func ProvideMmksiService() service.MmksiService {
-	return service.NewMmksiService(ProvideMmksiRepo())
-}
-
-func ProvideMmksiRepo() repo.MmksiRepo {
-	return repo.NewMmksiRepo(os.Getenv("MMKSI_SERVER"), ProvideHttpClient())
+func ProvideMmksiRepo() mmksiRepository.MmksiRepo {
+	return mmksiRepository.NewMmksiRepo(os.Getenv("MMKSI_SERVER"), ProvideHttpClient())
 }
 
 func ProvideHttpClient() *http.Client {
