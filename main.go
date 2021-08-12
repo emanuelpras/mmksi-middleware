@@ -3,21 +3,23 @@ package main
 import (
 	"log"
 
+	mrpControllers "middleware-mmksi/dsf/mrp/controller"
+	jwtControllers "middleware-mmksi/jwt/controller"
+	mmksiControllers "middleware-mmksi/mmksi/controller"
+	"middleware-mmksi/util"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/refactory-id/middleware-poc/controller"
-	"github.com/refactory-id/middleware-poc/util"
 )
 
 func main() {
 	err := godotenv.Load()
 
 	var (
-		jwtController   controller.JwtController   = controller.NewJwtController(util.ProvideJwtService())
-		authController  controller.JwtController   = controller.NewJwtController(util.ProvideAuthService())
-		mrpController   controller.MrpController   = controller.NewMrpController(util.ProvideMrpService())
-		tokenController controller.MmksiController = controller.NewMmksiController(util.ProvideTokenService())
-		mmksiController controller.MmksiController = controller.NewMmksiController(util.ProvideMmksiService())
+		authController  jwtControllers.JwtController     = jwtControllers.NewJwtController(util.ProvideAuthService())
+		mrpController   mrpControllers.MrpController     = mrpControllers.NewMrpController(util.ProvideMrpService())
+		tokenController mmksiControllers.MmksiController = mmksiControllers.NewMmksiController(util.ProvideTokenService())
+		mmksiController mmksiControllers.MmksiController = mmksiControllers.NewMmksiController(util.ProvideMmksiService())
 	)
 
 	if err != nil {
@@ -27,7 +29,7 @@ func main() {
 	r := gin.Default()
 
 	// token route
-	r.POST("/auth/token", jwtController.GetFirstToken)
+	r.POST("/auth/token", authController.GetFirstToken)
 
 	// dsf route
 	r.GET("/dsf/tradein/vehicles", authController.Auth, mrpController.GetVehicles)
