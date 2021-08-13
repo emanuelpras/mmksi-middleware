@@ -15,30 +15,29 @@ import (
 )
 
 func main() {
-	godotenv.Load()
-	route := os.Getenv("ROUTE")
-	if route == "LOCAL" {
-		RunLocally()
-	} else if route == "AWS" {
-		RunInAWS()
-	} else {
-		log.Print("route not found")
-	}
-}
-
-func RunLocally() {
 	err := godotenv.Load()
 
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
+	route := os.Getenv("MIDDLEWARE_SERVER")
+	if route == "local" {
+		localServer()
+	} else if route == "aws" {
+		awsServer()
+	} else {
+		log.Print("route not found, please check your env")
+	}
+}
+
+func localServer() {
 	r := gin.Default()
-	Router(r)
+	registerRoute(r)
 	r.Run()
 }
 
-func RunInAWS() {
+func awsServer() {
 	addr := ":" + os.Getenv("PORT")
 	log.Fatal(gateway.ListenAndServe(addr, routerEngine()))
 }
@@ -53,11 +52,11 @@ func routerEngine() *gin.Engine {
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 
-	Router(r)
+	registerRoute(r)
 	return r
 }
 
-func Router(r *gin.Engine) {
+func registerRoute(r *gin.Engine) {
 	var (
 		authController  jwtControllers.JwtController     = jwtControllers.NewJwtController(util.ProvideAuthService())
 		mrpController   mrpControllers.MrpController     = mrpControllers.NewMrpController(util.ProvideMrpService())

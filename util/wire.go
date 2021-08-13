@@ -37,7 +37,7 @@ func ProvideMrpService() mrpService.MrpService {
 }
 
 func ProvideMrpRepo() mrpRepository.MrpRepo {
-	return mrpRepository.NewMrpRepo(os.Getenv("MRP_SERVER"), os.Getenv("MRP_API_KEY"), ProvideHttpClient())
+	return mrpRepository.NewMrpRepo(os.Getenv("MRP_SERVER"), os.Getenv("APIKey_DSF_MRP"), ProvideHttpClient())
 }
 
 func ProvideTokenService() mmksiService.MmksiService {
