@@ -21,7 +21,7 @@ var (
 )
 
 func ProvideAuthRepo() jwtRepository.JwtRepo {
-	return jwtRepository.NewJwtRepo(os.Getenv("BASEURL_JWT"), ProvideHttpClient())
+	return jwtRepository.NewJwtRepo(ProvideHttpClient())
 }
 
 func ProvideAuthService() jwtService.JwtService {

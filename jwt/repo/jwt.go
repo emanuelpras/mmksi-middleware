@@ -23,9 +23,8 @@ type jwtRepo struct {
 	httpClient *http.Client
 }
 
-func NewJwtRepo(jwtServer string, httpClient *http.Client) JwtRepo {
+func NewJwtRepo(httpClient *http.Client) JwtRepo {
 	return &jwtRepo{
-		jwtServer:  jwtServer,
 		httpClient: httpClient,
 	}
 }
