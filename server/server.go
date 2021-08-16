@@ -11,15 +11,22 @@ import (
 
 	"github.com/apex/gateway"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func NewServer(route string) {
-	if route == "local" {
-		localServer()
-	} else if route == "aws" {
+	switch route {
+	case "aws-lambda":
 		awsServer()
-	} else {
-		log.Print("route not found, please check your env")
+
+	case "local":
+	default:
+		err := godotenv.Load()
+
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
+		localServer()
 	}
 }
 
