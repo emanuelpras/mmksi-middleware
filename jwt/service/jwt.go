@@ -7,7 +7,7 @@ import (
 )
 
 type JwtService interface {
-	CreateToken(params request.FirstTokenRequest) (*response.FirtsTokenResponse, error)
+	CreateToken(params request.TokenMmksiRequest) (*response.TokenMmksiResponse, error)
 }
 
 type jwtService struct {
@@ -22,7 +22,7 @@ func NewJwtService(
 	}
 }
 
-func (s *jwtService) CreateToken(params request.FirstTokenRequest) (*response.FirtsTokenResponse, error) {
+func (s *jwtService) CreateToken(params request.TokenMmksiRequest) (*response.TokenMmksiResponse, error) {
 	if err := params.Validate(); err != nil {
 		return nil, err
 	}

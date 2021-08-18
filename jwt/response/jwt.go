@@ -1,5 +1,5 @@
 package response
 
-type FirtsTokenResponse struct {
+type TokenMmksiResponse struct {
 	Token string `json:"token"`
 }

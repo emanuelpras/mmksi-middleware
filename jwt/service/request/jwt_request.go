@@ -6,11 +6,11 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
-type FirstTokenRequest struct {
+type TokenMmksiRequest struct {
 	Company string `form:"company"`
 }
 
-func (f *FirstTokenRequest) Validate() error {
+func (f *TokenMmksiRequest) Validate() error {
 	if err := validation.Validate(f.Company, validation.Required); err != nil {
 		return &response.ErrorResponse{
 			ErrorID: 422,

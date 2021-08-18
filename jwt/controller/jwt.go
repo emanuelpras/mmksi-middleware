@@ -31,7 +31,7 @@ func NewJwtController(
 }
 
 func (c *jwtController) CreateToken(gc *gin.Context) {
-	var paramJwt request.FirstTokenRequest
+	var paramJwt request.TokenMmksiRequest
 	gc.BindHeader(&paramJwt)
 	if paramJwt.Company == "" {
 		_, err := c.jwtService.CreateToken(paramJwt)
@@ -50,14 +50,15 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 }
 
 func GenerateToken(gc *gin.Context) {
-	var paramJwt request.FirstTokenRequest
+	var paramJwt request.TokenMmksiRequest
+	gc.BindHeader(&paramJwt)
 
-	type customClaims struct {
+	type authCustomClaims struct {
 		Company string `json:"company"`
 		jwt.StandardClaims
 	}
 
-	claims := &customClaims{
+	claims := &authCustomClaims{
 		paramJwt.Company,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
@@ -65,7 +66,7 @@ func GenerateToken(gc *gin.Context) {
 		},
 	}
 
-	claimsRefresh := &customClaims{
+	claimsRefresh := &authCustomClaims{
 		paramJwt.Company,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 168).Unix(),
@@ -81,6 +82,8 @@ func GenerateToken(gc *gin.Context) {
 		"token":         token,
 		"token refresh": tokenRefresh,
 	})
+	return
+
 }
 
 func (c *jwtController) Auth(gc *gin.Context) {
