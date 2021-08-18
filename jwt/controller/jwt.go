@@ -44,7 +44,7 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 		GenerateToken(gc)
 	} else {
 		gc.JSON(http.StatusBadRequest, gin.H{
-			"message": "company tidak terdaftar",
+			"message": "unregistered company",
 		})
 	}
 }
