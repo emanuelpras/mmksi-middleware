@@ -15,7 +15,7 @@ type ParamToken struct {
 }
 
 type JwtRepo interface {
-	GetFirstToken(params ParamToken) (*response.FirtsTokenResponse, error)
+	CreateToken(params ParamToken) (*response.FirtsTokenResponse, error)
 }
 
 type jwtRepo struct {
@@ -29,7 +29,7 @@ func NewJwtRepo(httpClient *http.Client) JwtRepo {
 	}
 }
 
-func (r *jwtRepo) GetFirstToken(params ParamToken) (*response.FirtsTokenResponse, error) {
+func (r *jwtRepo) CreateToken(params ParamToken) (*response.FirtsTokenResponse, error) {
 	payload, err := json.Marshal(params)
 	if err != nil {
 		return nil, err

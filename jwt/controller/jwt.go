@@ -18,7 +18,7 @@ type jwtController struct {
 }
 
 type JwtController interface {
-	GetFirstToken(context *gin.Context)
+	CreateToken(context *gin.Context)
 	Auth(context *gin.Context)
 }
 
@@ -30,39 +30,57 @@ func NewJwtController(
 	}
 }
 
-func (c *jwtController) GetFirstToken(gc *gin.Context) {
-
+func (c *jwtController) CreateToken(gc *gin.Context) {
 	var paramJwt request.FirstTokenRequest
 	gc.BindHeader(&paramJwt)
-
+	if paramJwt.Company == "" {
+		_, err := c.jwtService.CreateToken(paramJwt)
+		if err != nil {
+			gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+	}
 	if (paramJwt.Company == "mmksi") || (paramJwt.Company == "dsf") {
-		type authCustomClaims struct {
-			Company string `json:"company"`
-			jwt.StandardClaims
-		}
-
-		claims := &authCustomClaims{
-			paramJwt.Company,
-			jwt.StandardClaims{
-				ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
-				IssuedAt:  time.Now().Unix(),
-			},
-		}
-
-		sign := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claims)
-		token, _ := sign.SignedString([]byte("secret"))
-		gc.JSON(http.StatusOK, gin.H{
-			"token": token,
-		})
-		return
-
+		GenerateToken(gc)
 	} else {
 		gc.JSON(http.StatusBadRequest, gin.H{
 			"message": "company tidak terdaftar",
 		})
-		return
+	}
+}
+
+func GenerateToken(gc *gin.Context) {
+	var paramJwt request.FirstTokenRequest
+
+	type customClaims struct {
+		Company string `json:"company"`
+		jwt.StandardClaims
 	}
 
+	claims := &customClaims{
+		paramJwt.Company,
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
+			IssuedAt:  time.Now().Unix(),
+		},
+	}
+
+	claimsRefresh := &customClaims{
+		paramJwt.Company,
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 168).Unix(),
+			IssuedAt:  time.Now().Unix(),
+		},
+	}
+
+	sign := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claims)
+	token, _ := sign.SignedString([]byte("secret"))
+	refresh := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claimsRefresh)
+	tokenRefresh, _ := refresh.SignedString([]byte("secret"))
+	gc.JSON(http.StatusOK, gin.H{
+		"token":         token,
+		"token refresh": tokenRefresh,
+	})
 }
 
 func (c *jwtController) Auth(gc *gin.Context) {
