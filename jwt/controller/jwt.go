@@ -106,7 +106,7 @@ func GenerateToken(gc *gin.Context, company string) (map[string]string, error) {
 	refresh := jwt.New(jwt.SigningMethodHS256)
 	rtClaims := refresh.Claims.(jwt.MapClaims)
 	rtClaims["company"] = company
-	rtClaims["exp"] = time.Now().Add(time.Hour * 168).Unix()
+	rtClaims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 	refreshToken, err := refresh.SignedString([]byte("secret"))
 	if err != nil {
 		return nil, err
