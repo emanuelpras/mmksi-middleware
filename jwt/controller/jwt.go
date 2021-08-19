@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -34,8 +35,19 @@ func NewJwtController(
 func (c *jwtController) CreateToken(gc *gin.Context) {
 	var paramJwt request.TokenMmksiRequest
 	gc.BindHeader(&paramJwt)
+
 	if paramJwt.Company != "" {
-		GenerateToken(gc)
+		if (paramJwt.Company == "mmksi") || (paramJwt.Company == "dsf") {
+			company := paramJwt.Company
+			tokens, err := GenerateToken(gc, company)
+			if err != nil {
+				gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
+			}
+			gc.JSON(http.StatusOK, tokens)
+			return
+		}
+		gc.JSON(http.StatusUnauthorized, "unregistered company")
 	} else {
 		_, err := c.jwtService.CreateToken(paramJwt)
 		if err != nil {
@@ -48,8 +60,32 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 func (c *jwtController) RefreshToken(gc *gin.Context) {
 	var paramJwt request.TokenRefreshRequest
 	gc.BindHeader(&paramJwt)
+
 	if paramJwt.Token != "" {
-		GenerateRefreshToken(gc)
+
+		token, _ := jwt.Parse(paramJwt.Token, func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			}
+			return []byte("secret"), nil
+		})
+		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+			if (claims["company"] == "mmksi") || (claims["company"] == "dsf") {
+				company := claims["company"]
+				str := fmt.Sprintf("%v", company)
+				log.Print(str)
+				newToken, err := GenerateToken(gc, str)
+				if err != nil {
+					gc.JSON(http.StatusBadRequest, err)
+					return
+				}
+				gc.JSON(http.StatusOK, newToken)
+				return
+			}
+			gc.JSON(http.StatusUnauthorized, "unauthorized")
+			return
+		}
+		gc.JSON(http.StatusBadRequest, "invalid token")
 	} else {
 		_, err := c.jwtService.RefreshToken(paramJwt)
 		if err != nil {
@@ -59,96 +95,29 @@ func (c *jwtController) RefreshToken(gc *gin.Context) {
 	}
 }
 
-func GenerateToken(gc *gin.Context) {
-	var paramJwt request.TokenMmksiRequest
-	gc.BindHeader(&paramJwt)
-
-	if (paramJwt.Company == "mmksi") || (paramJwt.Company == "dsf") {
-		type authCustomClaims struct {
-			Company string `json:"company"`
-			jwt.StandardClaims
-		}
-
-		claims := &authCustomClaims{
-			paramJwt.Company,
-			jwt.StandardClaims{
-				ExpiresAt: time.Now().Add(time.Hour * 1).Unix(),
-				IssuedAt:  time.Now().Unix(),
-			},
-		}
-
-		claimsRefresh := &authCustomClaims{
-			paramJwt.Company,
-			jwt.StandardClaims{
-				ExpiresAt: time.Now().Add(time.Hour * 168).Unix(),
-				IssuedAt:  time.Now().Unix(),
-			},
-		}
-
-		sign := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claims)
-		token, _ := sign.SignedString([]byte("secret"))
-		refresh := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claimsRefresh)
-		tokenRefresh, _ := refresh.SignedString([]byte("secret"))
-		gc.JSON(http.StatusOK, gin.H{
-			"token":         token,
-			"token refresh": tokenRefresh,
-		})
-	} else {
-		gc.JSON(http.StatusBadRequest, gin.H{
-			"message": "unregistered company",
-		})
-	}
-
-}
-
-func GenerateRefreshToken(gc *gin.Context) {
-	tokenStringHeader := gc.Request.Header.Get("token")
-	token, err := jwt.Parse(tokenStringHeader, func(token *jwt.Token) (interface{}, error) {
-		if jwt.GetSigningMethod("HS256") != token.Method {
-			return nil, fmt.Errorf("Method tidk diketahui atau bukan HS256 , method %V", token.Header["alg"])
-		}
-		return []byte("secret"), nil
-	})
+func GenerateToken(gc *gin.Context, company string) (map[string]string, error) {
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["company"] = company
+	claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
+	accessToken, err := token.SignedString([]byte("secret"))
 	if err != nil {
-		gc.JSON(http.StatusUnauthorized, gin.H{
-			"error": err.Error(), "message": "Unauthorized",
-		})
-		gc.Abort()
-	} else if token != nil {
-
-		gc.BindHeader(&token)
-
-		a := token.Claims.(jwt.MapClaims)
-		b := a["company"]
-		str := fmt.Sprintf("%v", b)
-		type authCustomClaims struct {
-			Company string `json:"company"`
-			jwt.StandardClaims
-		}
-
-		if (str == "mmksi") || (str == "dsf") {
-
-			claimsRefresh := &authCustomClaims{
-				str,
-				jwt.StandardClaims{
-					ExpiresAt: time.Now().Add(time.Hour * 168).Unix(),
-					IssuedAt:  time.Now().Unix(),
-				},
-			}
-			refresh := jwt.NewWithClaims(jwt.GetSigningMethod("HS256"), claimsRefresh)
-			tokenRefresh, _ := refresh.SignedString([]byte("secret"))
-			gc.JSON(http.StatusOK, gin.H{
-				"token refresh": tokenRefresh,
-			})
-
-		} else {
-			gc.JSON(http.StatusUnauthorized, gin.H{
-				"error": "token invalid",
-			})
-			gc.Abort()
-		}
+		return nil, err
 	}
 
+	refresh := jwt.New(jwt.SigningMethodHS256)
+	rtClaims := refresh.Claims.(jwt.MapClaims)
+	rtClaims["company"] = company
+	rtClaims["exp"] = time.Now().Add(time.Hour * 168).Unix()
+	refreshToken, err := refresh.SignedString([]byte("secret"))
+	if err != nil {
+		return nil, err
+	}
+
+	return map[string]string{
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
+	}, nil
 }
 
 func (c *jwtController) Auth(gc *gin.Context) {

@@ -1,9 +1,9 @@
 package response
 
 type TokenMmksiResponse struct {
-	Token string `json:"token"`
+	Token string `json:"access_token"`
 }
 
 type TokenRefreshResponse struct {
-	TokenRefresh string `json:"token refresh"`
+	TokenRefresh string `json:"refresh_token"`
 }
