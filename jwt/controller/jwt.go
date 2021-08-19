@@ -2,7 +2,6 @@ package controller
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -35,7 +34,6 @@ func NewJwtController(
 func (c *jwtController) CreateToken(gc *gin.Context) {
 	var paramJwt request.TokenMmksiRequest
 	gc.BindHeader(&paramJwt)
-	log.Print("com", paramJwt)
 
 	if paramJwt.Company != "" {
 		if (paramJwt.Company == "mmksi") || (paramJwt.Company == "dsf") {
@@ -61,7 +59,6 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 func (c *jwtController) RefreshToken(gc *gin.Context) {
 	var paramJwt request.TokenRefreshRequest
 	gc.BindHeader(&paramJwt)
-	log.Print("tok", paramJwt)
 
 	if paramJwt.RefreshToken != "" {
 
@@ -75,7 +72,6 @@ func (c *jwtController) RefreshToken(gc *gin.Context) {
 			if (claims["company"] == "mmksi") || (claims["company"] == "dsf") {
 				company := claims["company"]
 				str := fmt.Sprintf("%v", company)
-				log.Print(str)
 				newToken, err := GenerateToken(gc, str)
 				if err != nil {
 					gc.JSON(http.StatusBadRequest, err)
