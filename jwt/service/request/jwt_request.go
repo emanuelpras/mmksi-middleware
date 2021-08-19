@@ -10,6 +10,10 @@ type TokenMmksiRequest struct {
 	Company string `form:"company"`
 }
 
+type TokenRefreshRequest struct {
+	Token string `form:"token"`
+}
+
 func (f *TokenMmksiRequest) Validate() error {
 	if err := validation.Validate(f.Company, validation.Required); err != nil {
 		return &response.ErrorResponse{
@@ -17,6 +21,19 @@ func (f *TokenMmksiRequest) Validate() error {
 			Msg: map[string]string{
 				"en": "Company cannot be empty",
 				"id": "Company harus diisi",
+			},
+		}
+	}
+	return nil
+}
+
+func (f *TokenRefreshRequest) Validate() error {
+	if err := validation.Validate(f.Token, validation.Required); err != nil {
+		return &response.ErrorResponse{
+			ErrorID: 422,
+			Msg: map[string]string{
+				"en": "Token cannot be empty",
+				"id": "Token harus diisi",
 			},
 		}
 	}

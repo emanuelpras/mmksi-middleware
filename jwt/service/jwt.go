@@ -8,6 +8,7 @@ import (
 
 type JwtService interface {
 	CreateToken(params request.TokenMmksiRequest) (*response.TokenMmksiResponse, error)
+	RefreshToken(params request.TokenRefreshRequest) (*response.TokenRefreshResponse, error)
 }
 
 type jwtService struct {
@@ -28,6 +29,20 @@ func (s *jwtService) CreateToken(params request.TokenMmksiRequest) (*response.To
 	}
 	result, err := s.jwtRepo.CreateToken(repo.ParamToken{
 		Company: params.Company,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func (s *jwtService) RefreshToken(params request.TokenRefreshRequest) (*response.TokenRefreshResponse, error) {
+	if err := params.Validate(); err != nil {
+		return nil, err
+	}
+	result, err := s.jwtRepo.RefreshToken(repo.ParamRefreshToken{
+		Token: params.Token,
 	})
 
 	if err != nil {

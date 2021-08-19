@@ -65,6 +65,7 @@ func registerRoute(r *gin.Engine) {
 
 	// token route
 	r.POST("/auth/token", authController.CreateToken)
+	r.POST("/token/refresh", authController.RefreshToken)
 
 	// dsf route
 	r.GET("/dsf/tradein/vehicles", authController.Auth, mrpController.GetVehicles)
