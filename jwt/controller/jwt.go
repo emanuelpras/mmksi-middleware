@@ -2,7 +2,6 @@ package controller
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -73,7 +72,6 @@ func (c *jwtController) RefreshToken(gc *gin.Context) {
 			if (claims["company"] == "mmksi") || (claims["company"] == "dsf") {
 				company := claims["company"]
 				str := fmt.Sprintf("%v", company)
-				log.Print(str)
 				newToken, err := GenerateToken(gc, str)
 				if err != nil {
 					gc.JSON(http.StatusBadRequest, err)

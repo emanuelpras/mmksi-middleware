@@ -11,7 +11,7 @@ type TokenMmksiRequest struct {
 }
 
 type TokenRefreshRequest struct {
-	Token string `form:"token"`
+	Token string `form:"refresh_token"`
 }
 
 func (f *TokenMmksiRequest) Validate() error {
