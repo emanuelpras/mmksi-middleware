@@ -15,7 +15,7 @@ type ParamToken struct {
 }
 
 type ParamRefreshToken struct {
-	Token string `json:"token"`
+	RefreshToken string `json:"refreshToken"`
 }
 
 type JwtRepo interface {

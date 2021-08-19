@@ -11,7 +11,7 @@ type TokenMmksiRequest struct {
 }
 
 type TokenRefreshRequest struct {
-	Token string `form:"refresh_token"`
+	RefreshToken string `form:"refreshToken"`
 }
 
 func (f *TokenMmksiRequest) Validate() error {
@@ -28,7 +28,7 @@ func (f *TokenMmksiRequest) Validate() error {
 }
 
 func (f *TokenRefreshRequest) Validate() error {
-	if err := validation.Validate(f.Token, validation.Required); err != nil {
+	if err := validation.Validate(f.RefreshToken, validation.Required); err != nil {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{

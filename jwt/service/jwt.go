@@ -42,7 +42,7 @@ func (s *jwtService) RefreshToken(params request.TokenRefreshRequest) (*response
 		return nil, err
 	}
 	result, err := s.jwtRepo.RefreshToken(repo.ParamRefreshToken{
-		Token: params.Token,
+		RefreshToken: params.RefreshToken,
 	})
 
 	if err != nil {
