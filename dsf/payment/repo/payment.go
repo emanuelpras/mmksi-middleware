@@ -4,8 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
-	"middleware-mmksi/dsf/dsf-program/response"
+	"middleware-mmksi/dsf/payment/response"
 	"net/http"
 )
 
@@ -28,7 +27,6 @@ func NewDsfProgramRepo(dsfProgramServer string, httpClient *http.Client) DsfProg
 func (r *dsfProgramRepo) GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error) {
 
 	url := fmt.Sprintf("%s/metadata/additional_insurance", r.dsfProgramServer)
-	log.Print("dev: ", url)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err

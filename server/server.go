@@ -5,8 +5,8 @@ import (
 	"middleware-mmksi/util"
 	"os"
 
-	dsfProgramControllers "middleware-mmksi/dsf/dsf-program/controller"
 	mrpControllers "middleware-mmksi/dsf/mrp/controller"
+	dsfProgramControllers "middleware-mmksi/dsf/payment/controller"
 	jwtControllers "middleware-mmksi/jwt/controller"
 	mmksiControllers "middleware-mmksi/mmksi/controller"
 

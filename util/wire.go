@@ -7,11 +7,11 @@ import (
 	"os"
 	"time"
 
-	dsfProgramRepository "middleware-mmksi/dsf/dsf-program/repo"
-	dsfProgramService "middleware-mmksi/dsf/dsf-program/service"
 	mrpController "middleware-mmksi/dsf/mrp/controller"
 	mrpRepository "middleware-mmksi/dsf/mrp/repo"
 	mrpService "middleware-mmksi/dsf/mrp/service"
+	dsfProgramRepository "middleware-mmksi/dsf/payment/repo"
+	dsfProgramService "middleware-mmksi/dsf/payment/service"
 	jwtRepository "middleware-mmksi/jwt/repo"
 	jwtService "middleware-mmksi/jwt/service"
 	mmksiRepository "middleware-mmksi/mmksi/repo"
