@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"middleware-mmksi/jwt/response"
 	"middleware-mmksi/jwt/service"
 	"middleware-mmksi/jwt/service/request"
 
@@ -35,6 +36,8 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 	var paramJwt request.TokenMmksiRequest
 	gc.BindHeader(&paramJwt)
 
+	res, err := c.jwtService.CreateToken(paramJwt)
+
 	if paramJwt.Company != "" {
 		if (paramJwt.Company == "mmksi") || (paramJwt.Company == "dsf") {
 			company := paramJwt.Company
@@ -47,18 +50,21 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 			return
 		}
 		gc.JSON(http.StatusUnauthorized, "unregistered company")
+	} else if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	} else {
-		_, err := c.jwtService.CreateToken(paramJwt)
-		if err != nil {
-			gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
+		gc.JSON(http.StatusOK, res)
+		return
 	}
+
 }
 
 func (c *jwtController) RefreshToken(gc *gin.Context) {
 	var paramJwt request.TokenRefreshRequest
 	gc.BindHeader(&paramJwt)
+
+	res, err := c.jwtService.RefreshToken(paramJwt)
 
 	if paramJwt.RefreshToken != "" {
 
@@ -84,23 +90,22 @@ func (c *jwtController) RefreshToken(gc *gin.Context) {
 			return
 		}
 		gc.JSON(http.StatusBadRequest, "invalid token")
+	} else if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	} else {
-		_, err := c.jwtService.RefreshToken(paramJwt)
-		if err != nil {
-			gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
+		gc.JSON(http.StatusOK, res)
 	}
 }
 
-func GenerateToken(gc *gin.Context, company string) (map[string]string, error) {
+func GenerateToken(gc *gin.Context, company string) (response.TokenMmksiResponse, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["company"] = company
 	claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
 	accessToken, err := token.SignedString([]byte("secret"))
 	if err != nil {
-		return nil, err
+		return response.TokenMmksiResponse{}, err
 	}
 
 	refresh := jwt.New(jwt.SigningMethodHS256)
@@ -109,12 +114,12 @@ func GenerateToken(gc *gin.Context, company string) (map[string]string, error) {
 	rtClaims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 	refreshToken, err := refresh.SignedString([]byte("secret"))
 	if err != nil {
-		return nil, err
+		return response.TokenMmksiResponse{}, err
 	}
 
-	return map[string]string{
-		"access_token":  accessToken,
-		"refresh_token": refreshToken,
+	return response.TokenMmksiResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
 	}, nil
 }
 

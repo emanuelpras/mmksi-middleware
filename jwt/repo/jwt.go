@@ -20,7 +20,7 @@ type ParamRefreshToken struct {
 
 type JwtRepo interface {
 	CreateToken(params ParamToken) (*response.TokenMmksiResponse, error)
-	RefreshToken(params ParamRefreshToken) (*response.TokenRefreshResponse, error)
+	RefreshToken(params ParamRefreshToken) (*response.TokenMmksiResponse, error)
 }
 
 type jwtRepo struct {
@@ -67,7 +67,7 @@ func (r *jwtRepo) CreateToken(params ParamToken) (*response.TokenMmksiResponse, 
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *jwtRepo) RefreshToken(params ParamRefreshToken) (*response.TokenRefreshResponse, error) {
+func (r *jwtRepo) RefreshToken(params ParamRefreshToken) (*response.TokenMmksiResponse, error) {
 	payload, err := json.Marshal(params)
 	if err != nil {
 		return nil, err
@@ -96,6 +96,6 @@ func (r *jwtRepo) RefreshToken(params ParamRefreshToken) (*response.TokenRefresh
 		return nil, err
 	}
 
-	response := new(response.TokenRefreshResponse)
+	response := new(response.TokenMmksiResponse)
 	return response, json.Unmarshal(result, response)
 }
