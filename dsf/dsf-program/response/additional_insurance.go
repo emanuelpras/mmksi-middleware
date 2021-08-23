@@ -1,9 +1,9 @@
 package response
 
-type AdditionalInsuranceResponse struct {
-	_ []AdditionalInsurance
+type AdditionalInsuranceResponse []struct {
+	Name string `json:"Name"`
+	// _ []AdditionalInsurance
 }
 
 type AdditionalInsurance struct {
-	Name string `json:"Name"`
 }

@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"log"
 	"middleware-mmksi/dsf/dsf-program/service"
 	"net/http"
 
@@ -33,5 +32,4 @@ func (c *dsfProgramController) GetAdditionalInsurance(gc *gin.Context) {
 	}
 
 	gc.JSON(http.StatusOK, res)
-	log.Print("res controller", res)
 }

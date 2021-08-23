@@ -1,12 +1,12 @@
 package service
 
 import (
-	"log"
 	"middleware-mmksi/dsf/dsf-program/repo"
+	"middleware-mmksi/dsf/dsf-program/response"
 )
 
 type DsfProgramService interface {
-	GetAdditionalInsurance() (*repo.AdditionalResponse, error)
+	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
 }
 
 type dsfProgramService struct {
@@ -21,13 +21,12 @@ func NewDsfProgramService(
 	}
 }
 
-func (s *dsfProgramService) GetAdditionalInsurance() (*repo.AdditionalResponse, error) {
+func (s *dsfProgramService) GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error) {
 
 	result, err := s.dsfProgramRepo.GetAdditionalInsurance()
 	if err != nil {
 		return nil, err
 	}
 
-	log.Print("res servis", result)
 	return result, nil
 }

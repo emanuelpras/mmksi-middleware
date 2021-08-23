@@ -1,21 +1,16 @@
 package repo
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"middleware-mmksi/dsf/dsf-program/response"
 	"net/http"
 )
 
-type AdditionalResponse struct {
-	_ additionalResponse
-}
-type additionalResponse struct {
-	Name string `json:"Name"`
-}
-
 type DsfProgramRepo interface {
-	GetAdditionalInsurance() (*AdditionalResponse, error)
+	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -30,7 +25,7 @@ func NewDsfProgramRepo(dsfProgramServer string, httpClient *http.Client) DsfProg
 	}
 }
 
-func (r *dsfProgramRepo) GetAdditionalInsurance() (*AdditionalResponse, error) {
+func (r *dsfProgramRepo) GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error) {
 
 	url := fmt.Sprintf("%s/metadata/additional_insurance", r.dsfProgramServer)
 	log.Print("dev: ", url)
@@ -50,13 +45,11 @@ func (r *dsfProgramRepo) GetAdditionalInsurance() (*AdditionalResponse, error) {
 		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
 	}
 
-	_, err = ioutil.ReadAll(res.Body)
+	result, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
 	}
-	log.Print("body", res.Body)
 
-	response := new(AdditionalResponse)
-	log.Print("res repo", response, err)
-	return response, err
+	response := new(response.AdditionalInsuranceResponse)
+	return response, json.Unmarshal(result, response)
 }
