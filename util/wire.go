@@ -7,6 +7,8 @@ import (
 	"os"
 	"time"
 
+	dsfProgramRepository "middleware-mmksi/dsf/dsf-program/repo"
+	dsfProgramService "middleware-mmksi/dsf/dsf-program/service"
 	mrpController "middleware-mmksi/dsf/mrp/controller"
 	mrpRepository "middleware-mmksi/dsf/mrp/repo"
 	mrpService "middleware-mmksi/dsf/mrp/service"
@@ -54,6 +56,14 @@ func ProvideMmksiService() mmksiService.MmksiService {
 
 func ProvideMmksiRepo() mmksiRepository.MmksiRepo {
 	return mmksiRepository.NewMmksiRepo(os.Getenv("MMKSI_SERVER"), ProvideHttpClient())
+}
+
+func ProvideDsfProgramRepo() dsfProgramRepository.DsfProgramRepo {
+	return dsfProgramRepository.NewDsfProgramRepo(os.Getenv("DSFDEV"), ProvideHttpClient())
+}
+
+func ProvideDsfProgramService() dsfProgramService.DsfProgramService {
+	return dsfProgramService.NewDsfProgramService(ProvideDsfProgramRepo())
 }
 
 func ProvideHttpClient() *http.Client {

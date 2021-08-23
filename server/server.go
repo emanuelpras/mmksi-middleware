@@ -5,6 +5,7 @@ import (
 	"middleware-mmksi/util"
 	"os"
 
+	dsfProgramControllers "middleware-mmksi/dsf/dsf-program/controller"
 	mrpControllers "middleware-mmksi/dsf/mrp/controller"
 	jwtControllers "middleware-mmksi/jwt/controller"
 	mmksiControllers "middleware-mmksi/mmksi/controller"
@@ -57,10 +58,11 @@ func routerEngine() *gin.Engine {
 
 func registerRoute(r *gin.Engine) {
 	var (
-		authController  jwtControllers.JwtController     = jwtControllers.NewJwtController(util.ProvideAuthService())
-		mrpController   mrpControllers.MrpController     = mrpControllers.NewMrpController(util.ProvideMrpService())
-		tokenController mmksiControllers.MmksiController = mmksiControllers.NewMmksiController(util.ProvideTokenService())
-		mmksiController mmksiControllers.MmksiController = mmksiControllers.NewMmksiController(util.ProvideMmksiService())
+		authController       jwtControllers.JwtController               = jwtControllers.NewJwtController(util.ProvideAuthService())
+		mrpController        mrpControllers.MrpController               = mrpControllers.NewMrpController(util.ProvideMrpService())
+		tokenController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideTokenService())
+		mmksiController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideMmksiService())
+		dsfProgramController dsfProgramControllers.DsfProgramController = dsfProgramControllers.NewDsfProgramController(util.ProvideDsfProgramService())
 	)
 
 	// token route
@@ -71,6 +73,8 @@ func registerRoute(r *gin.Engine) {
 	r.GET("/dsf/tradein/vehicles", authController.Auth, mrpController.GetVehicles)
 	r.GET("/dsf/tradein/regions", authController.Auth, mrpController.GetRegions)
 	r.POST("/dsf/tradein/prediction", authController.Auth, mrpController.GetPrediction)
+
+	r.GET("/dsf/metadata/additionalInsurance", authController.Auth, dsfProgramController.GetAdditionalInsurance)
 
 	// mmksi route
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
