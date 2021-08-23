@@ -39,7 +39,7 @@ func ProvideMrpService() mrpService.MrpService {
 }
 
 func ProvideMrpRepo() mrpRepository.MrpRepo {
-	return mrpRepository.NewMrpRepo(os.Getenv("MRP_SERVER"), os.Getenv("APIKey_DSF_MRP"), ProvideHttpClient())
+	return mrpRepository.NewMrpRepo(os.Getenv("SERVER_DSF_MRP"), os.Getenv("APIKey_DSF_MRP"), ProvideHttpClient())
 }
 
 func ProvideTokenService() mmksiService.MmksiService {
@@ -47,7 +47,7 @@ func ProvideTokenService() mmksiService.MmksiService {
 }
 
 func ProvideTokenRepo() mmksiRepository.MmksiRepo {
-	return mmksiRepository.NewMmksiRepo(os.Getenv("BASEURL_TOKEN"), ProvideHttpClient())
+	return mmksiRepository.NewMmksiRepo(os.Getenv("SERVER_MMKSI_TOKEN"), ProvideHttpClient())
 }
 
 func ProvideMmksiService() mmksiService.MmksiService {
@@ -55,11 +55,11 @@ func ProvideMmksiService() mmksiService.MmksiService {
 }
 
 func ProvideMmksiRepo() mmksiRepository.MmksiRepo {
-	return mmksiRepository.NewMmksiRepo(os.Getenv("MMKSI_SERVER"), ProvideHttpClient())
+	return mmksiRepository.NewMmksiRepo(os.Getenv("SERVER_MMKSI_MASTERDATA"), ProvideHttpClient())
 }
 
 func ProvideDsfProgramRepo() dsfProgramRepository.DsfProgramRepo {
-	return dsfProgramRepository.NewDsfProgramRepo(os.Getenv("DSFDEV"), ProvideHttpClient())
+	return dsfProgramRepository.NewDsfProgramRepo(os.Getenv("SERVER_DSF_PAYMENT"), ProvideHttpClient())
 }
 
 func ProvideDsfProgramService() dsfProgramService.DsfProgramService {
