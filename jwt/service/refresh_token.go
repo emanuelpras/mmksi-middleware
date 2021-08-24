@@ -9,24 +9,24 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-type JwtService interface {
-	ValidateToken(paramJwt request.TokenMmksiRequest) (*response.TokenMmksiResponse, error)
-	CreateToken(company string) (*response.TokenMmksiResponse, error)
+type RefreshTokenService interface {
+	ValidateRefreshToken(paramJwt request.TokenRefreshRequest) (*response.TokenMmksiResponse, error)
+	RefreshToken(company string) (*response.TokenMmksiResponse, error)
 }
 
-type jwtService struct {
-	jwtRepo repo.JwtRepo
+type refreshTokenService struct {
+	refreshTokenRepo repo.RefreshTokenRepo
 }
 
-func NewJwtService(
-	jwtRepo repo.JwtRepo,
-) JwtService {
-	return &jwtService{
-		jwtRepo: jwtRepo,
+func NewRefreshTokenService(
+	refreshTokenRepo repo.RefreshTokenRepo,
+) RefreshTokenService {
+	return &refreshTokenService{
+		refreshTokenRepo: refreshTokenRepo,
 	}
 }
 
-func (s *jwtService) CreateToken(company string) (*response.TokenMmksiResponse, error) {
+func (s *refreshTokenService) RefreshToken(company string) (*response.TokenMmksiResponse, error) {
 
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
@@ -46,7 +46,7 @@ func (s *jwtService) CreateToken(company string) (*response.TokenMmksiResponse, 
 		return &response.TokenMmksiResponse{}, err2
 	}
 
-	result, err := s.jwtRepo.CreateToken(accessToken, refreshToken)
+	result, err := s.refreshTokenRepo.RefreshToken(accessToken, refreshToken)
 
 	if err != nil {
 		return nil, err
@@ -54,13 +54,13 @@ func (s *jwtService) CreateToken(company string) (*response.TokenMmksiResponse, 
 	return result, nil
 }
 
-func (s *jwtService) ValidateToken(paramJwt request.TokenMmksiRequest) (*response.TokenMmksiResponse, error) {
+func (s *refreshTokenService) ValidateRefreshToken(paramJwt request.TokenRefreshRequest) (*response.TokenMmksiResponse, error) {
 
 	if err := paramJwt.Validate(); err != nil {
 		return nil, err
 	}
 
-	result, err := s.jwtRepo.ValidateToken(repo.ParamToken(paramJwt))
+	result, err := s.refreshTokenRepo.ValidateRefreshToken(repo.ParamRefreshToken(paramJwt))
 
 	if err != nil {
 		return nil, err

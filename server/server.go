@@ -58,16 +58,17 @@ func routerEngine() *gin.Engine {
 
 func registerRoute(r *gin.Engine) {
 	var (
-		authController       jwtControllers.JwtController               = jwtControllers.NewJwtController(util.ProvideAuthService())
-		mrpController        mrpControllers.MrpController               = mrpControllers.NewMrpController(util.ProvideMrpService())
-		tokenController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideTokenService())
-		mmksiController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideMmksiService())
-		dsfProgramController dsfProgramControllers.DsfProgramController = dsfProgramControllers.NewDsfProgramController(util.ProvideDsfProgramService())
+		authController         jwtControllers.JwtController               = jwtControllers.NewJwtController(util.ProvideAuthService())
+		refreshTokenController jwtControllers.RefreshTokenController      = jwtControllers.NewRefreshTokenController(util.ProvideRefreshTokenService())
+		mrpController          mrpControllers.MrpController               = mrpControllers.NewMrpController(util.ProvideMrpService())
+		tokenController        mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideTokenService())
+		mmksiController        mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideMmksiService())
+		dsfProgramController   dsfProgramControllers.DsfProgramController = dsfProgramControllers.NewDsfProgramController(util.ProvideDsfProgramService())
 	)
 
 	// token route
 	r.POST("/auth/token", authController.CreateToken)
-	r.POST("/token/refresh", authController.RefreshToken)
+	r.POST("/token/refresh", refreshTokenController.RefreshToken)
 
 	// dsf route
 	r.GET("/dsf/tradein/vehicles", authController.Auth, mrpController.GetVehicles)

@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"time"
 
-	"middleware-mmksi/jwt/response"
 	"middleware-mmksi/jwt/service"
 	"middleware-mmksi/jwt/service/request"
 
@@ -19,9 +17,8 @@ type jwtController struct {
 }
 
 type JwtController interface {
-	CreateToken(context *gin.Context)
-	RefreshToken(context *gin.Context)
-	Auth(context *gin.Context)
+	CreateToken(gc *gin.Context)
+	Auth(gc *gin.Context)
 }
 
 func NewJwtController(
@@ -34,19 +31,23 @@ func NewJwtController(
 
 func (c *jwtController) CreateToken(gc *gin.Context) {
 	var paramJwt request.TokenMmksiRequest
-	gc.BindHeader(&paramJwt)
-
-	res, err := c.jwtService.CreateToken(paramJwt)
+	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
+		return
+	}
+	res, err := c.jwtService.ValidateToken(paramJwt)
 
 	if paramJwt.Company != "" {
 		if (paramJwt.Company == "mmksi") || (paramJwt.Company == "dsf") {
 			company := paramJwt.Company
-			tokens, err := GenerateToken(gc, company)
+
+			res, err := c.jwtService.CreateToken(company)
 			if err != nil {
-				gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				gc.JSON(http.StatusBadRequest, gin.H{"error2": err.Error()})
 				return
 			}
-			gc.JSON(http.StatusOK, tokens)
+
+			gc.JSON(http.StatusOK, res)
 			return
 		}
 		gc.JSON(http.StatusUnauthorized, "unregistered company")
@@ -58,69 +59,6 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 		return
 	}
 
-}
-
-func (c *jwtController) RefreshToken(gc *gin.Context) {
-	var paramJwt request.TokenRefreshRequest
-	gc.BindHeader(&paramJwt)
-
-	res, err := c.jwtService.RefreshToken(paramJwt)
-
-	if paramJwt.RefreshToken != "" {
-
-		token, _ := jwt.Parse(paramJwt.RefreshToken, func(token *jwt.Token) (interface{}, error) {
-			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
-			}
-			return []byte("secret"), nil
-		})
-		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			if (claims["company"] == "mmksi") || (claims["company"] == "dsf") {
-				company := claims["company"]
-				str := fmt.Sprintf("%v", company)
-				newToken, err := GenerateToken(gc, str)
-				if err != nil {
-					gc.JSON(http.StatusBadRequest, err)
-					return
-				}
-				gc.JSON(http.StatusOK, newToken)
-				return
-			}
-			gc.JSON(http.StatusUnauthorized, "unauthorized")
-			return
-		}
-		gc.JSON(http.StatusBadRequest, "invalid token")
-	} else if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	} else {
-		gc.JSON(http.StatusOK, res)
-	}
-}
-
-func GenerateToken(gc *gin.Context, company string) (response.TokenMmksiResponse, error) {
-	token := jwt.New(jwt.SigningMethodHS256)
-	claims := token.Claims.(jwt.MapClaims)
-	claims["company"] = company
-	claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
-	accessToken, err := token.SignedString([]byte("secret"))
-	if err != nil {
-		return response.TokenMmksiResponse{}, err
-	}
-
-	refresh := jwt.New(jwt.SigningMethodHS256)
-	rtClaims := refresh.Claims.(jwt.MapClaims)
-	rtClaims["company"] = company
-	rtClaims["exp"] = time.Now().Add(time.Hour * 72).Unix()
-	refreshToken, err := refresh.SignedString([]byte("secret"))
-	if err != nil {
-		return response.TokenMmksiResponse{}, err
-	}
-
-	return response.TokenMmksiResponse{
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
-	}, nil
 }
 
 func (c *jwtController) Auth(gc *gin.Context) {

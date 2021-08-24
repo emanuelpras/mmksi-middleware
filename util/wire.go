@@ -30,6 +30,14 @@ func ProvideAuthService() jwtService.JwtService {
 	return jwtService.NewJwtService(ProvideAuthRepo())
 }
 
+func ProvideRefreshTokenRepo() jwtRepository.RefreshTokenRepo {
+	return jwtRepository.NewRefreshTokenRepo(ProvideHttpClient())
+}
+
+func ProvideRefreshTokenService() jwtService.RefreshTokenService {
+	return jwtService.NewRefreshTokenService(ProvideRefreshTokenRepo())
+}
+
 func ProvideMrpController() mrpController.MrpController {
 	return mrpController.NewMrpController(ProvideMrpService())
 }
