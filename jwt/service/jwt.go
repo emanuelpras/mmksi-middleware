@@ -1,17 +1,18 @@
 package service
 
 import (
+	"fmt"
 	"middleware-mmksi/jwt/repo"
-	"middleware-mmksi/jwt/response"
 	"middleware-mmksi/jwt/service/request"
-	"time"
+	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 type JwtService interface {
-	ValidateToken(paramJwt request.TokenMmksiRequest) (*response.TokenMmksiResponse, error)
-	CreateToken(company string) (*response.TokenMmksiResponse, error)
+	CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest)
+	RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest)
 }
 
 type jwtService struct {
@@ -26,44 +27,56 @@ func NewJwtService(
 	}
 }
 
-func (s *jwtService) CreateToken(company string) (*response.TokenMmksiResponse, error) {
+func (s *jwtService) CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest) {
+	if paramJwt.Company != "" {
+		if (paramJwt.Company == "mmksi") || (paramJwt.Company == "dsf") {
+			result, err := s.jwtRepo.CreateToken(request.TokenMmksiRequest{
+				Company: paramJwt.Company,
+			})
+			if err != nil {
+				gc.JSON(http.StatusBadRequest, err)
+			}
+			gc.JSON(http.StatusOK, result)
 
-	token := jwt.New(jwt.SigningMethodHS256)
-	claims := token.Claims.(jwt.MapClaims)
-	claims["company"] = company
-	claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
-	accessToken, err := token.SignedString([]byte("secret"))
-	if err != nil {
-		return &response.TokenMmksiResponse{}, err
+		} else {
+			gc.JSON(http.StatusUnauthorized, "unregistered company")
+		}
+	} else {
+		if err := paramJwt.Validate(); err != nil {
+			gc.JSON(http.StatusBadRequest, err)
+		}
 	}
-
-	refresh := jwt.New(jwt.SigningMethodHS256)
-	rtClaims := refresh.Claims.(jwt.MapClaims)
-	rtClaims["company"] = company
-	rtClaims["exp"] = time.Now().Add(time.Hour * 72).Unix()
-	refreshToken, err2 := refresh.SignedString([]byte("secret"))
-	if err2 != nil {
-		return &response.TokenMmksiResponse{}, err2
-	}
-
-	result, err := s.jwtRepo.CreateToken(accessToken, refreshToken)
-
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
 }
 
-func (s *jwtService) ValidateToken(paramJwt request.TokenMmksiRequest) (*response.TokenMmksiResponse, error) {
-
-	if err := paramJwt.Validate(); err != nil {
-		return nil, err
+func (s *jwtService) RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest) {
+	if paramJwt.RefreshToken != "" {
+		token, _ := jwt.Parse(paramJwt.RefreshToken, func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			}
+			return []byte("secret"), nil
+		})
+		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+			if (claims["company"] == "mmksi") || (claims["company"] == "dsf") {
+				company := claims["company"]
+				str := fmt.Sprintf("%v", company)
+				res, err := s.jwtRepo.RefreshToken(request.TokenRefreshRequest{
+					RefreshToken: str,
+				})
+				if err != nil {
+					gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+					return
+				}
+				gc.JSON(http.StatusOK, res)
+				return
+			}
+			gc.JSON(http.StatusUnauthorized, "unauthorized")
+			return
+		}
+		gc.JSON(http.StatusBadRequest, "invalid token")
+	} else {
+		if err := paramJwt.Validate(); err != nil {
+			gc.JSON(http.StatusBadRequest, err)
+		}
 	}
-
-	result, err := s.jwtRepo.ValidateToken(repo.ParamToken(paramJwt))
-
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
 }

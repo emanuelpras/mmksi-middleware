@@ -18,6 +18,7 @@ type jwtController struct {
 
 type JwtController interface {
 	CreateToken(gc *gin.Context)
+	RefreshToken(gc *gin.Context)
 	Auth(gc *gin.Context)
 }
 
@@ -35,30 +36,16 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 		gc.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
 		return
 	}
-	res, err := c.jwtService.ValidateToken(paramJwt)
+	c.jwtService.CreateToken(gc, paramJwt)
+}
 
-	if paramJwt.Company != "" {
-		if (paramJwt.Company == "mmksi") || (paramJwt.Company == "dsf") {
-			company := paramJwt.Company
-
-			res, err := c.jwtService.CreateToken(company)
-			if err != nil {
-				gc.JSON(http.StatusBadRequest, gin.H{"error2": err.Error()})
-				return
-			}
-
-			gc.JSON(http.StatusOK, res)
-			return
-		}
-		gc.JSON(http.StatusUnauthorized, "unregistered company")
-	} else if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	} else {
-		gc.JSON(http.StatusOK, res)
+func (c *jwtController) RefreshToken(gc *gin.Context) {
+	var paramJwt request.TokenRefreshRequest
+	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
 		return
 	}
-
+	c.jwtService.RefreshToken(gc, paramJwt)
 }
 
 func (c *jwtController) Auth(gc *gin.Context) {

@@ -1,19 +1,18 @@
 package repo
 
 import (
-	"encoding/json"
 	"net/http"
+	"time"
 
 	"middleware-mmksi/jwt/response"
+	"middleware-mmksi/jwt/service/request"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
-type ParamToken struct {
-	Company string `json:"company"`
-}
-
 type JwtRepo interface {
-	CreateToken(accessToken, refreshToken string) (*response.TokenMmksiResponse, error)
-	ValidateToken(params ParamToken) (*response.TokenMmksiResponse, error)
+	CreateToken(params request.TokenMmksiRequest) (*response.TokenMmksiResponse, error)
+	RefreshToken(params request.TokenRefreshRequest) (*response.TokenMmksiResponse, error)
 }
 
 type jwtRepo struct {
@@ -26,16 +25,35 @@ func NewJwtRepo(httpClient *http.Client) JwtRepo {
 	}
 }
 
-func (r *jwtRepo) CreateToken(accessToken, refreshToken string) (*response.TokenMmksiResponse, error) {
+func (r *jwtRepo) CreateToken(params request.TokenMmksiRequest) (*response.TokenMmksiResponse, error) {
+	return r.GenerateToken(params.Company)
+}
+
+func (r *jwtRepo) RefreshToken(params request.TokenRefreshRequest) (*response.TokenMmksiResponse, error) {
+	return r.GenerateToken(params.RefreshToken)
+}
+
+func (r *jwtRepo) GenerateToken(params string) (*response.TokenMmksiResponse, error) {
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["company"] = params
+	claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
+	accessToken, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return &response.TokenMmksiResponse{}, err
+	}
+
+	refresh := jwt.New(jwt.SigningMethodHS256)
+	rtClaims := refresh.Claims.(jwt.MapClaims)
+	rtClaims["company"] = params
+	rtClaims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+	refreshToken, err2 := refresh.SignedString([]byte("secret"))
+	if err2 != nil {
+		return &response.TokenMmksiResponse{}, err2
+	}
 
 	return &response.TokenMmksiResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}, nil
-}
-
-func (r *jwtRepo) ValidateToken(params ParamToken) (*response.TokenMmksiResponse, error) {
-
-	response := new(response.TokenMmksiResponse)
-	return response, json.Unmarshal([]byte(params.Company), response)
 }

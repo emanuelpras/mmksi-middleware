@@ -32,8 +32,8 @@ func (f *TokenRefreshRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "Token cannot be empty",
-				"id": "Token harus diisi",
+				"en": "Refresh Token cannot be empty",
+				"id": "Refresh Token harus diisi",
 			},
 		}
 	}
