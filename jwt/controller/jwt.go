@@ -33,10 +33,15 @@ func NewJwtController(
 func (c *jwtController) CreateToken(gc *gin.Context) {
 	var paramJwt request.TokenMmksiRequest
 	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.jwtService.CreateToken(gc, paramJwt)
+	res, err := c.jwtService.CreateToken(gc, paramJwt)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	gc.JSON(http.StatusOK, res)
 }
 
 func (c *jwtController) RefreshToken(gc *gin.Context) {
@@ -45,7 +50,12 @@ func (c *jwtController) RefreshToken(gc *gin.Context) {
 		gc.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
 		return
 	}
-	c.jwtService.RefreshToken(gc, paramJwt)
+	res, err := c.jwtService.RefreshToken(gc, paramJwt)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	gc.JSON(http.StatusOK, res)
 }
 
 func (c *jwtController) Auth(gc *gin.Context) {

@@ -23,8 +23,16 @@ func (f *TokenMmksiRequest) Validate() error {
 				"id": "Company harus diisi",
 			},
 		}
+	} else if f.Company == "mmksi" || f.Company == "dsf" {
+		return nil
 	}
-	return nil
+	return &response.ErrorResponse{
+		ErrorID: 400,
+		Msg: map[string]string{
+			"en": "Company unregistered",
+			"id": "Company tidak terdaftar",
+		},
+	}
 }
 
 func (f *TokenRefreshRequest) Validate() error {
