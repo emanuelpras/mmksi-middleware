@@ -5,6 +5,8 @@ import (
 	"middleware-mmksi/jwt/repo"
 	"middleware-mmksi/jwt/response"
 	"middleware-mmksi/jwt/service/request"
+	"net/http"
+	"os"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -13,6 +15,7 @@ import (
 type JwtService interface {
 	CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest) (*response.TokenMmksiResponse, error)
 	RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest) (*response.TokenMmksiResponse, error)
+	Auth(gc *gin.Context, auth request.AuthRequest) error
 }
 
 type jwtService struct {
@@ -70,8 +73,27 @@ func (s *jwtService) RefreshToken(gc *gin.Context, paramJwt request.TokenRefresh
 	return nil, &response.ErrorResponse{
 		ErrorID: 400,
 		Msg: map[string]string{
-			"en": "Invalid token or token expired",
+			"en": "Invalid token or token has expired",
 			"id": "Token tidak valid atau token telah kadaluarsa",
 		},
 	}
+}
+
+func (s *jwtService) Auth(gc *gin.Context, auth request.AuthRequest) error {
+	option := os.Getenv("MIDDLEWARE_AUTH")
+	if option == "YES" {
+		if err := auth.Validate(); err != nil {
+			gc.JSON(http.StatusBadRequest, err)
+		}
+		err := s.jwtRepo.Auth(gc, request.AuthRequest{
+			Auth: auth.Auth,
+		})
+		if err != nil {
+			return err
+		}
+		return err
+	} else {
+		gc.Next()
+	}
+	return nil
 }
