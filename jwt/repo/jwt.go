@@ -1,6 +1,7 @@
 package repo
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -31,31 +32,61 @@ func (r *jwtRepo) CreateToken(params request.TokenMmksiRequest) (*response.Token
 }
 
 func (r *jwtRepo) RefreshToken(params request.TokenRefreshRequest) (*response.TokenMmksiResponse, error) {
-	return r.GenerateToken(params.RefreshToken)
+	token, _ := jwt.Parse(params.RefreshToken, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		if (claims["company"] == "mmksi") || (claims["company"] == "dsf") {
+			company := fmt.Sprintf("%v", claims["company"])
+
+			res, err := r.GenerateToken(company)
+			if err != nil {
+				return nil, err
+			}
+			return res, err
+		}
+		return nil, &response.ErrorResponse{
+			ErrorID: 400,
+			Msg: map[string]string{
+				"en": "Company unregistered",
+				"id": "Company tidak terdaftar",
+			},
+		}
+	}
+	return nil, &response.ErrorResponse{
+		ErrorID: 400,
+		Msg: map[string]string{
+			"en": "Invalid token or token has expired",
+			"id": "Token tidak valid atau token telah kadaluarsa",
+		},
+	}
 }
 
 func (r *jwtRepo) Auth(gc *gin.Context, params request.AuthRequest) error {
-	token, err := jwt.Parse(params.Auth, func(token *jwt.Token) (interface{}, error) {
+	token, _ := jwt.Parse(params.Auth, func(token *jwt.Token) (interface{}, error) {
 		return []byte("secret"), nil
 	})
-	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{
-			"error": "Invalid token or token has expired",
-		})
-		gc.Abort()
-	}
-	if token != nil {
-		claims, _ := token.Claims.(jwt.MapClaims)
-		if (claims["company"] == "dsf") || (claims["company"] == "mmksi") {
-			gc.Next()
-		} else {
-			gc.JSON(http.StatusBadRequest, gin.H{
-				"error": "Company unregistered",
-			})
-			gc.Abort()
+
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		if (claims["company"] == "mmksi") || (claims["company"] == "dsf") {
+			return nil
+		}
+
+		return &response.ErrorResponse{
+			ErrorID: 400,
+			Msg: map[string]string{
+				"en": "Company unregistered",
+				"id": "Company tidak terdaftar",
+			},
 		}
 	}
-	return nil
+	return &response.ErrorResponse{
+		ErrorID: 400,
+		Msg: map[string]string{
+			"en": "Invalid token or token has expired",
+			"id": "Token tidak valid atau token telah kadaluarsa",
+		},
+	}
 }
 
 func (r *jwtRepo) GenerateToken(params string) (*response.TokenMmksiResponse, error) {

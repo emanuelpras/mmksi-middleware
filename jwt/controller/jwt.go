@@ -64,6 +64,7 @@ func (c *jwtController) Auth(gc *gin.Context) {
 	err := c.jwtService.Auth(gc, auth)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
-		return
+		gc.Abort()
 	}
+	gc.Next()
 }

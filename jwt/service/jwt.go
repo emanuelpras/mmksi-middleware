@@ -1,14 +1,11 @@
 package service
 
 import (
-	"fmt"
 	"middleware-mmksi/jwt/repo"
 	"middleware-mmksi/jwt/response"
 	"middleware-mmksi/jwt/service/request"
-	"net/http"
 	"os"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -47,43 +44,22 @@ func (s *jwtService) RefreshToken(gc *gin.Context, paramJwt request.TokenRefresh
 	if err := paramJwt.Validate(); err != nil {
 		return nil, err
 	}
-	token, _ := jwt.Parse(paramJwt.RefreshToken, func(token *jwt.Token) (interface{}, error) {
-		return []byte("secret"), nil
+	result, err := s.jwtRepo.RefreshToken(request.TokenRefreshRequest{
+		RefreshToken: paramJwt.RefreshToken,
 	})
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		if (claims["company"] == "mmksi") || (claims["company"] == "dsf") {
-			company := claims["company"]
-			str := fmt.Sprintf("%v", company)
-			res, err := s.jwtRepo.RefreshToken(request.TokenRefreshRequest{
-				RefreshToken: str,
-			})
-			if err != nil {
-				return nil, err
-			}
-			return res, err
-		}
-		return nil, &response.ErrorResponse{
-			ErrorID: 400,
-			Msg: map[string]string{
-				"en": "Company unregistered",
-				"id": "Company tidak terdaftar",
-			},
-		}
+
+	if err != nil {
+		return nil, err
 	}
-	return nil, &response.ErrorResponse{
-		ErrorID: 400,
-		Msg: map[string]string{
-			"en": "Invalid token or token has expired",
-			"id": "Token tidak valid atau token telah kadaluarsa",
-		},
-	}
+	return result, nil
 }
 
 func (s *jwtService) Auth(gc *gin.Context, auth request.AuthRequest) error {
 	option := os.Getenv("MIDDLEWARE_AUTH")
+
 	if option == "YES" {
 		if err := auth.Validate(); err != nil {
-			gc.JSON(http.StatusBadRequest, err)
+			return err
 		}
 		err := s.jwtRepo.Auth(gc, request.AuthRequest{
 			Auth: auth.Auth,
@@ -91,9 +67,8 @@ func (s *jwtService) Auth(gc *gin.Context, auth request.AuthRequest) error {
 		if err != nil {
 			return err
 		}
-		return err
-	} else {
-		gc.Next()
+		return nil
 	}
+
 	return nil
 }
