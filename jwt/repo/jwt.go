@@ -91,7 +91,7 @@ func (r *jwtRepo) GenerateToken(params string) (*response.TokenMmksiResponse, er
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["company"] = params
-	claims["exp"] = time.Now().Add(time.Minute * 1).Unix()
+	claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
 	accessToken, err := token.SignedString([]byte("secret"))
 
 	if err != nil {
@@ -101,7 +101,7 @@ func (r *jwtRepo) GenerateToken(params string) (*response.TokenMmksiResponse, er
 	refresh := jwt.New(jwt.SigningMethodHS256)
 	rtClaims := refresh.Claims.(jwt.MapClaims)
 	rtClaims["company"] = params
-	rtClaims["exp"] = time.Now().Add(time.Minute * 1).Unix()
+	rtClaims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 	refreshToken, err2 := refresh.SignedString([]byte("secret"))
 
 	if err2 != nil {
