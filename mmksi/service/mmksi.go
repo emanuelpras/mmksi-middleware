@@ -28,7 +28,7 @@ func NewMmksiService(
 
 func (s *mmksiService) GetToken(params request.TokenRequest) (*response.TokenResponse, error) {
 
-	result, err := s.mmksiRepo.GetToken(repo.GetTokenParams{
+	result, err := s.mmksiRepo.GetToken(request.TokenRequest{
 		Clientid:   os.Getenv("DNET_CLIENT_ID"),
 		Dealercode: os.Getenv("DNET_DEALER_CODE"),
 		Username:   os.Getenv("DNET_USERNAME"),
@@ -47,9 +47,11 @@ func (s *mmksiService) GetVehicle(params request.VehicleRequest, authorizationMm
 		return nil, err
 	}
 
-	result, err := s.mmksiRepo.GetVehicle(repo.GetVehicleParams{
-		Page: params.Page,
-	}, repo.GetHeaderAuthorization{
+	result, err := s.mmksiRepo.GetVehicle(request.VehicleRequest{
+		Page:        params.Page,
+		FindVehicle: params.FindVehicle,
+		SortVehicle: params.SortVehicle,
+	}, request.VehicleRequestAuthorization{
 		AccessToken: authorizationMmksi.AccessToken,
 		TokenType:   authorizationMmksi.TokenType,
 	})
@@ -66,9 +68,11 @@ func (s *mmksiService) GetVehicleColor(params request.VehicleRequest, authorizat
 		return nil, err
 	}
 
-	result, err := s.mmksiRepo.GetVehicleColor(repo.GetVehicleParams{
-		Page: params.Page,
-	}, repo.GetHeaderAuthorization{
+	result, err := s.mmksiRepo.GetVehicleColor(request.VehicleRequest{
+		Page:        params.Page,
+		FindVehicle: params.FindVehicle,
+		SortVehicle: params.SortVehicle,
+	}, request.VehicleRequestAuthorization{
 		AccessToken: authorizationMmksi.AccessToken,
 		TokenType:   authorizationMmksi.TokenType,
 	})

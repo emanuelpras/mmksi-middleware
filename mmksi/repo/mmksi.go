@@ -8,28 +8,13 @@ import (
 	"net/http"
 
 	"middleware-mmksi/mmksi/response"
+	"middleware-mmksi/mmksi/service/request"
 )
 
-type GetTokenParams struct {
-	Clientid   string `json:"clientid"`
-	Dealercode string `json:"dealercode"`
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-}
-
-type GetVehicleParams struct {
-	Page int64 `json:"pages"`
-}
-
-type GetHeaderAuthorization struct {
-	AccessToken string `json:"AccessToken"`
-	TokenType   string `json:"TokenType"`
-}
-
 type MmksiRepo interface {
-	GetToken(params GetTokenParams) (*response.TokenResponse, error)
-	GetVehicle(params GetVehicleParams, authorization GetHeaderAuthorization) (*response.VehicleResponse, error)
-	GetVehicleColor(params GetVehicleParams, authorization GetHeaderAuthorization) (*response.VehicleColorResponse, error)
+	GetToken(params request.TokenRequest) (*response.TokenResponse, error)
+	GetVehicle(params request.VehicleRequest, authorization request.VehicleRequestAuthorization) (*response.VehicleResponse, error)
+	GetVehicleColor(params request.VehicleRequest, authorization request.VehicleRequestAuthorization) (*response.VehicleColorResponse, error)
 }
 
 type mmksiRepo struct {
@@ -44,7 +29,7 @@ func NewMmksiRepo(mmksiServer string, httpClient *http.Client) MmksiRepo {
 	}
 }
 
-func (r *mmksiRepo) GetToken(params GetTokenParams) (*response.TokenResponse, error) {
+func (r *mmksiRepo) GetToken(params request.TokenRequest) (*response.TokenResponse, error) {
 	payload, err := json.Marshal(params)
 	if err != nil {
 		return nil, err
@@ -76,7 +61,7 @@ func (r *mmksiRepo) GetToken(params GetTokenParams) (*response.TokenResponse, er
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *mmksiRepo) GetVehicle(params GetVehicleParams, authorizationMmksi GetHeaderAuthorization) (*response.VehicleResponse, error) {
+func (r *mmksiRepo) GetVehicle(params request.VehicleRequest, authorizationMmksi request.VehicleRequestAuthorization) (*response.VehicleResponse, error) {
 
 	payload, err := json.Marshal(params)
 	if err != nil {
@@ -111,7 +96,7 @@ func (r *mmksiRepo) GetVehicle(params GetVehicleParams, authorizationMmksi GetHe
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *mmksiRepo) GetVehicleColor(params GetVehicleParams, authorizationMmksi GetHeaderAuthorization) (*response.VehicleColorResponse, error) {
+func (r *mmksiRepo) GetVehicleColor(params request.VehicleRequest, authorizationMmksi request.VehicleRequestAuthorization) (*response.VehicleColorResponse, error) {
 
 	payload, err := json.Marshal(params)
 	if err != nil {

@@ -8,6 +8,21 @@ import (
 
 type VehicleRequest struct {
 	Page int64 `json:"pages"`
+
+	FindVehicle []findVehicleRequest `json:"find"`
+	SortVehicle []sortVehicleRequest `json:"sort"`
+}
+
+type findVehicleRequest struct {
+	MatchType     int64  `json:"MatchType"`
+	PropertyName  string `json:"PropertyName"`
+	PropertyValue string `json:"PropertyValue"`
+	SqlOperation  int64  `json:"SqlOperation"`
+}
+
+type sortVehicleRequest struct {
+	SortColumn    string `json:"SortColumn"`
+	SortDirection int64  `json:"SortDirection"`
 }
 
 type VehicleRequestAuthorization struct {
