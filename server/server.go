@@ -74,7 +74,10 @@ func registerRoute(r *gin.Engine) {
 	r.GET("/dsf/tradein/regions", authController.Auth, mrpController.GetRegions)
 	r.POST("/dsf/tradein/prediction", authController.Auth, mrpController.GetPrediction)
 
+	// metadata
 	r.GET("/dsf/metadata/additionalInsurance", authController.Auth, dsfProgramController.GetAdditionalInsurance)
+	r.GET("/dsf/metadata/packageNames", authController.Auth, dsfProgramController.GetPackageNames)
+	r.GET("/dsf/metadata/carConditions", authController.Auth, dsfProgramController.GetCarConditions)
 
 	// mmksi route
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)

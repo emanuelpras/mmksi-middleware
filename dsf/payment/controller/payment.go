@@ -13,6 +13,8 @@ type dsfProgramController struct {
 
 type DsfProgramController interface {
 	GetAdditionalInsurance(context *gin.Context)
+	GetPackageNames(context *gin.Context)
+	GetCarConditions(context *gin.Context)
 }
 
 func NewDsfProgramController(
@@ -26,6 +28,28 @@ func NewDsfProgramController(
 func (c *dsfProgramController) GetAdditionalInsurance(gc *gin.Context) {
 
 	res, err := c.dsfProgramService.GetAdditionalInsurance()
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetPackageNames(gc *gin.Context) {
+
+	res, err := c.dsfProgramService.GetPackageNames()
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetCarConditions(gc *gin.Context) {
+
+	res, err := c.dsfProgramService.GetCarConditions()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
