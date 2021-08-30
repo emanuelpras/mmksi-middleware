@@ -8,6 +8,7 @@ import (
 type DsfProgramService interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
 	GetPackageNames() (*response.GetPackageNames, error)
+	GetCarConditions() (*response.GetCarConditions, error)
 }
 
 type dsfProgramService struct {
@@ -35,6 +36,16 @@ func (s *dsfProgramService) GetAdditionalInsurance() (*response.AdditionalInsura
 func (s *dsfProgramService) GetPackageNames() (*response.GetPackageNames, error) {
 
 	result, err := s.dsfProgramRepo.GetPackageNames()
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *dsfProgramService) GetCarConditions() (*response.GetCarConditions, error) {
+
+	result, err := s.dsfProgramRepo.GetCarConditions()
 	if err != nil {
 		return nil, err
 	}
