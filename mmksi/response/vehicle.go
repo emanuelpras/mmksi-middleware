@@ -1,13 +1,20 @@
 package response
 
 type VehicleResponse struct {
-	Data []Vehicle `json:"lst"`
+	Total   int64                    `json:"total"`
+	Data    []Vehicle                `json:"lst"`
+	Message []VehicleMessageResponse `json:"messages"`
 }
 
 type Vehicle struct {
 	ID              uint   `json:"ID"`
 	VehicleType     string `json:"VehicleType"`
 	VehicleModel_S1 string `json:"VehicleModel_S1"`
+}
+
+type VehicleMessageResponse struct {
+	ErrorMessage string `json:"ErrorMessage"`
+	ErrorCode    int64  `json:"ErrorCode"`
 }
 
 type VehicleColorResponse struct {
