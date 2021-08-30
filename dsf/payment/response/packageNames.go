@@ -1,7 +1,9 @@
 package response
 
 type GetPackageNames struct {
-	Data PackageNames `json:"data"`
+	Message  string       `json:"message"`
+	Is_Valid bool         `json:"is_valid"`
+	Data     PackageNames `json:"data"`
 }
 
 type PackageNames struct {
