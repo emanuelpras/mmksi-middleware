@@ -18,7 +18,9 @@ type VehicleMessageResponse struct {
 }
 
 type VehicleColorResponse struct {
-	Data []VehicleColor `json:"lst"`
+	Total   int64                    `json:"total"`
+	Data    []VehicleColor           `json:"lst"`
+	Message []VehicleMessageResponse `json:"messages"`
 }
 
 type VehicleColor struct {
