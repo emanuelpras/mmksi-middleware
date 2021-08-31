@@ -2,6 +2,7 @@ package controller
 
 import (
 	"middleware-mmksi/dsf/payment/service"
+	"middleware-mmksi/dsf/payment/service/request"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +16,7 @@ type DsfProgramController interface {
 	GetAdditionalInsurance(context *gin.Context)
 	GetPackageNames(context *gin.Context)
 	GetCarConditions(context *gin.Context)
+	GetPackages(context *gin.Context)
 }
 
 func NewDsfProgramController(
@@ -50,6 +52,28 @@ func (c *dsfProgramController) GetPackageNames(gc *gin.Context) {
 func (c *dsfProgramController) GetCarConditions(gc *gin.Context) {
 
 	res, err := c.dsfProgramService.GetCarConditions()
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetPackages(gc *gin.Context) {
+	var applicationName request.HeaderPackageRequest
+	if err := gc.ShouldBindHeader(&applicationName); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var packageRequest request.PackageRequest
+	if err := gc.ShouldBindJSON(&packageRequest); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.dsfProgramService.GetPackages(applicationName)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

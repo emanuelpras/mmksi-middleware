@@ -1,17 +1,21 @@
 package repo
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"middleware-mmksi/dsf/payment/response"
+	"middleware-mmksi/dsf/payment/service/request"
 	"net/http"
 )
 
 type DsfProgramRepo interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
-	GetPackageNames() (*response.GetPackageNames, error)
-	GetCarConditions() (*response.GetCarConditions, error)
+	GetPackageNames() (*response.PackageNameResponse, error)
+	GetCarConditions() (*response.CarConditionResponse, error)
+	GetPackages(params request.HeaderPackageRequest) (*response.PackageResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -54,7 +58,7 @@ func (r *dsfProgramRepo) GetAdditionalInsurance() (*response.AdditionalInsurance
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *dsfProgramRepo) GetPackageNames() (*response.GetPackageNames, error) {
+func (r *dsfProgramRepo) GetPackageNames() (*response.PackageNameResponse, error) {
 
 	url := fmt.Sprintf("%s/metadata/packagenames", r.dsfProgramServer)
 	req, err := http.NewRequest("GET", url, nil)
@@ -78,11 +82,11 @@ func (r *dsfProgramRepo) GetPackageNames() (*response.GetPackageNames, error) {
 		return nil, err
 	}
 
-	response := new(response.GetPackageNames)
+	response := new(response.PackageNameResponse)
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *dsfProgramRepo) GetCarConditions() (*response.GetCarConditions, error) {
+func (r *dsfProgramRepo) GetCarConditions() (*response.CarConditionResponse, error) {
 
 	url := fmt.Sprintf("%s/metadata/carconditions", r.dsfProgramServer)
 	req, err := http.NewRequest("GET", url, nil)
@@ -106,6 +110,39 @@ func (r *dsfProgramRepo) GetCarConditions() (*response.GetCarConditions, error) 
 		return nil, err
 	}
 
-	response := new(response.GetCarConditions)
+	response := new(response.CarConditionResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *dsfProgramRepo) GetPackages(params request.HeaderPackageRequest) (*response.PackageResponse, error) {
+	payload, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/metadata/"+params.ApplicationName+"/packages", r.dsfProgramServer)
+	log.Print("url: ", url)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.PackageResponse)
 	return response, json.Unmarshal(result, response)
 }
