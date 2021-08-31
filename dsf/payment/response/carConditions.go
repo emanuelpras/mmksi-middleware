@@ -1,6 +1,6 @@
 package response
 
-type GetCarConditions []struct {
+type CarConditionResponse []struct {
 	Name        string `json:"Name"`
 	Description string `json:"Description"`
 }

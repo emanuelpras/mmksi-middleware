@@ -1,12 +1,12 @@
 package response
 
-type GetPackageNames struct {
+type PackageNameResponse struct {
 	Message  string       `json:"message"`
 	Is_Valid bool         `json:"is_valid"`
-	Data     PackageNames `json:"data"`
+	Data     packageNames `json:"data"`
 }
 
-type PackageNames struct {
+type packageNames struct {
 	RecordCount int64    `json:"recordCount"`
 	PageNumber  int64    `json:"pageNumber"`
 	PageSize    int64    `json:"pageSize"`
