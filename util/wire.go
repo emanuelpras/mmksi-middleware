@@ -58,12 +58,20 @@ func ProvideMmksiRepo() mmksiRepository.MmksiRepo {
 	return mmksiRepository.NewMmksiRepo(os.Getenv("SERVER_MMKSI_MASTERDATA"), ProvideHttpClient())
 }
 
-func ProvideDsfProgramRepo() dsfProgramRepository.DsfProgramRepo {
-	return dsfProgramRepository.NewDsfProgramRepo(os.Getenv("SERVER_DSF_PAYMENT"), ProvideHttpClient())
-}
-
 func ProvideDsfProgramService() dsfProgramService.DsfProgramService {
 	return dsfProgramService.NewDsfProgramService(ProvideDsfProgramRepo())
+}
+
+func ProvideDsfProgramRepo() dsfProgramRepository.DsfProgramRepo {
+	return dsfProgramRepository.NewDsfProgramRepo(os.Getenv("SERVER_DSF_PAYMENT"), os.Getenv(""), ProvideHttpClient())
+}
+
+func ProvideDsfService() dsfProgramService.DsfProgramService {
+	return dsfProgramService.NewDsfProgramService(ProvideDsfRepo())
+}
+
+func ProvideDsfRepo() dsfProgramRepository.DsfProgramRepo {
+	return dsfProgramRepository.NewDsfProgramRepo(os.Getenv("SERVER_DSF_CALCULATOR"), os.Getenv("APIKey__DSF_CALCULATOR"), ProvideHttpClient())
 }
 
 func ProvideHttpClient() *http.Client {

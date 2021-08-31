@@ -10,7 +10,7 @@ type DsfProgramService interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
 	GetPackageNames() (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
-	GetPackages(params request.HeaderPackageRequest) (*response.PackageResponse, error)
+	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.ResponseModify, error)
 }
 
 type dsfProgramService struct {
@@ -55,13 +55,21 @@ func (s *dsfProgramService) GetCarConditions() (*response.CarConditionResponse, 
 	return result, nil
 }
 
-func (s *dsfProgramService) GetPackages(params request.HeaderPackageRequest) (*response.PackageResponse, error) {
-	// if err := params.Validate(); err != nil {
-	// 	return nil, err
-	// }
+func (s *dsfProgramService) GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.ResponseModify, error) {
+	if err := reqBody.Validate(); err != nil {
+		return nil, err
+	}
 
 	result, err := s.dsfProgramRepo.GetPackages(request.HeaderPackageRequest{
-		ApplicationName: params.ApplicationName,
+		ApplicationName: paramHeader.ApplicationName,
+	}, request.PackageRequest{
+		Brand:        reqBody.Brand,
+		Model:        reqBody.Model,
+		Variant:      reqBody.Variant,
+		Province:     reqBody.Province,
+		City:         reqBody.City,
+		PackageName:  reqBody.PackageName,
+		CarCondition: reqBody.CarCondition,
 	})
 
 	if err != nil {

@@ -1,4 +1,3 @@
 package response
 
-type PackageResponse struct {
-}
+type ResponseModify []string

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"middleware-mmksi/dsf/payment/response"
 	"middleware-mmksi/dsf/payment/service/request"
 	"net/http"
@@ -15,17 +14,19 @@ type DsfProgramRepo interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
 	GetPackageNames() (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
-	GetPackages(params request.HeaderPackageRequest) (*response.PackageResponse, error)
+	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.ResponseModify, error)
 }
 
 type dsfProgramRepo struct {
 	dsfProgramServer string
+	apiKey           string
 	httpClient       *http.Client
 }
 
-func NewDsfProgramRepo(dsfProgramServer string, httpClient *http.Client) DsfProgramRepo {
+func NewDsfProgramRepo(dsfProgramServer string, apiKey string, httpClient *http.Client) DsfProgramRepo {
 	return &dsfProgramRepo{
 		dsfProgramServer: dsfProgramServer,
+		apiKey:           apiKey,
 		httpClient:       httpClient,
 	}
 }
@@ -114,19 +115,19 @@ func (r *dsfProgramRepo) GetCarConditions() (*response.CarConditionResponse, err
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *dsfProgramRepo) GetPackages(params request.HeaderPackageRequest) (*response.PackageResponse, error) {
-	payload, err := json.Marshal(params)
+func (r *dsfProgramRepo) GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.ResponseModify, error) {
+	payload, err := json.Marshal(reqBody)
 	if err != nil {
 		return nil, err
 	}
 
-	url := fmt.Sprintf("%s/metadata/"+params.ApplicationName+"/packages", r.dsfProgramServer)
-	log.Print("url: ", url)
+	url := fmt.Sprintf("%s/metadata/"+paramHeader.ApplicationName+"/packages", r.dsfProgramServer)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
 	if err != nil {
 		return nil, err
 	}
 
+	req.Header.Set("ApiKey", r.apiKey)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
@@ -143,6 +144,7 @@ func (r *dsfProgramRepo) GetPackages(params request.HeaderPackageRequest) (*resp
 		return nil, err
 	}
 
-	response := new(response.PackageResponse)
+	response := new(response.ResponseModify)
 	return response, json.Unmarshal(result, response)
+
 }

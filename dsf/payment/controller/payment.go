@@ -73,7 +73,7 @@ func (c *dsfProgramController) GetPackages(gc *gin.Context) {
 		return
 	}
 
-	res, err := c.dsfProgramService.GetPackages(applicationName)
+	res, err := c.dsfProgramService.GetPackages(applicationName, packageRequest)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
