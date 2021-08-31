@@ -10,7 +10,7 @@ type DsfProgramService interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
 	GetPackageNames() (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
-	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.ResponseModify, error)
+	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 }
 
 type dsfProgramService struct {
@@ -55,7 +55,7 @@ func (s *dsfProgramService) GetCarConditions() (*response.CarConditionResponse, 
 	return result, nil
 }
 
-func (s *dsfProgramService) GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.ResponseModify, error) {
+func (s *dsfProgramService) GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error) {
 	if err := reqBody.Validate(); err != nil {
 		return nil, err
 	}

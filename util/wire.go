@@ -71,7 +71,7 @@ func ProvideDsfService() dsfProgramService.DsfProgramService {
 }
 
 func ProvideDsfRepo() dsfProgramRepository.DsfProgramRepo {
-	return dsfProgramRepository.NewDsfProgramRepo(os.Getenv("SERVER_DSF_CALCULATOR"), os.Getenv("APIKey__DSF_CALCULATOR"), ProvideHttpClient())
+	return dsfProgramRepository.NewDsfProgramRepo(os.Getenv("SERVER_DSF_CALCULATOR"), os.Getenv("APIKey_DSF_CALCULATOR"), ProvideHttpClient())
 }
 
 func ProvideHttpClient() *http.Client {

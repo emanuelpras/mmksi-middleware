@@ -1,3 +1,3 @@
 package response
 
-type ResponseModify []string
+type PackageResponse []string

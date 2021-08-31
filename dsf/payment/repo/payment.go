@@ -10,11 +10,15 @@ import (
 	"net/http"
 )
 
+type PackageResponseM struct {
+	Data []string `json:"data"`
+}
+
 type DsfProgramRepo interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
 	GetPackageNames() (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
-	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.ResponseModify, error)
+	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -115,7 +119,7 @@ func (r *dsfProgramRepo) GetCarConditions() (*response.CarConditionResponse, err
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *dsfProgramRepo) GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.ResponseModify, error) {
+func (r *dsfProgramRepo) GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error) {
 	payload, err := json.Marshal(reqBody)
 	if err != nil {
 		return nil, err
@@ -144,7 +148,6 @@ func (r *dsfProgramRepo) GetPackages(paramHeader request.HeaderPackageRequest, r
 		return nil, err
 	}
 
-	response := new(response.ResponseModify)
+	response := new(response.PackageResponse)
 	return response, json.Unmarshal(result, response)
-
 }
