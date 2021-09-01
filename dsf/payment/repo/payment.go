@@ -43,6 +43,7 @@ func (r *dsfProgramRepo) GetAdditionalInsurance() (*response.AdditionalInsurance
 		return nil, err
 	}
 
+	req.Header.Set("ApiKey", r.apiKey)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
@@ -71,6 +72,7 @@ func (r *dsfProgramRepo) GetPackageNames() (*response.PackageNameResponse, error
 		return nil, err
 	}
 
+	req.Header.Set("ApiKey", r.apiKey)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
@@ -99,6 +101,7 @@ func (r *dsfProgramRepo) GetCarConditions() (*response.CarConditionResponse, err
 		return nil, err
 	}
 
+	req.Header.Set("ApiKey", r.apiKey)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {

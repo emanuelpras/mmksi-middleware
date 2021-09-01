@@ -63,7 +63,6 @@ func registerRoute(r *gin.Engine) {
 		tokenController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideTokenService())
 		mmksiController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideMmksiService())
 		dsfProgramController dsfProgramControllers.DsfProgramController = dsfProgramControllers.NewDsfProgramController(util.ProvideDsfProgramService())
-		dsfPackageController dsfProgramControllers.DsfProgramController = dsfProgramControllers.NewDsfProgramController(util.ProvideDsfService())
 	)
 
 	// token route
@@ -80,7 +79,7 @@ func registerRoute(r *gin.Engine) {
 	r.GET("/dsf/metadata/packageNames", authController.Auth, dsfProgramController.GetPackageNames)
 	r.GET("/dsf/metadata/carConditions", authController.Auth, dsfProgramController.GetCarConditions)
 
-	r.POST("/dsf/metadata/packages", authController.Auth, dsfPackageController.GetPackages)
+	r.POST("/dsf/metadata/packages", authController.Auth, dsfProgramController.GetPackages)
 
 	// mmksi route
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
