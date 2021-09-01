@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"middleware-mmksi/jwt/repo"
 	"middleware-mmksi/jwt/service"
 	"middleware-mmksi/jwt/service/request"
 
@@ -33,7 +34,8 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	res, err := c.jwtService.CreateToken(gc, paramJwt)
+
+	res, err := c.jwtService.CreateToken(gc, paramJwt, repo.Timeout{})
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
@@ -47,7 +49,7 @@ func (c *jwtController) RefreshToken(gc *gin.Context) {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	res, err := c.jwtService.RefreshToken(gc, paramJwt)
+	res, err := c.jwtService.RefreshToken(gc, paramJwt, repo.Timeout{})
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
