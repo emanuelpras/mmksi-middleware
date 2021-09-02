@@ -3,6 +3,7 @@ package repo
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"middleware-mmksi/jwt/response"
@@ -12,10 +13,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Timeout struct {
+	TimeoutAccessToken  string
+	TimeoutRefreshToken string
+}
 type JwtRepo interface {
-	CreateToken(params request.TokenMmksiRequest) (*response.TokenMmksiResponse, error)
-	RefreshToken(params request.TokenRefreshRequest) (*response.TokenMmksiResponse, error)
-	Auth(gc *gin.Context, params request.AuthRequest) error
+	CreateToken(params request.TokenMmksiRequest, timeout Timeout) (*response.TokenMmksiResponse, error)
+	RefreshToken(params request.TokenRefreshRequest, timeout Timeout) (*response.TokenMmksiResponse, error)
+	Auth(gc *gin.Context, params request.AuthRequest, timeout Timeout) error
 }
 type jwtRepo struct {
 	httpClient *http.Client
@@ -27,21 +32,21 @@ func NewJwtRepo(httpClient *http.Client) JwtRepo {
 	}
 }
 
-func (r *jwtRepo) CreateToken(params request.TokenMmksiRequest) (*response.TokenMmksiResponse, error) {
+func (r *jwtRepo) CreateToken(params request.TokenMmksiRequest, timeout Timeout) (*response.TokenMmksiResponse, error) {
 
-	return r.GenerateToken(params.Company)
-
-}
-
-func (r *jwtRepo) RefreshToken(params request.TokenRefreshRequest) (*response.TokenMmksiResponse, error) {
-
-	return r.TokenValidation(params.RefreshToken)
+	return r.GenerateToken(params.Company, timeout)
 
 }
 
-func (r *jwtRepo) Auth(gc *gin.Context, params request.AuthRequest) error {
+func (r *jwtRepo) RefreshToken(params request.TokenRefreshRequest, timeout Timeout) (*response.TokenMmksiResponse, error) {
 
-	_, err := r.TokenValidation(params.Auth)
+	return r.TokenValidation(params.RefreshToken, timeout)
+
+}
+
+func (r *jwtRepo) Auth(gc *gin.Context, params request.AuthRequest, timeout Timeout) error {
+
+	_, err := r.TokenValidation(params.Auth, timeout)
 	if err != nil {
 		return err
 	}
@@ -49,7 +54,7 @@ func (r *jwtRepo) Auth(gc *gin.Context, params request.AuthRequest) error {
 
 }
 
-func (r *jwtRepo) TokenValidation(params string) (*response.TokenMmksiResponse, error) {
+func (r *jwtRepo) TokenValidation(params string, timeout Timeout) (*response.TokenMmksiResponse, error) {
 
 	token, _ := jwt.Parse(params, func(token *jwt.Token) (interface{}, error) {
 		return []byte("secret"), nil
@@ -60,7 +65,7 @@ func (r *jwtRepo) TokenValidation(params string) (*response.TokenMmksiResponse, 
 		if (claims["company"] == "mmksi") || (claims["company"] == "dsf") {
 			company := fmt.Sprintf("%v", claims["company"])
 
-			res, err := r.GenerateToken(company)
+			res, err := r.GenerateToken(company, timeout)
 			if err != nil {
 				return nil, err
 			}
@@ -86,12 +91,15 @@ func (r *jwtRepo) TokenValidation(params string) (*response.TokenMmksiResponse, 
 
 }
 
-func (r *jwtRepo) GenerateToken(params string) (*response.TokenMmksiResponse, error) {
+func (r *jwtRepo) GenerateToken(company string, timeout Timeout) (*response.TokenMmksiResponse, error) {
+
+	timeoutAccessToken, _ := strconv.Atoi(timeout.TimeoutAccessToken)
+	timeoutRefreshToken, _ := strconv.Atoi(timeout.TimeoutRefreshToken)
 
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["company"] = params
-	claims["exp"] = time.Now().Add(time.Hour * 1).Unix()
+	claims["company"] = company
+	claims["exp"] = time.Now().Add(time.Minute * time.Duration(timeoutAccessToken)).Unix()
 	accessToken, err := token.SignedString([]byte("secret"))
 
 	if err != nil {
@@ -100,8 +108,8 @@ func (r *jwtRepo) GenerateToken(params string) (*response.TokenMmksiResponse, er
 
 	refresh := jwt.New(jwt.SigningMethodHS256)
 	rtClaims := refresh.Claims.(jwt.MapClaims)
-	rtClaims["company"] = params
-	rtClaims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+	rtClaims["company"] = company
+	rtClaims["exp"] = time.Now().Add(time.Minute * time.Duration(timeoutRefreshToken)).Unix()
 	refreshToken, err2 := refresh.SignedString([]byte("secret"))
 
 	if err2 != nil {

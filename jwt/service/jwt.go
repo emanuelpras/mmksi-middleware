@@ -10,8 +10,8 @@ import (
 )
 
 type JwtService interface {
-	CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest) (*response.TokenMmksiResponse, error)
-	RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest) (*response.TokenMmksiResponse, error)
+	CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
+	RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, auth request.AuthRequest) error
 }
 
@@ -27,25 +27,33 @@ func NewJwtService(
 	}
 }
 
-func (s *jwtService) CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest) (*response.TokenMmksiResponse, error) {
+func (s *jwtService) CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error) {
 	if err := paramJwt.Validate(); err != nil {
 		return nil, err
 	}
+
 	result, err := s.jwtRepo.CreateToken(request.TokenMmksiRequest{
 		Company: paramJwt.Company,
+	}, repo.Timeout{
+		TimeoutAccessToken:  os.Getenv("ACCESS_TOKEN_TIMEOUT"),
+		TimeoutRefreshToken: os.Getenv("REFRESH_TOKEN_TIMEOUT"),
 	})
+
 	if err != nil {
 		return nil, err
 	}
 	return result, nil
 }
 
-func (s *jwtService) RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest) (*response.TokenMmksiResponse, error) {
+func (s *jwtService) RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error) {
 	if err := paramJwt.Validate(); err != nil {
 		return nil, err
 	}
 	result, err := s.jwtRepo.RefreshToken(request.TokenRefreshRequest{
 		RefreshToken: paramJwt.RefreshToken,
+	}, repo.Timeout{
+		TimeoutAccessToken:  os.Getenv("ACCESS_TOKEN_TIMEOUT"),
+		TimeoutRefreshToken: os.Getenv("REFRESH_TOKEN_TIMEOUT"),
 	})
 
 	if err != nil {
@@ -63,7 +71,7 @@ func (s *jwtService) Auth(gc *gin.Context, auth request.AuthRequest) error {
 		}
 		err := s.jwtRepo.Auth(gc, request.AuthRequest{
 			Auth: auth.Auth,
-		})
+		}, repo.Timeout{})
 		if err != nil {
 			return err
 		}
