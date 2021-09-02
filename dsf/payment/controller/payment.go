@@ -17,6 +17,7 @@ type DsfProgramController interface {
 	GetPackageNames(context *gin.Context)
 	GetCarConditions(context *gin.Context)
 	GetPackages(context *gin.Context)
+	GetUnitByModels(context *gin.Context)
 }
 
 func NewDsfProgramController(
@@ -74,6 +75,22 @@ func (c *dsfProgramController) GetPackages(gc *gin.Context) {
 	}
 
 	res, err := c.dsfProgramService.GetPackages(applicationName, packageRequest)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetUnitByModels(gc *gin.Context) {
+	var applicationName request.HeaderUnitByModelsRequest
+	if err := gc.ShouldBindHeader(&applicationName); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.dsfProgramService.GetUnitByModels(applicationName)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

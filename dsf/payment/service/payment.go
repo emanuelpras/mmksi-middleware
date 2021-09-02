@@ -11,6 +11,7 @@ type DsfProgramService interface {
 	GetPackageNames() (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
+	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 }
 
 type dsfProgramService struct {
@@ -56,6 +57,9 @@ func (s *dsfProgramService) GetCarConditions() (*response.CarConditionResponse, 
 }
 
 func (s *dsfProgramService) GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error) {
+	if err := paramHeader.Validate(); err != nil {
+		return nil, err
+	}
 	if err := reqBody.Validate(); err != nil {
 		return nil, err
 	}
@@ -70,6 +74,22 @@ func (s *dsfProgramService) GetPackages(paramHeader request.HeaderPackageRequest
 		City:         reqBody.City,
 		PackageName:  reqBody.PackageName,
 		CarCondition: reqBody.CarCondition,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *dsfProgramService) GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error) {
+	if err := paramHeader.Validate(); err != nil {
+		return nil, err
+	}
+
+	result, err := s.dsfProgramRepo.GetUnitByModels(request.HeaderUnitByModelsRequest{
+		ApplicationName: paramHeader.ApplicationName,
 	})
 
 	if err != nil {

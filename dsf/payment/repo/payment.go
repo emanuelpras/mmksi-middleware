@@ -19,6 +19,7 @@ type DsfProgramRepo interface {
 	GetPackageNames() (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
+	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -152,5 +153,34 @@ func (r *dsfProgramRepo) GetPackages(paramHeader request.HeaderPackageRequest, r
 	}
 
 	response := new(response.PackageResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *dsfProgramRepo) GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error) {
+
+	url := fmt.Sprintf("%s/models/"+paramHeader.ApplicationName+"/units", r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("ApiKey", r.apiKey)
+	req.Header.Set("Content-Type", "application/json")
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.UnitByModelsResponse)
 	return response, json.Unmarshal(result, response)
 }
