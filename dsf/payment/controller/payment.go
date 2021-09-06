@@ -18,6 +18,7 @@ type DsfProgramController interface {
 	GetCarConditions(context *gin.Context)
 	GetPackages(context *gin.Context)
 	GetUnitByModels(context *gin.Context)
+	GetPaymentTypes(context *gin.Context)
 }
 
 func NewDsfProgramController(
@@ -91,6 +92,17 @@ func (c *dsfProgramController) GetUnitByModels(gc *gin.Context) {
 	}
 
 	res, err := c.dsfProgramService.GetUnitByModels(applicationName)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetPaymentTypes(gc *gin.Context) {
+
+	res, err := c.dsfProgramService.GetPaymentTypes()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -10,16 +10,13 @@ import (
 	"net/http"
 )
 
-type PackageResponseM struct {
-	Data []string `json:"data"`
-}
-
 type DsfProgramRepo interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
 	GetPackageNames() (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
+	GetPaymentTypes() (*response.PaymentTypesResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -182,5 +179,34 @@ func (r *dsfProgramRepo) GetUnitByModels(paramHeader request.HeaderUnitByModelsR
 	}
 
 	response := new(response.UnitByModelsResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *dsfProgramRepo) GetPaymentTypes() (*response.PaymentTypesResponse, error) {
+
+	url := fmt.Sprintf("%s/metadata/paymenttypes", r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("ApiKey", r.apiKey)
+	req.Header.Set("Content-Type", "application/json")
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.PaymentTypesResponse)
 	return response, json.Unmarshal(result, response)
 }

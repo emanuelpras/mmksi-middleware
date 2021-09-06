@@ -12,6 +12,7 @@ type DsfProgramService interface {
 	GetCarConditions() (*response.CarConditionResponse, error)
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
+	GetPaymentTypes() (*response.PaymentTypesResponse, error)
 }
 
 type dsfProgramService struct {
@@ -92,6 +93,16 @@ func (s *dsfProgramService) GetUnitByModels(paramHeader request.HeaderUnitByMode
 		ApplicationName: paramHeader.ApplicationName,
 	})
 
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *dsfProgramService) GetPaymentTypes() (*response.PaymentTypesResponse, error) {
+
+	result, err := s.dsfProgramRepo.GetPaymentTypes()
 	if err != nil {
 		return nil, err
 	}
