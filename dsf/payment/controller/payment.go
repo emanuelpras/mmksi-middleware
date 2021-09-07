@@ -45,8 +45,13 @@ func (c *dsfProgramController) GetAdditionalInsurance(gc *gin.Context) {
 }
 
 func (c *dsfProgramController) GetPackageNames(gc *gin.Context) {
+	var params request.HeaderPackageNameRequest
+	if err := gc.ShouldBindHeader(&params); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	res, err := c.dsfProgramService.GetPackageNames()
+	res, err := c.dsfProgramService.GetPackageNames(params)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
