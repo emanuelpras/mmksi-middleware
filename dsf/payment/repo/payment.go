@@ -42,7 +42,6 @@ func (r *dsfProgramRepo) GetAdditionalInsurance() (*response.AdditionalInsurance
 	}
 
 	req.Header.Set("ApiKey", r.apiKey)
-	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -71,7 +70,6 @@ func (r *dsfProgramRepo) GetPackageNames() (*response.PackageNameResponse, error
 	}
 
 	req.Header.Set("ApiKey", r.apiKey)
-	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -100,7 +98,6 @@ func (r *dsfProgramRepo) GetCarConditions() (*response.CarConditionResponse, err
 	}
 
 	req.Header.Set("ApiKey", r.apiKey)
-	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -133,7 +130,6 @@ func (r *dsfProgramRepo) GetPackages(paramHeader request.HeaderPackageRequest, r
 	}
 
 	req.Header.Set("ApiKey", r.apiKey)
-	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -162,7 +158,6 @@ func (r *dsfProgramRepo) GetUnitByModels(paramHeader request.HeaderUnitByModelsR
 	}
 
 	req.Header.Set("ApiKey", r.apiKey)
-	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -191,7 +186,6 @@ func (r *dsfProgramRepo) GetPaymentTypes() (*response.PaymentTypesResponse, erro
 	}
 
 	req.Header.Set("ApiKey", r.apiKey)
-	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
 		return nil, err
