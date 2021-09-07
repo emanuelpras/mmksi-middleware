@@ -14,6 +14,7 @@ type DsfProgramService interface {
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
 	GetBranchID() (*response.BranchResponse, error)
+	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
 }
 
 type dsfProgramService struct {
@@ -114,6 +115,16 @@ func (s *dsfProgramService) GetPaymentTypes() (*response.PaymentTypesResponse, e
 func (s *dsfProgramService) GetBranchID() (*response.BranchResponse, error) {
 
 	result, err := s.dsfProgramRepo.GetBranchID()
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *dsfProgramService) GetInsuranceTypes() (*response.InsuranceTypesResponse, error) {
+
+	result, err := s.dsfProgramRepo.GetInsuranceTypes()
 	if err != nil {
 		return nil, err
 	}
