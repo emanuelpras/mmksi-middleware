@@ -12,7 +12,7 @@ import (
 
 type DsfProgramRepo interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
-	GetPackageNames() (*response.PackageNameResponse, error)
+	GetPackageNames(params request.HeaderPackageNameRequest) (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
@@ -64,10 +64,15 @@ func (r *dsfProgramRepo) GetAdditionalInsurance() (*response.AdditionalInsurance
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *dsfProgramRepo) GetPackageNames() (*response.PackageNameResponse, error) {
+func (r *dsfProgramRepo) GetPackageNames(params request.HeaderPackageNameRequest) (*response.PackageNameResponse, error) {
 
-	url := fmt.Sprintf("%s/metadata/packagenames", r.dsfProgramServer)
-	req, err := http.NewRequest("GET", url, nil)
+	payload, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/metadata/"+params.ApplicationName+"/packages/"+params.AssetCode+"/"+params.BranchCode, r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, bytes.NewBuffer(payload))
 	if err != nil {
 		return nil, err
 	}
