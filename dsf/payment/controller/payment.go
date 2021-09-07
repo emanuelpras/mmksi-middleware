@@ -20,6 +20,7 @@ type DsfProgramController interface {
 	GetUnitByModels(context *gin.Context)
 	GetPaymentTypes(context *gin.Context)
 	GetVehicleCategory(context *gin.Context)
+	GetBranchID(context *gin.Context)
 }
 
 func NewDsfProgramController(
@@ -114,6 +115,17 @@ func (c *dsfProgramController) GetPaymentTypes(gc *gin.Context) {
 
 func (c *dsfProgramController) GetVehicleCategory(gc *gin.Context) {
 	res, err := c.dsfProgramService.GetVehicleCategory()
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetBranchID(gc *gin.Context) {
+
+	res, err := c.dsfProgramService.GetBranchID()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

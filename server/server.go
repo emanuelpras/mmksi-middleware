@@ -82,6 +82,7 @@ func registerRoute(r *gin.Engine) {
 	r.GET("/dsf/metadata/variant", authController.Auth, dsfProgramController.GetUnitByModels)
 	r.GET("/dsf/metadata/paymentTypes", authController.Auth, dsfProgramController.GetPaymentTypes)
 	r.GET("/dsf/metadata/vehicleCategory", authController.Auth, dsfProgramController.GetVehicleCategory)
+	r.GET("/dsf/metadata/branchID", authController.Auth, dsfProgramController.GetBranchID)
 
 	// mmksi route
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)

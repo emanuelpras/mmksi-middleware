@@ -18,6 +18,7 @@ type DsfProgramRepo interface {
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
 	GetVehicleCategory() (*response.VehicleCategory, error)
+	GetBranchID() (*response.BranchResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -230,5 +231,33 @@ func (r *dsfProgramRepo) GetVehicleCategory() (*response.VehicleCategory, error)
 	}
 
 	response := new(response.VehicleCategory)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *dsfProgramRepo) GetBranchID() (*response.BranchResponse, error) {
+
+	url := fmt.Sprintf("%s/metadata/branches", r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("ApiKey", r.apiKey)
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.BranchResponse)
 	return response, json.Unmarshal(result, response)
 }
