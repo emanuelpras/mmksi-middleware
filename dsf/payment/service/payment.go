@@ -112,7 +112,6 @@ func (s *dsfProgramService) GetPaymentTypes() (*response.PaymentTypesResponse, e
 }
 
 func (s *dsfProgramService) GetVehicleCategory() (*response.VehicleCategory, error) {
-
 	result, err := s.dsfProgramRepo.GetVehicleCategory()
 	if err != nil {
 		return nil, err

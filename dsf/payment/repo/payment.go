@@ -207,9 +207,7 @@ func (r *dsfProgramRepo) GetPaymentTypes() (*response.PaymentTypesResponse, erro
 }
 
 func (r *dsfProgramRepo) GetVehicleCategory() (*response.VehicleCategory, error) {
-	fmt.Println("=========================")
 	url := fmt.Sprintf("%s/metadata/vehiclecategories", r.dsfProgramServer)
-	fmt.Println("asdasdjhasjda ====== ", url)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err

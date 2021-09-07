@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"log"
 	"middleware-mmksi/dsf/payment/service"
 	"middleware-mmksi/dsf/payment/service/request"
 	"net/http"
@@ -114,8 +113,7 @@ func (c *dsfProgramController) GetPaymentTypes(gc *gin.Context) {
 }
 
 func (c *dsfProgramController) GetVehicleCategory(gc *gin.Context) {
-	log.Println("asdasdas")
-	res, err := c.dsfProgramService.GetPaymentTypes()
+	res, err := c.dsfProgramService.GetVehicleCategory()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
