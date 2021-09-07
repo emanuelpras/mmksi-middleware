@@ -15,6 +15,7 @@ type DsfProgramService interface {
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
 	GetBranchID() (*response.BranchResponse, error)
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
+	GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error)
 }
 
 type dsfProgramService struct {
@@ -125,6 +126,24 @@ func (s *dsfProgramService) GetBranchID() (*response.BranchResponse, error) {
 func (s *dsfProgramService) GetInsuranceTypes() (*response.InsuranceTypesResponse, error) {
 
 	result, err := s.dsfProgramRepo.GetInsuranceTypes()
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *dsfProgramService) GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error) {
+	if err := params.Validate(); err != nil {
+		return nil, err
+	}
+
+	result, err := s.dsfProgramRepo.GetInsurance(request.InsuranceRequest{
+		DsfBranchId:       params.DsfBranchId,
+		VehicleCategory:   params.VehicleCategory,
+		InsuranceTypeCode: params.InsuranceTypeCode,
+	})
+
 	if err != nil {
 		return nil, err
 	}

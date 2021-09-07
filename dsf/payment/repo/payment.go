@@ -19,6 +19,7 @@ type DsfProgramRepo interface {
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
 	GetBranchID() (*response.BranchResponse, error)
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
+	GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -260,5 +261,46 @@ func (r *dsfProgramRepo) GetInsuranceTypes() (*response.InsuranceTypesResponse, 
 	}
 
 	response := new(response.InsuranceTypesResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *dsfProgramRepo) GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error) {
+
+	payload, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/rates/insurances", r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	q.Add("DsfBranchId", params.DsfBranchId)
+	q.Add("VehicleCategory", params.VehicleCategory)
+	q.Add("InsuranceTypeCode", params.InsuranceTypeCode)
+	q.Add("CarCondition", params.CarCondition)
+
+	req.URL.RawQuery = q.Encode()
+
+	req.Header.Set("ApiKey", r.apiKey)
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.InsuranceResponse)
 	return response, json.Unmarshal(result, response)
 }
