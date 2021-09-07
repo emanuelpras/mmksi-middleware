@@ -13,6 +13,7 @@ type DsfProgramService interface {
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
+	GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error)
 }
 
 type dsfProgramService struct {
@@ -103,6 +104,24 @@ func (s *dsfProgramService) GetUnitByModels(paramHeader request.HeaderUnitByMode
 func (s *dsfProgramService) GetPaymentTypes() (*response.PaymentTypesResponse, error) {
 
 	result, err := s.dsfProgramRepo.GetPaymentTypes()
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *dsfProgramService) GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error) {
+	if err := params.Validate(); err != nil {
+		return nil, err
+	}
+
+	result, err := s.dsfProgramRepo.GetBrands(request.BrandsRequest{
+		Keyword: params.Keyword,
+		Limit:   params.Limit,
+		Offset:  params.Limit,
+	})
+
 	if err != nil {
 		return nil, err
 	}

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"middleware-mmksi/dsf/payment/response"
 	"middleware-mmksi/dsf/payment/service/request"
 	"net/http"
@@ -17,6 +18,7 @@ type DsfProgramRepo interface {
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
+	GetBrands(paramHs request.BrandsRequest) (*response.BrandsResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -202,5 +204,42 @@ func (r *dsfProgramRepo) GetPaymentTypes() (*response.PaymentTypesResponse, erro
 	}
 
 	response := new(response.PaymentTypesResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *dsfProgramRepo) GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error) {
+	payload, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+	log.Print(params)
+
+	url := fmt.Sprintf("%s/brands", r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	q.Add("keyword", params.Keyword)
+	req.URL.RawQuery = q.Encode()
+
+	req.Header.Set("ApiKey", r.apiKey)
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.BrandsResponse)
 	return response, json.Unmarshal(result, response)
 }

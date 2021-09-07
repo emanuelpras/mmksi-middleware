@@ -19,6 +19,7 @@ type DsfProgramController interface {
 	GetPackages(context *gin.Context)
 	GetUnitByModels(context *gin.Context)
 	GetPaymentTypes(context *gin.Context)
+	GetBrands(context *gin.Context)
 }
 
 func NewDsfProgramController(
@@ -103,6 +104,22 @@ func (c *dsfProgramController) GetUnitByModels(gc *gin.Context) {
 func (c *dsfProgramController) GetPaymentTypes(gc *gin.Context) {
 
 	res, err := c.dsfProgramService.GetPaymentTypes()
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetBrands(gc *gin.Context) {
+	var brandRequest request.BrandsRequest
+	if err := gc.ShouldBindQuery(&brandRequest); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.dsfProgramService.GetBrands(brandRequest)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
