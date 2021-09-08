@@ -12,7 +12,7 @@ import (
 
 type DsfProgramRepo interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
-	GetPackageNames() (*response.PackageNameResponse, error)
+	GetPackageNames(params request.HeaderPackageNameRequest, queryParams request.ParamsPackageNameRequest) (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
@@ -21,6 +21,7 @@ type DsfProgramRepo interface {
 	GetBranchID() (*response.BranchResponse, error)
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
 	GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error)
+	GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -65,13 +66,22 @@ func (r *dsfProgramRepo) GetAdditionalInsurance() (*response.AdditionalInsurance
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *dsfProgramRepo) GetPackageNames() (*response.PackageNameResponse, error) {
+func (r *dsfProgramRepo) GetPackageNames(params request.HeaderPackageNameRequest, queryParams request.ParamsPackageNameRequest) (*response.PackageNameResponse, error) {
 
-	url := fmt.Sprintf("%s/metadata/packagenames", r.dsfProgramServer)
-	req, err := http.NewRequest("GET", url, nil)
+	payload, err := json.Marshal(params)
 	if err != nil {
 		return nil, err
 	}
+
+	url := fmt.Sprintf("%s/metadata/"+params.ApplicationName+"/packages/"+params.AssetCode+"/"+params.BranchCode, r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	q.Add("carCondition", queryParams.CarCondition)
+	req.URL.RawQuery = q.Encode()
 
 	req.Header.Set("ApiKey", r.apiKey)
 	res, err := r.httpClient.Do(req)
@@ -325,5 +335,37 @@ func (r *dsfProgramRepo) GetInsurance(params request.InsuranceRequest) (*respons
 	}
 
 	response := new(response.InsuranceResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *dsfProgramRepo) GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error) {
+	payload, err := json.Marshal(reqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/interceptors/"+paramHeader.ApplicationName+"/car", r.dsfProgramServer)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("ApiKey", r.apiKey)
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.AssetCodeResponse)
 	return response, json.Unmarshal(result, response)
 }
