@@ -8,7 +8,7 @@ import (
 
 type DsfProgramService interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
-	GetPackageNames(params request.HeaderPackageNameRequest) (*response.PackageNameResponse, error)
+	GetPackageNames(params request.HeaderPackageNameRequest, queryParams request.ParamsPackageNameRequest) (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
@@ -40,7 +40,7 @@ func (s *dsfProgramService) GetAdditionalInsurance() (*response.AdditionalInsura
 	return result, nil
 }
 
-func (s *dsfProgramService) GetPackageNames(params request.HeaderPackageNameRequest) (*response.PackageNameResponse, error) {
+func (s *dsfProgramService) GetPackageNames(params request.HeaderPackageNameRequest, queryParams request.ParamsPackageNameRequest) (*response.PackageNameResponse, error) {
 
 	if err := params.Validate(); err != nil {
 		return nil, err
@@ -50,6 +50,8 @@ func (s *dsfProgramService) GetPackageNames(params request.HeaderPackageNameRequ
 		ApplicationName: params.ApplicationName,
 		AssetCode:       params.AssetCode,
 		BranchCode:      params.BranchCode,
+	}, request.ParamsPackageNameRequest{
+		CarCondition: queryParams.CarCondition,
 	})
 	if err != nil {
 		return nil, err

@@ -12,7 +12,7 @@ import (
 
 type DsfProgramRepo interface {
 	GetAdditionalInsurance() (*response.AdditionalInsuranceResponse, error)
-	GetPackageNames(params request.HeaderPackageNameRequest) (*response.PackageNameResponse, error)
+	GetPackageNames(params request.HeaderPackageNameRequest, queryParams request.ParamsPackageNameRequest) (*response.PackageNameResponse, error)
 	GetCarConditions() (*response.CarConditionResponse, error)
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
@@ -64,7 +64,7 @@ func (r *dsfProgramRepo) GetAdditionalInsurance() (*response.AdditionalInsurance
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *dsfProgramRepo) GetPackageNames(params request.HeaderPackageNameRequest) (*response.PackageNameResponse, error) {
+func (r *dsfProgramRepo) GetPackageNames(params request.HeaderPackageNameRequest, queryParams request.ParamsPackageNameRequest) (*response.PackageNameResponse, error) {
 
 	payload, err := json.Marshal(params)
 	if err != nil {
@@ -76,6 +76,10 @@ func (r *dsfProgramRepo) GetPackageNames(params request.HeaderPackageNameRequest
 	if err != nil {
 		return nil, err
 	}
+
+	q := req.URL.Query()
+	q.Add("carCondition", queryParams.CarCondition)
+	req.URL.RawQuery = q.Encode()
 
 	req.Header.Set("ApiKey", r.apiKey)
 	res, err := r.httpClient.Do(req)

@@ -49,8 +49,13 @@ func (c *dsfProgramController) GetPackageNames(gc *gin.Context) {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	var queryParams request.ParamsPackageNameRequest
+	if err := gc.ShouldBindQuery(&queryParams); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	res, err := c.dsfProgramService.GetPackageNames(params)
+	res, err := c.dsfProgramService.GetPackageNames(params, queryParams)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
