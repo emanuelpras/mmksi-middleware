@@ -20,6 +20,7 @@ type DsfProgramRepo interface {
 	GetBranchID() (*response.BranchResponse, error)
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
 	GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error)
+	GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -311,5 +312,37 @@ func (r *dsfProgramRepo) GetInsurance(params request.InsuranceRequest) (*respons
 	}
 
 	response := new(response.InsuranceResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *dsfProgramRepo) GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error) {
+	payload, err := json.Marshal(reqBody)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/interceptors/"+paramHeader.ApplicationName+"/car", r.dsfProgramServer)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("ApiKey", r.apiKey)
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.AssetCodeResponse)
 	return response, json.Unmarshal(result, response)
 }

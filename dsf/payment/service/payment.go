@@ -16,6 +16,7 @@ type DsfProgramService interface {
 	GetBranchID() (*response.BranchResponse, error)
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
 	GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error)
+	GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error)
 }
 
 type dsfProgramService struct {
@@ -158,5 +159,29 @@ func (s *dsfProgramService) GetInsurance(params request.InsuranceRequest) (*resp
 		return nil, err
 	}
 
+	return result, nil
+}
+
+func (s *dsfProgramService) GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error) {
+	if err := paramHeader.Validate(); err != nil {
+		return nil, err
+	}
+	if err := reqBody.Validate(); err != nil {
+		return nil, err
+	}
+
+	result, err := s.dsfProgramRepo.GetAssetCode(request.HeaderAssetCodeRequest{
+		ApplicationName: paramHeader.ApplicationName,
+	}, request.AssetCodeRequest{
+		VariantName:      reqBody.VariantName,
+		CarCondition:     reqBody.CarCondition,
+		ManufacturedYear: reqBody.ManufacturedYear,
+		ModelName:        reqBody.ModelName,
+		BrandName:        reqBody.BrandName,
+	})
+
+	if err != nil {
+		return nil, err
+	}
 	return result, nil
 }

@@ -22,6 +22,7 @@ type DsfProgramController interface {
 	GetBranchID(context *gin.Context)
 	GetInsuranceTypes(context *gin.Context)
 	GetInsurance(context *gin.Context)
+	GetAssetCode(context *gin.Context)
 }
 
 func NewDsfProgramController(
@@ -154,6 +155,28 @@ func (c *dsfProgramController) GetInsurance(gc *gin.Context) {
 	}
 
 	res, err := c.dsfProgramService.GetInsurance(params)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetAssetCode(gc *gin.Context) {
+	var applicationName request.HeaderAssetCodeRequest
+	if err := gc.ShouldBindHeader(&applicationName); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var assetCodeRequest request.AssetCodeRequest
+	if err := gc.ShouldBindJSON(&assetCodeRequest); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.dsfProgramService.GetAssetCode(applicationName, assetCodeRequest)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
