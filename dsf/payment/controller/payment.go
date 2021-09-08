@@ -20,6 +20,11 @@ type DsfProgramController interface {
 	GetUnitByModels(context *gin.Context)
 	GetPaymentTypes(context *gin.Context)
 	GetBrands(context *gin.Context)
+	GetVehicleCategory(context *gin.Context)
+	GetBranchID(context *gin.Context)
+	GetInsuranceTypes(context *gin.Context)
+	GetInsurance(context *gin.Context)
+	GetAssetCode(context *gin.Context)
 }
 
 func NewDsfProgramController(
@@ -42,8 +47,18 @@ func (c *dsfProgramController) GetAdditionalInsurance(gc *gin.Context) {
 }
 
 func (c *dsfProgramController) GetPackageNames(gc *gin.Context) {
+	var params request.HeaderPackageNameRequest
+	if err := gc.ShouldBindHeader(&params); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	var queryParams request.ParamsPackageNameRequest
+	if err := gc.ShouldBindQuery(&queryParams); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-	res, err := c.dsfProgramService.GetPackageNames()
+	res, err := c.dsfProgramService.GetPackageNames(params, queryParams)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -118,8 +133,77 @@ func (c *dsfProgramController) GetBrands(gc *gin.Context) {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	res, err := c.dsfProgramService.GetBrands(brandRequest)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetVehicleCategory(gc *gin.Context) {
+	res, err := c.dsfProgramService.GetVehicleCategory()
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetBranchID(gc *gin.Context) {
+
+	res, err := c.dsfProgramService.GetBranchID()
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetInsuranceTypes(gc *gin.Context) {
+
+	res, err := c.dsfProgramService.GetInsuranceTypes()
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetInsurance(gc *gin.Context) {
+	var params request.InsuranceRequest
+	if err := gc.ShouldBindQuery(&params); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.dsfProgramService.GetInsurance(params)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetAssetCode(gc *gin.Context) {
+	var applicationName request.HeaderAssetCodeRequest
+	if err := gc.ShouldBindHeader(&applicationName); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var assetCodeRequest request.AssetCodeRequest
+	if err := gc.ShouldBindJSON(&assetCodeRequest); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.dsfProgramService.GetAssetCode(applicationName, assetCodeRequest)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
