@@ -9,6 +9,7 @@ import (
 	"middleware-mmksi/dsf/payment/response"
 	"middleware-mmksi/dsf/payment/service/request"
 	"net/http"
+	"strconv"
 )
 
 type DsfProgramRepo interface {
@@ -222,6 +223,8 @@ func (r *dsfProgramRepo) GetBrands(params request.BrandsRequest) (*response.Bran
 
 	q := req.URL.Query()
 	q.Add("keyword", params.Keyword)
+	q.Add("limit", strconv.Itoa(params.Limit))
+	q.Add("offset", strconv.Itoa(params.Limit))
 	req.URL.RawQuery = q.Encode()
 
 	req.Header.Set("ApiKey", r.apiKey)
