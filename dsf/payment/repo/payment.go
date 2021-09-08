@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"middleware-mmksi/dsf/payment/response"
 	"middleware-mmksi/dsf/payment/service/request"
 	"net/http"
@@ -209,14 +208,9 @@ func (r *dsfProgramRepo) GetPaymentTypes() (*response.PaymentTypesResponse, erro
 }
 
 func (r *dsfProgramRepo) GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error) {
-	payload, err := json.Marshal(params)
-	if err != nil {
-		return nil, err
-	}
-	log.Print(params)
 
 	url := fmt.Sprintf("%s/brands", r.dsfProgramServer)
-	req, err := http.NewRequest("GET", url, bytes.NewBuffer(payload))
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -224,7 +218,12 @@ func (r *dsfProgramRepo) GetBrands(params request.BrandsRequest) (*response.Bran
 	q := req.URL.Query()
 	q.Add("keyword", params.Keyword)
 	q.Add("limit", strconv.Itoa(params.Limit))
-	q.Add("offset", strconv.Itoa(params.Limit))
+	q.Add("offset", strconv.Itoa(params.Offset))
+
+	if params.Limit == 0 {
+		q.Set("limit", "10")
+	}
+
 	req.URL.RawQuery = q.Encode()
 
 	req.Header.Set("ApiKey", r.apiKey)

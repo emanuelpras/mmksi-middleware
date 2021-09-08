@@ -119,7 +119,7 @@ func (s *dsfProgramService) GetBrands(params request.BrandsRequest) (*response.B
 	result, err := s.dsfProgramRepo.GetBrands(request.BrandsRequest{
 		Keyword: params.Keyword,
 		Limit:   params.Limit,
-		Offset:  params.Limit,
+		Offset:  params.Offset,
 	})
 
 	if err != nil {
