@@ -12,6 +12,10 @@ type HeaderPackageNameRequest struct {
 	BranchCode      string `json:"branchCode"`
 }
 
+type ParamsPackageNameRequest struct {
+	CarCondition string `form:"carCondition"`
+}
+
 func (f *HeaderPackageNameRequest) Validate() error {
 	if err := validation.Validate(f.ApplicationName, validation.Required); err != nil {
 		return &response.ErrorResponse{
