@@ -266,13 +266,8 @@ func (r *dsfProgramRepo) GetInsuranceTypes() (*response.InsuranceTypesResponse, 
 
 func (r *dsfProgramRepo) GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error) {
 
-	payload, err := json.Marshal(params)
-	if err != nil {
-		return nil, err
-	}
-
 	url := fmt.Sprintf("%s/rates/insurances", r.dsfProgramServer)
-	req, err := http.NewRequest("GET", url, bytes.NewBuffer(payload))
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}

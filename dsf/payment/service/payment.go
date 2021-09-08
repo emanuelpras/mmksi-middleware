@@ -142,6 +142,7 @@ func (s *dsfProgramService) GetInsurance(params request.InsuranceRequest) (*resp
 		DsfBranchId:       params.DsfBranchId,
 		VehicleCategory:   params.VehicleCategory,
 		InsuranceTypeCode: params.InsuranceTypeCode,
+		CarCondition:      params.CarCondition,
 	})
 
 	if err != nil {

@@ -24,7 +24,7 @@ type additionalRates struct {
 }
 
 type loadingRate struct {
-	AgeInYears       int64
+	AgeInYears       *int
 	RateInPercentage json.Number
 }
 
