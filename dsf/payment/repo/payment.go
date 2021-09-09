@@ -428,7 +428,7 @@ func (r *dsfProgramRepo) GetProvinces(params request.ProvincesRequest) (*respons
 	q.Add("limit", strconv.Itoa(params.Limit))
 
 	if params.Limit == 0 {
-		q.Set("limit", "10")
+		q.Set("limit", "50")
 	}
 
 	req.URL.RawQuery = q.Encode()
