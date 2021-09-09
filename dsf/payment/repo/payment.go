@@ -18,11 +18,13 @@ type DsfProgramRepo interface {
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
+	GetBrands(paramHs request.BrandsRequest) (*response.BrandsResponse, error)
 	GetVehicleCategory() (*response.VehicleCategory, error)
 	GetBranchID() (*response.BranchResponse, error)
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
 	GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error)
 	GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error)
+	GetProvinces(params request.ProvincesRequest) (*response.ProvincesResponse, error)
 	GetCities(params request.CitiesRequest) (*response.CitiesResponse, error)
 }
 
@@ -221,6 +223,43 @@ func (r *dsfProgramRepo) GetPaymentTypes() (*response.PaymentTypesResponse, erro
 	return response, json.Unmarshal(result, response)
 }
 
+func (r *dsfProgramRepo) GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error) {
+
+	url := fmt.Sprintf("%s/brands", r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	q.Add("keyword", params.Keyword)
+	q.Add("limit", strconv.Itoa(params.Limit))
+	q.Add("offset", strconv.Itoa(params.Offset))
+
+	if params.Limit == 0 {
+		q.Set("limit", "10")
+	}
+	req.URL.RawQuery = q.Encode()
+
+	req.Header.Set("ApiKey", r.apiKey)
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+	response := new(response.BrandsResponse)
+	return response, json.Unmarshal(result, response)
+}
+
 func (r *dsfProgramRepo) GetVehicleCategory() (*response.VehicleCategory, error) {
 	url := fmt.Sprintf("%s/metadata/vehiclecategories", r.dsfProgramServer)
 	req, err := http.NewRequest("GET", url, nil)
@@ -372,6 +411,49 @@ func (r *dsfProgramRepo) GetAssetCode(paramHeader request.HeaderAssetCodeRequest
 	return response, json.Unmarshal(result, response)
 }
 
+func (r *dsfProgramRepo) GetProvinces(params request.ProvincesRequest) (*response.ProvincesResponse, error) {
+	payload, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/location/provinces", r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	q := req.URL.Query()
+	q.Add("search", params.Search)
+	q.Add("offset", strconv.Itoa(params.Offset))
+	q.Add("limit", strconv.Itoa(params.Limit))
+
+	if params.Limit == 0 {
+		q.Set("limit", "50")
+	}
+
+	req.URL.RawQuery = q.Encode()
+
+	req.Header.Set("ApiKey", r.apiKey)
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.ProvincesResponse)
+	return response, json.Unmarshal(result, response)
+}
+
 func (r *dsfProgramRepo) GetCities(params request.CitiesRequest) (*response.CitiesResponse, error) {
 
 	url := fmt.Sprintf("%s/location/cities", r.dsfProgramServer)
@@ -392,7 +474,7 @@ func (r *dsfProgramRepo) GetCities(params request.CitiesRequest) (*response.Citi
 	q.Add("limit", strconv.Itoa(params.Limit))
 
 	if params.Limit == 0 {
-		q.Set("limit", "10")
+		q.Set("limit", "50")
 	}
 
 	req.URL.RawQuery = q.Encode()

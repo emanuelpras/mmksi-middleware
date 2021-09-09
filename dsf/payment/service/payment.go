@@ -13,11 +13,13 @@ type DsfProgramService interface {
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
+	GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error)
 	GetVehicleCategory() (*response.VehicleCategory, error)
 	GetBranchID() (*response.BranchResponse, error)
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
 	GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error)
 	GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error)
+	GetProvinces(params request.ProvincesRequest) (*response.ProvincesResponse, error)
 	GetCities(params request.CitiesRequest) (*response.CitiesResponse, error)
 }
 
@@ -126,6 +128,23 @@ func (s *dsfProgramService) GetPaymentTypes() (*response.PaymentTypesResponse, e
 	return result, nil
 }
 
+func (s *dsfProgramService) GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error) {
+	if err := params.Validate(); err != nil {
+		return nil, err
+	}
+	result, err := s.dsfProgramRepo.GetBrands(request.BrandsRequest{
+		Keyword: params.Keyword,
+		Limit:   params.Limit,
+		Offset:  params.Offset,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
 func (s *dsfProgramService) GetVehicleCategory() (*response.VehicleCategory, error) {
 	result, err := s.dsfProgramRepo.GetVehicleCategory()
 	if err != nil {
@@ -195,6 +214,25 @@ func (s *dsfProgramService) GetAssetCode(paramHeader request.HeaderAssetCodeRequ
 	if err != nil {
 		return nil, err
 	}
+	return result, nil
+}
+
+func (s *dsfProgramService) GetProvinces(params request.ProvincesRequest) (*response.ProvincesResponse, error) {
+
+	if err := params.Validate(); err != nil {
+		return nil, err
+	}
+
+	result, err := s.dsfProgramRepo.GetProvinces(request.ProvincesRequest{
+		Search: params.Search,
+		Offset: params.Offset,
+		Limit:  params.Limit,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
 	return result, nil
 }
 

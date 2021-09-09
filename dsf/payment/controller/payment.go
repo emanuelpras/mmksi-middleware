@@ -19,11 +19,13 @@ type DsfProgramController interface {
 	GetPackages(context *gin.Context)
 	GetUnitByModels(context *gin.Context)
 	GetPaymentTypes(context *gin.Context)
+	GetBrands(context *gin.Context)
 	GetVehicleCategory(context *gin.Context)
 	GetBranchID(context *gin.Context)
 	GetInsuranceTypes(context *gin.Context)
 	GetInsurance(context *gin.Context)
 	GetAssetCode(context *gin.Context)
+	GetProvinces(context *gin.Context)
 	GetCities(context *gin.Context)
 }
 
@@ -127,6 +129,21 @@ func (c *dsfProgramController) GetPaymentTypes(gc *gin.Context) {
 	gc.JSON(http.StatusOK, res)
 }
 
+func (c *dsfProgramController) GetBrands(gc *gin.Context) {
+	var brandRequest request.BrandsRequest
+	if err := gc.ShouldBindQuery(&brandRequest); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	res, err := c.dsfProgramService.GetBrands(brandRequest)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
 func (c *dsfProgramController) GetVehicleCategory(gc *gin.Context) {
 	res, err := c.dsfProgramService.GetVehicleCategory()
 	if err != nil {
@@ -189,6 +206,22 @@ func (c *dsfProgramController) GetAssetCode(gc *gin.Context) {
 	}
 
 	res, err := c.dsfProgramService.GetAssetCode(applicationName, assetCodeRequest)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetProvinces(gc *gin.Context) {
+	var params request.ProvincesRequest
+	if err := gc.ShouldBindQuery(&params); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.dsfProgramService.GetProvinces(params)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
