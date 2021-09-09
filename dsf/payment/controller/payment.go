@@ -24,6 +24,7 @@ type DsfProgramController interface {
 	GetInsuranceTypes(context *gin.Context)
 	GetInsurance(context *gin.Context)
 	GetAssetCode(context *gin.Context)
+	GetCities(context *gin.Context)
 }
 
 func NewDsfProgramController(
@@ -194,4 +195,21 @@ func (c *dsfProgramController) GetAssetCode(gc *gin.Context) {
 	}
 
 	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetCities(gc *gin.Context) {
+	var params request.CitiesRequest
+	if err := gc.ShouldBindQuery(&params); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.dsfProgramService.GetCities(params)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+
 }

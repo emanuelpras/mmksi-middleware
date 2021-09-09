@@ -18,6 +18,7 @@ type DsfProgramService interface {
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
 	GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error)
 	GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error)
+	GetCities(params request.CitiesRequest) (*response.CitiesResponse, error)
 }
 
 type dsfProgramService struct {
@@ -194,5 +195,25 @@ func (s *dsfProgramService) GetAssetCode(paramHeader request.HeaderAssetCodeRequ
 	if err != nil {
 		return nil, err
 	}
+	return result, nil
+}
+
+func (s *dsfProgramService) GetCities(params request.CitiesRequest) (*response.CitiesResponse, error) {
+
+	if err := params.Validate(); err != nil {
+		return nil, err
+	}
+
+	result, err := s.dsfProgramRepo.GetCities(request.CitiesRequest{
+		Search:       params.Search,
+		ProvinceCode: params.ProvinceCode,
+		Offset:       params.Offset,
+		Limit:        params.Limit,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
 	return result, nil
 }

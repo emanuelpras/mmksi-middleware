@@ -8,6 +8,7 @@ import (
 	"middleware-mmksi/dsf/payment/response"
 	"middleware-mmksi/dsf/payment/service/request"
 	"net/http"
+	"strconv"
 )
 
 type DsfProgramRepo interface {
@@ -22,6 +23,7 @@ type DsfProgramRepo interface {
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
 	GetInsurance(params request.InsuranceRequest) (*response.InsuranceResponse, error)
 	GetAssetCode(paramHeader request.HeaderAssetCodeRequest, reqBody request.AssetCodeRequest) (*response.AssetCodeResponse, error)
+	GetCities(params request.CitiesRequest) (*response.CitiesResponse, error)
 }
 
 type dsfProgramRepo struct {
@@ -367,5 +369,53 @@ func (r *dsfProgramRepo) GetAssetCode(paramHeader request.HeaderAssetCodeRequest
 	}
 
 	response := new(response.AssetCodeResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *dsfProgramRepo) GetCities(params request.CitiesRequest) (*response.CitiesResponse, error) {
+
+	url := fmt.Sprintf("%s/location/cities", r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+	q := req.URL.Query()
+
+	if params.Search != "" {
+		q.Set("search", params.Search)
+	}
+	if params.ProvinceCode != "" {
+		q.Set("province_code", params.ProvinceCode)
+	}
+
+	q.Add("offset", strconv.Itoa(params.Offset))
+	q.Add("limit", strconv.Itoa(params.Limit))
+
+	if params.Limit == 0 {
+		q.Set("limit", "10")
+	}
+
+	req.URL.RawQuery = q.Encode()
+
+	req.Header.Set("ApiKey", r.apiKey)
+
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.CitiesResponse)
+
 	return response, json.Unmarshal(result, response)
 }
