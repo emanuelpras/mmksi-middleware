@@ -9,5 +9,4 @@ require (
 	github.com/gin-gonic/gin v1.7.3
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
 	github.com/joho/godotenv v1.3.0
-	golang.org/x/text v0.3.2
 )
