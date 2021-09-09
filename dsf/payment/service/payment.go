@@ -13,6 +13,7 @@ type DsfProgramService interface {
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
+	GetModels(params request.ModelsRequest) (*response.ModelsResponse, error)
 	GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error)
 	GetVehicleCategory() (*response.VehicleCategory, error)
 	GetBranchID() (*response.BranchResponse, error)
@@ -121,6 +122,21 @@ func (s *dsfProgramService) GetUnitByModels(paramHeader request.HeaderUnitByMode
 func (s *dsfProgramService) GetPaymentTypes() (*response.PaymentTypesResponse, error) {
 
 	result, err := s.dsfProgramRepo.GetPaymentTypes()
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *dsfProgramService) GetModels(params request.ModelsRequest) (*response.ModelsResponse, error) {
+	if err := params.Validate(); err != nil {
+		return nil, err
+	}
+	result, err := s.dsfProgramRepo.GetModels(request.ModelsRequest{
+		Brand: params.Brand,
+	})
+
 	if err != nil {
 		return nil, err
 	}

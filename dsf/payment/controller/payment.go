@@ -20,6 +20,7 @@ type DsfProgramController interface {
 	GetUnitByModels(context *gin.Context)
 	GetPaymentTypes(context *gin.Context)
 	GetBrands(context *gin.Context)
+	GetModels(context *gin.Context)
 	GetVehicleCategory(context *gin.Context)
 	GetBranchID(context *gin.Context)
 	GetInsuranceTypes(context *gin.Context)
@@ -126,6 +127,20 @@ func (c *dsfProgramController) GetPaymentTypes(gc *gin.Context) {
 		return
 	}
 
+	gc.JSON(http.StatusOK, res)
+}
+
+func (c *dsfProgramController) GetModels(gc *gin.Context) {
+	var params request.ModelsRequest
+	if err := gc.ShouldBindQuery(&params); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	res, err := c.dsfProgramService.GetModels(params)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	gc.JSON(http.StatusOK, res)
 }
 

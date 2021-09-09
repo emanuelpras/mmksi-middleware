@@ -18,7 +18,8 @@ type DsfProgramRepo interface {
 	GetPackages(paramHeader request.HeaderPackageRequest, reqBody request.PackageRequest) (*response.PackageResponse, error)
 	GetUnitByModels(paramHeader request.HeaderUnitByModelsRequest) (*response.UnitByModelsResponse, error)
 	GetPaymentTypes() (*response.PaymentTypesResponse, error)
-	GetBrands(paramHs request.BrandsRequest) (*response.BrandsResponse, error)
+	GetModels(params request.ModelsRequest) (*response.ModelsResponse, error)
+	GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error)
 	GetVehicleCategory() (*response.VehicleCategory, error)
 	GetBranchID() (*response.BranchResponse, error)
 	GetInsuranceTypes() (*response.InsuranceTypesResponse, error)
@@ -223,6 +224,52 @@ func (r *dsfProgramRepo) GetPaymentTypes() (*response.PaymentTypesResponse, erro
 	return response, json.Unmarshal(result, response)
 }
 
+func (r *dsfProgramRepo) GetModels(params request.ModelsRequest) (*response.ModelsResponse, error) {
+
+	url := fmt.Sprintf("%s/find/models", r.dsfProgramServer)
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+	if params.Brand != "" {
+		q := req.URL.Query()
+		q.Add("brand", params.Brand)
+		req.URL.RawQuery = q.Encode()
+	}
+
+	req.Header.Set("ApiKey", r.apiKey)
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("dsf: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	respons := new(response.ModelsResponse)
+	erRespons, er := respons, json.Unmarshal(result, respons)
+	if erRespons.RecordCount == 0 {
+		return nil, &response.ErrorResponse{
+			ErrorID: 400,
+			Msg: map[string]string{
+				"en": "data not found",
+				"id": "data tidak ditemukan",
+			},
+		}
+	}
+	if er != nil {
+		return nil, er
+	}
+	return respons, json.Unmarshal(result, respons)
+}
+
 func (r *dsfProgramRepo) GetBrands(params request.BrandsRequest) (*response.BrandsResponse, error) {
 
 	url := fmt.Sprintf("%s/brands", r.dsfProgramServer)
@@ -256,6 +303,7 @@ func (r *dsfProgramRepo) GetBrands(params request.BrandsRequest) (*response.Bran
 	if err != nil {
 		return nil, err
 	}
+
 	response := new(response.BrandsResponse)
 	return response, json.Unmarshal(result, response)
 }
