@@ -138,7 +138,7 @@ func (c *dsfProgramController) GetModels(gc *gin.Context) {
 	}
 	res, err := c.dsfProgramService.GetModels(params)
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
 	gc.JSON(http.StatusOK, res)
