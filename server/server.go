@@ -6,7 +6,8 @@ import (
 	"os"
 
 	mrpControllers "middleware-mmksi/dsf/mrp/controller"
-	dsfProgramControllers "middleware-mmksi/dsf/payment/controller"
+	dsfPaymentControllers "middleware-mmksi/dsf/payment/controller"
+	dsfProgramControllers "middleware-mmksi/dsf/program/controller"
 	jwtControllers "middleware-mmksi/jwt/controller"
 	mmksiControllers "middleware-mmksi/mmksi/controller"
 
@@ -63,6 +64,7 @@ func registerRoute(r *gin.Engine) {
 		tokenController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideTokenService())
 		mmksiController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideMmksiService())
 		dsfProgramController dsfProgramControllers.DsfProgramController = dsfProgramControllers.NewDsfProgramController(util.ProvideDsfProgramService())
+		dsfPaymentController dsfPaymentControllers.DsfPaymentController = dsfPaymentControllers.NewDsfPaymentController(util.ProvideDsfPaymentService())
 	)
 
 	// token route
@@ -79,7 +81,7 @@ func registerRoute(r *gin.Engine) {
 	r.GET("/dsf/metadata/packageNames", authController.Auth, dsfProgramController.GetPackageNames)
 	r.GET("/dsf/metadata/carConditions", authController.Auth, dsfProgramController.GetCarConditions)
 	r.POST("/dsf/metadata/packages", authController.Auth, dsfProgramController.GetPackages)
-	r.GET("/dsf/metadata/variant", authController.Auth, dsfProgramController.GetUnitByModels)
+	r.GET("/dsf/metadata/variant", authController.Auth, dsfProgramController.GetVariants)
 	r.GET("/dsf/metadata/paymentTypes", authController.Auth, dsfProgramController.GetPaymentTypes)
 	r.GET("/dsf/metadata/brands", authController.Auth, dsfProgramController.GetBrands)
 	r.GET("/dsf/metadata/models", authController.Auth, dsfProgramController.GetModels)
@@ -90,6 +92,9 @@ func registerRoute(r *gin.Engine) {
 	r.POST("/dsf/metadata/assetCode", authController.Auth, dsfProgramController.GetAssetCode)
 	r.GET("/dsf/metadata/provinces", authController.Auth, dsfProgramController.GetProvinces)
 	r.GET("/dsf/metadata/cities", authController.Auth, dsfProgramController.GetCities)
+
+	// calculator
+	r.POST("/dsf/calculator/perTenor", authController.Auth, dsfPaymentController.GetTenor)
 
 	// mmksi route
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)

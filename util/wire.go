@@ -10,8 +10,10 @@ import (
 	mrpController "middleware-mmksi/dsf/mrp/controller"
 	mrpRepository "middleware-mmksi/dsf/mrp/repo"
 	mrpService "middleware-mmksi/dsf/mrp/service"
-	dsfProgramRepository "middleware-mmksi/dsf/payment/repo"
-	dsfProgramService "middleware-mmksi/dsf/payment/service"
+	dsfPaymentRepository "middleware-mmksi/dsf/payment/repo"
+	dsfPaymentService "middleware-mmksi/dsf/payment/service"
+	dsfProgramRepository "middleware-mmksi/dsf/program/repo"
+	dsfProgramService "middleware-mmksi/dsf/program/service"
 	jwtRepository "middleware-mmksi/jwt/repo"
 	jwtService "middleware-mmksi/jwt/service"
 	mmksiRepository "middleware-mmksi/mmksi/repo"
@@ -64,6 +66,14 @@ func ProvideDsfProgramService() dsfProgramService.DsfProgramService {
 
 func ProvideDsfProgramRepo() dsfProgramRepository.DsfProgramRepo {
 	return dsfProgramRepository.NewDsfProgramRepo(os.Getenv("SERVER_DSF_PAYMENT"), os.Getenv("APIKey_DSF_PAYMENT"), ProvideHttpClient())
+}
+
+func ProvideDsfPaymentService() dsfPaymentService.DsfPaymentService {
+	return dsfPaymentService.NewDsfPaymentService(ProvideDsfPaymentRepo())
+}
+
+func ProvideDsfPaymentRepo() dsfPaymentRepository.DsfPaymentRepo {
+	return dsfPaymentRepository.NewDsfPaymentRepo(os.Getenv("SERVER_DSF_PAYMENT"), os.Getenv("APIKey_DSF_PAYMENT"), ProvideHttpClient())
 }
 
 func ProvideHttpClient() *http.Client {
