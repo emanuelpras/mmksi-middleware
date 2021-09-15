@@ -95,6 +95,7 @@ func registerRoute(r *gin.Engine) {
 
 	// calculator
 	r.POST("/dsf/calculator/perTenor", authController.Auth, dsfPaymentController.GetTenor)
+	r.POST("/dsf/calculator/allTenors", authController.Auth, dsfPaymentController.GetAllTenor)
 
 	// mmksi route
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
