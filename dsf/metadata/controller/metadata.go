@@ -200,7 +200,7 @@ func (c *dsfProgramController) GetInsurance(gc *gin.Context) {
 
 	res, err := c.dsfProgramService.GetInsurance(params)
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
