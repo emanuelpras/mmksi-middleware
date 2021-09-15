@@ -1,7 +1,7 @@
 package request
 
 import (
-	"middleware-mmksi/dsf/mrp/response"
+	"middleware-mmksi/dsf/calculator/response"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 )

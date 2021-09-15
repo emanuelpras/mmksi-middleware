@@ -1,9 +1,9 @@
 package service
 
 import (
-	"middleware-mmksi/dsf/payment/repo"
-	"middleware-mmksi/dsf/payment/response"
-	"middleware-mmksi/dsf/payment/service/request"
+	"middleware-mmksi/dsf/calculator/repo"
+	"middleware-mmksi/dsf/calculator/response"
+	"middleware-mmksi/dsf/calculator/service/request"
 )
 
 type DsfPaymentService interface {

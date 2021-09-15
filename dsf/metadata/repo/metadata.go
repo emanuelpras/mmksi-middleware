@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"middleware-mmksi/dsf/program/response"
-	"middleware-mmksi/dsf/program/service/request"
+	"middleware-mmksi/dsf/metadata/response"
+	"middleware-mmksi/dsf/metadata/service/request"
 	"net/http"
 	"strconv"
 )

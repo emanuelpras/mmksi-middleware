@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"middleware-mmksi/dsf/payment/service"
-	"middleware-mmksi/dsf/payment/service/request"
+	"middleware-mmksi/dsf/calculator/service"
+	"middleware-mmksi/dsf/calculator/service/request"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

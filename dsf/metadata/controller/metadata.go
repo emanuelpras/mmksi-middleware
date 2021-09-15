@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"middleware-mmksi/dsf/program/service"
-	"middleware-mmksi/dsf/program/service/request"
+	"middleware-mmksi/dsf/metadata/service"
+	"middleware-mmksi/dsf/metadata/service/request"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

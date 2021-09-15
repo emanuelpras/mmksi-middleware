@@ -1,9 +1,9 @@
 package service
 
 import (
-	"middleware-mmksi/dsf/program/repo"
-	"middleware-mmksi/dsf/program/response"
-	"middleware-mmksi/dsf/program/service/request"
+	"middleware-mmksi/dsf/metadata/repo"
+	"middleware-mmksi/dsf/metadata/response"
+	"middleware-mmksi/dsf/metadata/service/request"
 )
 
 type DsfProgramService interface {

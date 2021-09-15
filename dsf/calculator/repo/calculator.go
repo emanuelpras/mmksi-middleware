@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"middleware-mmksi/dsf/payment/response"
-	"middleware-mmksi/dsf/payment/service/request"
+	"middleware-mmksi/dsf/calculator/response"
+	"middleware-mmksi/dsf/calculator/service/request"
 	"net/http"
 )
 
