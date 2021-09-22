@@ -2,6 +2,7 @@ package server
 
 import (
 	"log"
+	"middleware-mmksi/docs"
 	"middleware-mmksi/util"
 	"os"
 
@@ -10,6 +11,9 @@ import (
 	mrpControllers "middleware-mmksi/dsf/mrp/controller"
 	jwtControllers "middleware-mmksi/jwt/controller"
 	mmksiControllers "middleware-mmksi/mmksi/controller"
+
+	swaggerFiles "github.com/swaggo/files"     // swagger embed files
+	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
 
 	"github.com/apex/gateway"
 	"github.com/gin-gonic/gin"
@@ -58,6 +62,13 @@ func routerEngine() *gin.Engine {
 }
 
 func registerRoute(r *gin.Engine) {
+	docs.SwaggerInfo.Title = "API Documentation"
+	docs.SwaggerInfo.Description = "MMKSI Middleware API Documentation"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:8080"
+	docs.SwaggerInfo.BasePath = "/"
+	docs.SwaggerInfo.Schemes = []string{"https", "http"}
+
 	var (
 		authController       jwtControllers.JwtController               = jwtControllers.NewJwtController(util.ProvideAuthService())
 		mrpController        mrpControllers.MrpController               = mrpControllers.NewMrpController(util.ProvideMrpService())
@@ -100,5 +111,7 @@ func registerRoute(r *gin.Engine) {
 	// mmksi route
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
 	r.POST("/mmksi/vehicle", authController.Auth, tokenController.GetToken, mmksiController.GetVehicleColor)
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 }
