@@ -29,6 +29,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Token"
+                ],
                 "summary": "Provides a JSON Web Token",
                 "parameters": [
                     {
@@ -60,6 +63,9 @@ var doc = `{
                 "description": "Get Calculator All Tenor",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Calculator"
                 ],
                 "summary": "Get All Tenor",
                 "parameters": [
@@ -109,6 +115,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Calculator"
+                ],
                 "summary": "Get Pertenor",
                 "parameters": [
                     {
@@ -157,6 +166,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Metadata"
+                ],
                 "summary": "Get Additional Insurance",
                 "parameters": [
                     {
@@ -196,6 +208,9 @@ var doc = `{
                 "description": "Get Asset Code",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Metadata"
                 ],
                 "summary": "Get Asset Code",
                 "parameters": [
@@ -245,6 +260,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Metadata"
+                ],
                 "summary": "Get BranchID",
                 "parameters": [
                     {
@@ -287,6 +305,9 @@ var doc = `{
                 "description": "Get Brands",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Metadata"
                 ],
                 "summary": "Get Brands",
                 "parameters": [
@@ -335,6 +356,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Metadata"
+                ],
                 "summary": "Get Car Condition",
                 "parameters": [
                     {
@@ -377,6 +401,9 @@ var doc = `{
                 "description": "Get Cities",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Metadata"
                 ],
                 "summary": "Get Cities",
                 "parameters": [
@@ -430,6 +457,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Metadata"
+                ],
                 "summary": "Get Insurance Types",
                 "parameters": [
                     {
@@ -472,6 +502,9 @@ var doc = `{
                 "description": "Get Insurances",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Metadata"
                 ],
                 "summary": "Get Insurances",
                 "parameters": [
@@ -533,6 +566,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Metadata"
+                ],
                 "summary": "Get Models",
                 "parameters": [
                     {
@@ -569,6 +605,9 @@ var doc = `{
                 "description": "Get Package Names",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Metadata"
                 ],
                 "summary": "Get Package Names",
                 "parameters": [
@@ -631,6 +670,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Metadata"
+                ],
                 "summary": "Get Packages",
                 "parameters": [
                     {
@@ -682,6 +724,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Metadata"
+                ],
                 "summary": "Get Payment Types",
                 "parameters": [
                     {
@@ -724,6 +769,9 @@ var doc = `{
                 "description": "Get Province",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Metadata"
                 ],
                 "summary": "Get Province",
                 "parameters": [
@@ -772,6 +820,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Metadata"
+                ],
                 "summary": "Get Variants",
                 "parameters": [
                     {
@@ -810,6 +861,9 @@ var doc = `{
                 "description": "Get Vehicle Category",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Metadata"
                 ],
                 "summary": "Get Vehicle Category",
                 "parameters": [
@@ -854,6 +908,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "MRP Tradein"
+                ],
                 "summary": "Get Prediction",
                 "parameters": [
                     {
@@ -895,6 +952,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "MRP Tradein"
+                ],
                 "summary": "Get Regions",
                 "parameters": [
                     {
@@ -931,6 +991,9 @@ var doc = `{
                 "description": "Get Vehicle",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "MRP Tradein"
                 ],
                 "summary": "Get Vehicle",
                 "parameters": [
@@ -974,6 +1037,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "MMKSI Vehicle"
+                ],
                 "summary": "Get Vehicle",
                 "parameters": [
                     {
@@ -1015,6 +1081,9 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "MMKSI Vehicle"
+                ],
                 "summary": "Get Vehicle Color",
                 "parameters": [
                     {
@@ -1055,6 +1124,9 @@ var doc = `{
                 "description": "Authenticates a user and provides a JWT to Authorize API calls",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Token"
                 ],
                 "summary": "Provides a Refresh Token",
                 "parameters": [

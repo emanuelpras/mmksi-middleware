@@ -28,6 +28,7 @@ func NewMrpController(
 }
 
 // Vehicle godoc
+// @Tags MRP Tradein
 // @Summary Get Vehicle
 // @Description Get Vehicle
 // @Produce json
@@ -37,6 +38,7 @@ func NewMrpController(
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/tradein/vehicles [get]
 func (c *mrpController) GetVehicles(gc *gin.Context) {
+	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	var form request.GetVehicleRequest
 	if err := gc.ShouldBindQuery(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -53,6 +55,7 @@ func (c *mrpController) GetVehicles(gc *gin.Context) {
 }
 
 // Regions godoc
+// @Tags MRP Tradein
 // @Summary Get Regions
 // @Description Get Regions
 // @Produce json
@@ -62,6 +65,7 @@ func (c *mrpController) GetVehicles(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/tradein/regions [get]
 func (c *mrpController) GetRegions(gc *gin.Context) {
+	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	var form request.GetRegionsRequest
 	if err := gc.ShouldBindQuery(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -78,6 +82,7 @@ func (c *mrpController) GetRegions(gc *gin.Context) {
 }
 
 // Prediction godoc
+// @Tags MRP Tradein
 // @Summary Get Prediction
 // @Description Get Prediction
 // @Produce json
@@ -87,6 +92,7 @@ func (c *mrpController) GetRegions(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/tradein/prediction [post]
 func (c *mrpController) GetPrediction(gc *gin.Context) {
+	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	var form request.PredictionRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

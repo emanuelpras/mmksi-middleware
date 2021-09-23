@@ -50,6 +50,7 @@ func (c *mmksiController) GetToken(gc *gin.Context) {
 }
 
 // Vehicle godoc
+// @Tags MMKSI Vehicle
 // @Summary Get Vehicle
 // @Description Get Vehicle from MMKSI
 // @Produce json
@@ -59,6 +60,7 @@ func (c *mmksiController) GetToken(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /mmksi/getData [post]
 func (c *mmksiController) GetVehicle(gc *gin.Context) {
+	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	var form request.VehicleRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -75,6 +77,7 @@ func (c *mmksiController) GetVehicle(gc *gin.Context) {
 }
 
 // Vehicle Color godoc
+// @Tags MMKSI Vehicle
 // @Summary Get Vehicle Color
 // @Description Get Vehicle Color from MMKSI
 // @Produce json
@@ -84,6 +87,7 @@ func (c *mmksiController) GetVehicle(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /mmksi/vehicle [post]
 func (c *mmksiController) GetVehicleColor(gc *gin.Context) {
+	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	var form request.VehicleRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

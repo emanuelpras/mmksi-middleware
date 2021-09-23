@@ -5,9 +5,7 @@ go 1.15
 require (
 	github.com/apex/gateway v1.1.2
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
-	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19
 	github.com/gin-gonic/gin v1.7.3
 	github.com/go-openapi/jsonreference v0.19.6 // indirect
 	github.com/go-openapi/swag v0.19.15 // indirect

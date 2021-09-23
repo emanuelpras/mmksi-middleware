@@ -12,8 +12,8 @@ import (
 	jwtControllers "middleware-mmksi/jwt/controller"
 	mmksiControllers "middleware-mmksi/mmksi/controller"
 
-	swaggerFiles "github.com/swaggo/files"     // swagger embed files
-	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	"github.com/apex/gateway"
 	"github.com/gin-gonic/gin"
@@ -62,12 +62,12 @@ func routerEngine() *gin.Engine {
 }
 
 func registerRoute(r *gin.Engine) {
+
 	docs.SwaggerInfo.Title = "API Documentation"
 	docs.SwaggerInfo.Description = "MMKSI Middleware API Documentation"
 	docs.SwaggerInfo.Version = "1.0"
-	// docs.SwaggerInfo.Host = "localhost:8080"
-	docs.SwaggerInfo.Host = "xuu77ziiri.execute-api.us-east-2.amazonaws.com/development"
-	docs.SwaggerInfo.BasePath = "/"
+	docs.SwaggerInfo.Host = "xuu77ziiri.execute-api.us-east-2.amazonaws.com/"
+	docs.SwaggerInfo.BasePath = "development/"
 	docs.SwaggerInfo.Schemes = []string{"https", "http"}
 
 	var (

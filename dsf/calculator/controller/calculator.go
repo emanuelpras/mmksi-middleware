@@ -26,6 +26,7 @@ func NewDsfPaymentController(
 }
 
 // Calculator godoc
+// @Tags Calculator
 // @Summary Get Pertenor
 // @Description Get Calculator Pertenor
 // @Produce json
@@ -36,6 +37,7 @@ func NewDsfPaymentController(
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/calculator/perTenor [post]
 func (c *dsfPaymentController) GetTenor(gc *gin.Context) {
+	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	var params request.HeaderTenorRequest
 	if err := gc.ShouldBindHeader(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -58,6 +60,7 @@ func (c *dsfPaymentController) GetTenor(gc *gin.Context) {
 }
 
 // Calculator godoc
+// @Tags Calculator
 // @Summary Get All Tenor
 // @Description Get Calculator All Tenor
 // @Produce json
@@ -68,6 +71,7 @@ func (c *dsfPaymentController) GetTenor(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/calculator/allTenors [post]
 func (c *dsfPaymentController) GetAllTenor(gc *gin.Context) {
+	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	var params request.HeaderTenorRequest
 	if err := gc.ShouldBindHeader(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

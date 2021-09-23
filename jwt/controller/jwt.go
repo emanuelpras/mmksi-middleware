@@ -29,6 +29,7 @@ func NewJwtController(
 }
 
 // Authenticate godoc
+// @Tags Token
 // @Summary Provides a JSON Web Token
 // @Description Authenticates a user and provides a JWT to Authorize API calls
 // @Consume application/x-www-form-urlencoded
@@ -38,6 +39,7 @@ func NewJwtController(
 // @Failure 400 {object} response.ErrorResponse
 // @Router /auth/token [post]
 func (c *jwtController) CreateToken(gc *gin.Context) {
+	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	var paramJwt request.TokenMmksiRequest
 	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -53,6 +55,7 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 }
 
 // Authenticate godoc
+// @Tags Token
 // @Summary Provides a Refresh Token
 // @Description Authenticates a user and provides a JWT to Authorize API calls
 // @Consume application/x-www-form-urlencoded
@@ -62,6 +65,7 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /token/refresh [post]
 func (c *jwtController) RefreshToken(gc *gin.Context) {
+	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	var paramJwt request.TokenRefreshRequest
 	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

@@ -419,6 +419,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Provides a JSON Web Token
+      tags:
+      - Token
   /dsf/calculator/allTenors:
     post:
       description: Get Calculator All Tenor
@@ -451,6 +453,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get All Tenor
+      tags:
+      - Calculator
   /dsf/calculator/perTenor:
     post:
       description: Get Calculator Pertenor
@@ -483,6 +487,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Pertenor
+      tags:
+      - Calculator
   /dsf/metadata/additionalInsurance:
     get:
       description: Get Additional Insurance
@@ -509,6 +515,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Additional Insurance
+      tags:
+      - Metadata
   /dsf/metadata/assetCode:
     post:
       description: Get Asset Code
@@ -541,6 +549,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Asset Code
+      tags:
+      - Metadata
   /dsf/metadata/branchID:
     get:
       description: Get BranchID
@@ -569,6 +579,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get BranchID
+      tags:
+      - Metadata
   /dsf/metadata/brands:
     get:
       description: Get Brands
@@ -599,6 +611,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Brands
+      tags:
+      - Metadata
   /dsf/metadata/carConditions:
     get:
       description: Get Car Condition
@@ -627,6 +641,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Car Condition
+      tags:
+      - Metadata
   /dsf/metadata/cities:
     get:
       description: Get Cities
@@ -660,6 +676,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Cities
+      tags:
+      - Metadata
   /dsf/metadata/insuranceTypes:
     get:
       description: Get Insurance Types
@@ -688,6 +706,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Insurance Types
+      tags:
+      - Metadata
   /dsf/metadata/insurances:
     get:
       description: Get Insurances
@@ -729,6 +749,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Insurances
+      tags:
+      - Metadata
   /dsf/metadata/models:
     get:
       description: Get Models
@@ -753,6 +775,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Models
+      tags:
+      - Metadata
   /dsf/metadata/packageNames:
     get:
       description: Get Package Names
@@ -794,6 +818,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Package Names
+      tags:
+      - Metadata
   /dsf/metadata/packages:
     post:
       description: Get Packages
@@ -828,6 +854,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Packages
+      tags:
+      - Metadata
   /dsf/metadata/paymentTypes:
     get:
       description: Get Payment Types
@@ -856,6 +884,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Payment Types
+      tags:
+      - Metadata
   /dsf/metadata/province:
     get:
       description: Get Province
@@ -886,6 +916,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Province
+      tags:
+      - Metadata
   /dsf/metadata/variants:
     get:
       description: Get Variants
@@ -912,6 +944,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Variants
+      tags:
+      - Metadata
   /dsf/metadata/vehicleCategory:
     get:
       description: Get Vehicle Category
@@ -940,6 +974,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Vehicle Category
+      tags:
+      - Metadata
   /dsf/tradein/prediction:
     post:
       description: Get Prediction
@@ -967,6 +1003,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Prediction
+      tags:
+      - MRP Tradein
   /dsf/tradein/regions:
     get:
       description: Get Regions
@@ -991,6 +1029,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Regions
+      tags:
+      - MRP Tradein
   /dsf/tradein/vehicles:
     get:
       description: Get Vehicle
@@ -1018,6 +1058,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Vehicle
+      tags:
+      - MRP Tradein
   /mmksi/getData:
     post:
       description: Get Vehicle from MMKSI
@@ -1045,6 +1087,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Vehicle
+      tags:
+      - MMKSI Vehicle
   /mmksi/vehicle:
     post:
       description: Get Vehicle Color from MMKSI
@@ -1072,6 +1116,8 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Get Vehicle Color
+      tags:
+      - MMKSI Vehicle
   /token/refresh:
     post:
       description: Authenticates a user and provides a JWT to Authorize API calls
@@ -1093,4 +1139,6 @@ paths:
           schema:
             $ref: '#/definitions/response.ErrorResponse'
       summary: Provides a Refresh Token
+      tags:
+      - Token
 swagger: "2.0"
