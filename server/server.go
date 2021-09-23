@@ -65,7 +65,8 @@ func registerRoute(r *gin.Engine) {
 	docs.SwaggerInfo.Title = "API Documentation"
 	docs.SwaggerInfo.Description = "MMKSI Middleware API Documentation"
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = "localhost:8080"
+	// docs.SwaggerInfo.Host = "localhost:8080"
+	docs.SwaggerInfo.Host = "xuu77ziiri.execute-api.us-east-2.amazonaws.com/development"
 	docs.SwaggerInfo.BasePath = "/"
 	docs.SwaggerInfo.Schemes = []string{"https", "http"}
 

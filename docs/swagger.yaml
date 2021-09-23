@@ -1,4 +1,1096 @@
+definitions:
+  middleware-mmksi_dsf_mrp_response.Vehicle:
+    properties:
+      BrandId:
+        type: integer
+      BrandName:
+        type: string
+      Models:
+        items:
+          $ref: '#/definitions/response.VehicleModel'
+        type: array
+    type: object
+  middleware-mmksi_mmksi_response.Vehicle:
+    properties:
+      ID:
+        type: integer
+      VehicleModel_S1:
+        type: string
+      VehicleType:
+        type: string
+    type: object
+  request.AssetCodeRequest:
+    properties:
+      brandName:
+        type: string
+      carCondition:
+        type: string
+      manufacturedYear:
+        type: string
+      modelName:
+        type: string
+      variantName:
+        type: string
+    type: object
+  request.PackageRequest:
+    properties:
+      brand:
+        type: string
+      carCondition:
+        type: string
+      city:
+        type: string
+      model:
+        type: string
+      packageName:
+        type: string
+      province:
+        type: string
+      variant:
+        type: string
+    type: object
+  request.PredictionRequest:
+    properties:
+      BRAND:
+        type: string
+      CITY:
+        type: string
+      COLOR:
+        type: string
+      COMPANY:
+        type: string
+      DISTANCE:
+        type: integer
+      MODEL:
+        type: string
+      PROVINCE:
+        type: string
+      TIPE_PENJUAL:
+        type: string
+      TRANSMISSION:
+        type: string
+      VARIANT:
+        type: string
+      YEAR:
+        type: integer
+    type: object
+  request.TenorRequest:
+    properties:
+      brand:
+        type: string
+      carCondition:
+        type: string
+      caroserie:
+        type: integer
+      city:
+        type: string
+      dsfAssetCode:
+        type: string
+      dsfBranchCode:
+        type: string
+      fee:
+        $ref: '#/definitions/request.fee'
+      insurances:
+        $ref: '#/definitions/request.insurances'
+      loanPackageName:
+        type: string
+      manufacturedYear:
+        type: string
+      model:
+        type: string
+      paymentType:
+        type: string
+      province:
+        type: string
+      provisionPercentage:
+        type: integer
+      simulationType:
+        type: string
+      simulationValue:
+        type: integer
+      tenorInMonths:
+        type: integer
+      unitPrice:
+        type: integer
+      variant:
+        type: string
+    type: object
+  request.VehicleRequest:
+    properties:
+      find:
+        items:
+          $ref: '#/definitions/request.findVehicleRequest'
+        type: array
+      pages:
+        type: integer
+      sort:
+        items:
+          $ref: '#/definitions/request.sortVehicleRequest'
+        type: array
+    type: object
+  request.fee:
+    properties:
+      adminFee:
+        type: integer
+      beaPolis:
+        type: integer
+    type: object
+  request.findVehicleRequest:
+    properties:
+      MatchType:
+        type: integer
+      PropertyName:
+        type: string
+      PropertyValue:
+        type: string
+      SqlOperation:
+        type: integer
+    type: object
+  request.insurances:
+    properties:
+      additionalInsurances:
+        items:
+          type: string
+        type: array
+      insuranceType:
+        type: string
+      lifeInsurance:
+        type: boolean
+      putAsOnLoan:
+        type: boolean
+      tanggungJawabPihakKetiga:
+        $ref: '#/definitions/request.tanggungJawabPihakKetiga'
+    type: object
+  request.sortVehicleRequest:
+    properties:
+      SortColumn:
+        type: string
+      SortDirection:
+        type: integer
+    type: object
+  request.tanggungJawabPihakKetiga:
+    properties:
+      isApplied:
+        type: boolean
+      uangPertanggungan:
+        type: integer
+    type: object
+  response.AssetCodeResponse:
+    properties:
+      originalAssetCode:
+        type: string
+      targetAssetCode:
+        type: string
+    type: object
+  response.BrandsResponse:
+    properties:
+      data:
+        type: object
+      message:
+        type: string
+      recordCount:
+        type: integer
+      status:
+        type: boolean
+    type: object
+  response.CitiesResponse:
+    properties:
+      current_total_item:
+        type: integer
+      data:
+        type: object
+      message:
+        type: string
+      status:
+        type: boolean
+      total_all_item:
+        type: integer
+    type: object
+  response.City:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  response.ErrorResponse:
+    properties:
+      error_id:
+        type: integer
+      message:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  response.GetRegionsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/response.Province'
+        type: array
+    type: object
+  response.GetVehiclesResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/middleware-mmksi_dsf_mrp_response.Vehicle'
+        type: array
+    type: object
+  response.InsuranceResponse:
+    properties:
+      additionalRates:
+        type: object
+      basicInsuranceRates:
+        type: object
+      loadingRate:
+        type: object
+      palprate:
+        type: object
+      tjhrates:
+        type: object
+    type: object
+  response.ModelsResponse:
+    properties:
+      data:
+        type: object
+      message:
+        type: string
+      recordCount:
+        type: integer
+      status:
+        type: boolean
+    type: object
+  response.PredictionResponse:
+    properties:
+      AveragePrice:
+        type: number
+      MaxPrice:
+        type: integer
+      MedianPrice:
+        type: integer
+      MinPrice:
+        type: integer
+      ProvinceId:
+        type: integer
+    type: object
+  response.Province:
+    properties:
+      Cities:
+        items:
+          $ref: '#/definitions/response.City'
+        type: array
+      ProvinceId:
+        type: integer
+      ProvinceName:
+        type: string
+    type: object
+  response.ProvincesResponse:
+    properties:
+      current_total_item:
+        type: integer
+      data:
+        type: object
+      message:
+        type: string
+      status:
+        type: boolean
+      total_all_item:
+        type: integer
+    type: object
+  response.TenorResponse:
+    properties:
+      data:
+        type: object
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+  response.TokenMmksiResponse:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
+  response.Variant:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  response.VariantsResponse:
+    properties:
+      data:
+        items:
+          properties:
+            name:
+              type: string
+            product_model_id:
+              type: integer
+          type: object
+        type: array
+      message:
+        type: string
+      recordCount:
+        type: integer
+      status:
+        type: boolean
+    type: object
+  response.VehicleColor:
+    properties:
+      ColorCode:
+        type: string
+      ColorDescription:
+        type: string
+      ID:
+        type: integer
+      VehicleModel_S1:
+        type: string
+      VehicleType:
+        type: string
+    type: object
+  response.VehicleColorResponse:
+    properties:
+      lst:
+        items:
+          $ref: '#/definitions/response.VehicleColor'
+        type: array
+      messages:
+        items:
+          $ref: '#/definitions/response.VehicleMessageResponse'
+        type: array
+      total:
+        type: integer
+    type: object
+  response.VehicleMessageResponse:
+    properties:
+      ErrorCode:
+        type: integer
+      ErrorMessage:
+        type: string
+    type: object
+  response.VehicleModel:
+    properties:
+      ModelId:
+        type: integer
+      ModelName:
+        type: string
+      Variants:
+        items:
+          $ref: '#/definitions/response.Variant'
+        type: array
+    type: object
+  response.VehicleResponse:
+    properties:
+      lst:
+        items:
+          $ref: '#/definitions/middleware-mmksi_mmksi_response.Vehicle'
+        type: array
+      messages:
+        items:
+          $ref: '#/definitions/response.VehicleMessageResponse'
+        type: array
+      total:
+        type: integer
+    type: object
 info:
   contact: {}
-paths: {}
+paths:
+  /auth/token:
+    post:
+      description: Authenticates a user and provides a JWT to Authorize API calls
+      parameters:
+      - description: Company
+        in: header
+        name: company
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.TokenMmksiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Provides a JSON Web Token
+  /dsf/calculator/allTenors:
+    post:
+      description: Get Calculator All Tenor
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Application Name
+        in: header
+        name: applicationName
+        required: true
+        type: string
+      - description: Request Body
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/request.TenorRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.TenorResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get All Tenor
+  /dsf/calculator/perTenor:
+    post:
+      description: Get Calculator Pertenor
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Application Name
+        in: header
+        name: applicationName
+        required: true
+        type: string
+      - description: Request Body
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/request.TenorRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.TenorResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Pertenor
+  /dsf/metadata/additionalInsurance:
+    get:
+      description: Get Additional Insurance
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              properties:
+                name:
+                  type: string
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Additional Insurance
+  /dsf/metadata/assetCode:
+    post:
+      description: Get Asset Code
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Application Name
+        in: header
+        name: applicationName
+        required: true
+        type: string
+      - description: Asset Code Request
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/request.AssetCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AssetCodeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Asset Code
+  /dsf/metadata/branchID:
+    get:
+      description: Get BranchID
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              properties:
+                branchCode:
+                  type: string
+                branchName:
+                  type: string
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get BranchID
+  /dsf/metadata/brands:
+    get:
+      description: Get Brands
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - in: query
+        name: keyword
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.BrandsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Brands
+  /dsf/metadata/carConditions:
+    get:
+      description: Get Car Condition
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              properties:
+                description:
+                  type: string
+                name:
+                  type: string
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Car Condition
+  /dsf/metadata/cities:
+    get:
+      description: Get Cities
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: provinceCode
+        type: string
+      - in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.CitiesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Cities
+  /dsf/metadata/insuranceTypes:
+    get:
+      description: Get Insurance Types
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              properties:
+                description:
+                  type: string
+                name:
+                  type: string
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Insurance Types
+  /dsf/metadata/insurances:
+    get:
+      description: Get Insurances
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Dsf Branch ID
+        in: query
+        name: dsfBranchId
+        required: true
+        type: string
+      - description: Vehicle Category
+        in: query
+        name: VehicleCategory
+        required: true
+        type: string
+      - description: Insurance Type Code
+        in: query
+        name: InsuranceTypeCode
+        required: true
+        type: string
+      - description: Car Condition
+        in: query
+        name: Condition
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.InsuranceResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Insurances
+  /dsf/metadata/models:
+    get:
+      description: Get Models
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - in: query
+        name: brand
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ModelsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Models
+  /dsf/metadata/packageNames:
+    get:
+      description: Get Package Names
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Application Name
+        in: header
+        name: applicationName
+        required: true
+        type: string
+      - description: Asset Code
+        in: header
+        name: assetCode
+        required: true
+        type: string
+      - description: Branch Code
+        in: header
+        name: branchCode
+        required: true
+        type: string
+      - in: query
+        name: carCondition
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Package Names
+  /dsf/metadata/packages:
+    post:
+      description: Get Packages
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Application Name
+        in: header
+        name: applicationName
+        required: true
+        type: string
+      - description: Package
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/request.PackageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Packages
+  /dsf/metadata/paymentTypes:
+    get:
+      description: Get Payment Types
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              properties:
+                description:
+                  type: string
+                name:
+                  type: string
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Payment Types
+  /dsf/metadata/province:
+    get:
+      description: Get Province
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: offset
+        type: integer
+      - in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ProvincesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Province
+  /dsf/metadata/variants:
+    get:
+      description: Get Variants
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Application Name
+        in: header
+        name: applicationName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.VariantsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Variants
+  /dsf/metadata/vehicleCategory:
+    get:
+      description: Get Vehicle Category
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              properties:
+                description:
+                  type: string
+                name:
+                  type: string
+              type: object
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Vehicle Category
+  /dsf/tradein/prediction:
+    post:
+      description: Get Prediction
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Request Body
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/request.PredictionRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.PredictionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Prediction
+  /dsf/tradein/regions:
+    get:
+      description: Get Regions
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - in: query
+        name: province
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetRegionsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Regions
+  /dsf/tradein/vehicles:
+    get:
+      description: Get Vehicle
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - in: query
+        name: brandName
+        type: string
+      - in: query
+        name: modelName
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.GetVehiclesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Vehicle
+  /mmksi/getData:
+    post:
+      description: Get Vehicle from MMKSI
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Vehicle
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/request.VehicleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.VehicleResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Vehicle
+  /mmksi/vehicle:
+    post:
+      description: Get Vehicle Color from MMKSI
+      parameters:
+      - description: Auth
+        in: header
+        name: Auth
+        required: true
+        type: string
+      - description: Vehicle Color
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/request.VehicleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.VehicleColorResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get Vehicle Color
+  /token/refresh:
+    post:
+      description: Authenticates a user and provides a JWT to Authorize API calls
+      parameters:
+      - description: Refresh Token
+        in: header
+        name: refreshToken
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.TokenMmksiResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Provides a Refresh Token
 swagger: "2.0"

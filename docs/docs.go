@@ -24,809 +24,1678 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/auth/token": {
-          "post": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "company",
-                "in": "header",
-                "description": "get token",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
-                },
-                "headers": {
-                  "Access-Control-Allow-Origin": {
-                    "type": "string"
-                  }
+            "post": {
+                "description": "Authenticates a user and provides a JWT to Authorize API calls",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Provides a JSON Web Token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Company",
+                        "name": "company",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.TokenMmksiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/calculator/allTenors": {
-          "post": {
-            "consumes": [
-              "application/json"
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "applicationName",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "in": "body",
-                "name": "Empty",
-                "required": true,
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "post": {
+                "description": "Get Calculator All Tenor",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get All Tenor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application Name",
+                        "name": "applicationName",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request Body",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.TenorRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.TenorResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
-                }
-              }
             }
-          }
         },
         "/dsf/calculator/perTenor": {
-          "post": {
-            "consumes": [
-              "application/json"
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "applicationName",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "in": "body",
-                "name": "Empty",
-                "required": true,
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "post": {
+                "description": "Get Calculator Pertenor",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Pertenor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application Name",
+                        "name": "applicationName",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request Body",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.TenorRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.TenorResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
-                }
-              }
             }
-          }
         },
         "/dsf/metadata/additionalInsurance": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Additional Insurance",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Additional Insurance",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/assetCode": {
-          "post": {
-            "consumes": [
-              "application/json"
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "applicationName",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "in": "body",
-                "name": "Empty",
-                "required": true,
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "post": {
+                "description": "Get Asset Code",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Asset Code",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application Name",
+                        "name": "applicationName",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Asset Code Request",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.AssetCodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.AssetCodeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
-                }
-              }
             }
-          }
         },
         "/dsf/metadata/branchID": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get BranchID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get BranchID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "branchCode": {
+                                        "type": "string"
+                                    },
+                                    "branchName": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/brands": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "keyword",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "limit",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "offset",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Brands",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Brands",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "keyword",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.BrandsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/carConditions": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Car Condition",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Car Condition",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/cities": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "limit",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "search",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "province_code",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "offset",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Cities",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Cities",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "provinceCode",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.CitiesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/insuranceTypes": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": false,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Insurance Types",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Insurance Types",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/insurances": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "DsfBranchId",
-                "in": "query",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "VehicleCategory",
-                "in": "query",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "InsuranceTypeCode",
-                "in": "query",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "CarCondition",
-                "in": "query",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Insurances",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Insurances",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Dsf Branch ID",
+                        "name": "dsfBranchId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Vehicle Category",
+                        "name": "VehicleCategory",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Insurance Type Code",
+                        "name": "InsuranceTypeCode",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Car Condition",
+                        "name": "Condition",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.InsuranceResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/models": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "brand",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Models",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Models",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "brand",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.ModelsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/packageNames": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "carCondition",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "AssetCode",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "applicationName",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "BranchCode",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Package Names",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Package Names",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application Name",
+                        "name": "applicationName",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Asset Code",
+                        "name": "assetCode",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Branch Code",
+                        "name": "branchCode",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "carCondition",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/packages": {
-          "post": {
-            "consumes": [
-              "application/json"
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "applicationName",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "in": "body",
-                "name": "Empty",
-                "required": true,
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "post": {
+                "description": "Get Packages",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Packages",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application Name",
+                        "name": "applicationName",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Package",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PackageRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
-                }
-              }
             }
-          }
         },
         "/dsf/metadata/paymentTypes": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Payment Types",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Payment Types",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
-        "/dsf/metadata/provinces": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "limit",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "search",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "offset",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+        "/dsf/metadata/province": {
+            "get": {
+                "description": "Get Province",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Province",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "search",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.ProvincesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
-        "/dsf/metadata/variant": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "applicationName",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+        "/dsf/metadata/variants": {
+            "get": {
+                "description": "Get Variants",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Variants",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Application Name",
+                        "name": "applicationName",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.VariantsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/metadata/vehicleCategory": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Vehicle Category",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Vehicle Category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/tradein/prediction": {
-          "post": {
-            "consumes": [
-              "application/json"
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "in": "body",
-                "name": "Empty",
-                "required": true,
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "post": {
+                "description": "Get Prediction",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Prediction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request Body",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PredictionRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.PredictionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
-                }
-              }
             }
-          }
         },
         "/dsf/tradein/regions": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "province",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Regions",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Regions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "province",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.GetRegionsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/dsf/tradein/vehicles": {
-          "get": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "name": "model",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              },
-              {
-                "name": "brand",
-                "in": "query",
-                "required": false,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "get": {
+                "description": "Get Vehicle",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Vehicle",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "brandName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "modelName",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.GetVehiclesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         },
         "/mmksi/getData": {
-          "post": {
-            "consumes": [
-              "application/json"
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "in": "body",
-                "name": "Empty",
-                "required": true,
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "post": {
+                "description": "Get Vehicle from MMKSI",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Vehicle",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Vehicle",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.VehicleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.VehicleResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
-                }
-              }
             }
-          }
         },
         "/mmksi/vehicle": {
-          "post": {
-            "consumes": [
-              "application/json"
-            ],
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "Auth",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              },
-              {
-                "in": "body",
-                "name": "Empty",
-                "required": true,
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "post": {
+                "description": "Get Vehicle Color from MMKSI",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Vehicle Color",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Auth",
+                        "name": "Auth",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Vehicle Color",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.VehicleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.VehicleColorResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
-                }
-              }
             }
-          }
         },
         "/token/refresh": {
-          "post": {
-            "produces": [
-              "application/json"
-            ],
-            "parameters": [
-              {
-                "name": "refreshToken",
-                "in": "header",
-                "required": true,
-                "type": "string"
-              }
-            ],
-            "responses": {
-              "200": {
-                "description": "200 response",
-                "schema": {
-                  "$ref": "#/definitions/Empty"
+            "post": {
+                "description": "Authenticates a user and provides a JWT to Authorize API calls",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Provides a Refresh Token",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Refresh Token",
+                        "name": "refreshToken",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.TokenMmksiResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
                 }
-              }
             }
-          }
         }
-      },
-      "definitions": {
-        "Empty": {
-          "type": "object",
-          "title": "Empty Schema"
+    },
+    "definitions": {
+        "middleware-mmksi_dsf_mrp_response.Vehicle": {
+            "type": "object",
+            "properties": {
+                "BrandId": {
+                    "type": "integer"
+                },
+                "BrandName": {
+                    "type": "string"
+                },
+                "Models": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.VehicleModel"
+                    }
+                }
+            }
+        },
+        "middleware-mmksi_mmksi_response.Vehicle": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "type": "integer"
+                },
+                "VehicleModel_S1": {
+                    "type": "string"
+                },
+                "VehicleType": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.AssetCodeRequest": {
+            "type": "object",
+            "properties": {
+                "brandName": {
+                    "type": "string"
+                },
+                "carCondition": {
+                    "type": "string"
+                },
+                "manufacturedYear": {
+                    "type": "string"
+                },
+                "modelName": {
+                    "type": "string"
+                },
+                "variantName": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.PackageRequest": {
+            "type": "object",
+            "properties": {
+                "brand": {
+                    "type": "string"
+                },
+                "carCondition": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "packageName": {
+                    "type": "string"
+                },
+                "province": {
+                    "type": "string"
+                },
+                "variant": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.PredictionRequest": {
+            "type": "object",
+            "properties": {
+                "BRAND": {
+                    "type": "string"
+                },
+                "CITY": {
+                    "type": "string"
+                },
+                "COLOR": {
+                    "type": "string"
+                },
+                "COMPANY": {
+                    "type": "string"
+                },
+                "DISTANCE": {
+                    "type": "integer"
+                },
+                "MODEL": {
+                    "type": "string"
+                },
+                "PROVINCE": {
+                    "type": "string"
+                },
+                "TIPE_PENJUAL": {
+                    "type": "string"
+                },
+                "TRANSMISSION": {
+                    "type": "string"
+                },
+                "VARIANT": {
+                    "type": "string"
+                },
+                "YEAR": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.TenorRequest": {
+            "type": "object",
+            "properties": {
+                "brand": {
+                    "type": "string"
+                },
+                "carCondition": {
+                    "type": "string"
+                },
+                "caroserie": {
+                    "type": "integer"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "dsfAssetCode": {
+                    "type": "string"
+                },
+                "dsfBranchCode": {
+                    "type": "string"
+                },
+                "fee": {
+                    "$ref": "#/definitions/request.fee"
+                },
+                "insurances": {
+                    "$ref": "#/definitions/request.insurances"
+                },
+                "loanPackageName": {
+                    "type": "string"
+                },
+                "manufacturedYear": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "paymentType": {
+                    "type": "string"
+                },
+                "province": {
+                    "type": "string"
+                },
+                "provisionPercentage": {
+                    "type": "integer"
+                },
+                "simulationType": {
+                    "type": "string"
+                },
+                "simulationValue": {
+                    "type": "integer"
+                },
+                "tenorInMonths": {
+                    "type": "integer"
+                },
+                "unitPrice": {
+                    "type": "integer"
+                },
+                "variant": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.VehicleRequest": {
+            "type": "object",
+            "properties": {
+                "find": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/request.findVehicleRequest"
+                    }
+                },
+                "pages": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/request.sortVehicleRequest"
+                    }
+                }
+            }
+        },
+        "request.fee": {
+            "type": "object",
+            "properties": {
+                "adminFee": {
+                    "type": "integer"
+                },
+                "beaPolis": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.findVehicleRequest": {
+            "type": "object",
+            "properties": {
+                "MatchType": {
+                    "type": "integer"
+                },
+                "PropertyName": {
+                    "type": "string"
+                },
+                "PropertyValue": {
+                    "type": "string"
+                },
+                "SqlOperation": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.insurances": {
+            "type": "object",
+            "properties": {
+                "additionalInsurances": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "insuranceType": {
+                    "type": "string"
+                },
+                "lifeInsurance": {
+                    "type": "boolean"
+                },
+                "putAsOnLoan": {
+                    "type": "boolean"
+                },
+                "tanggungJawabPihakKetiga": {
+                    "$ref": "#/definitions/request.tanggungJawabPihakKetiga"
+                }
+            }
+        },
+        "request.sortVehicleRequest": {
+            "type": "object",
+            "properties": {
+                "SortColumn": {
+                    "type": "string"
+                },
+                "SortDirection": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.tanggungJawabPihakKetiga": {
+            "type": "object",
+            "properties": {
+                "isApplied": {
+                    "type": "boolean"
+                },
+                "uangPertanggungan": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.AssetCodeResponse": {
+            "type": "object",
+            "properties": {
+                "originalAssetCode": {
+                    "type": "string"
+                },
+                "targetAssetCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.BrandsResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "recordCount": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "response.CitiesResponse": {
+            "type": "object",
+            "properties": {
+                "current_total_item": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "object"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "total_all_item": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.City": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error_id": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "response.GetRegionsResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.Province"
+                    }
+                }
+            }
+        },
+        "response.GetVehiclesResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/middleware-mmksi_dsf_mrp_response.Vehicle"
+                    }
+                }
+            }
+        },
+        "response.InsuranceResponse": {
+            "type": "object",
+            "properties": {
+                "additionalRates": {
+                    "type": "object"
+                },
+                "basicInsuranceRates": {
+                    "type": "object"
+                },
+                "loadingRate": {
+                    "type": "object"
+                },
+                "palprate": {
+                    "type": "object"
+                },
+                "tjhrates": {
+                    "type": "object"
+                }
+            }
+        },
+        "response.ModelsResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "recordCount": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "response.PredictionResponse": {
+            "type": "object",
+            "properties": {
+                "AveragePrice": {
+                    "type": "number"
+                },
+                "MaxPrice": {
+                    "type": "integer"
+                },
+                "MedianPrice": {
+                    "type": "integer"
+                },
+                "MinPrice": {
+                    "type": "integer"
+                },
+                "ProvinceId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.Province": {
+            "type": "object",
+            "properties": {
+                "Cities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.City"
+                    }
+                },
+                "ProvinceId": {
+                    "type": "integer"
+                },
+                "ProvinceName": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.ProvincesResponse": {
+            "type": "object",
+            "properties": {
+                "current_total_item": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "object"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "total_all_item": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.TenorResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "response.TokenMmksiResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Variant": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.VariantsResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "product_model_id": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "message": {
+                    "type": "string"
+                },
+                "recordCount": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "response.VehicleColor": {
+            "type": "object",
+            "properties": {
+                "ColorCode": {
+                    "type": "string"
+                },
+                "ColorDescription": {
+                    "type": "string"
+                },
+                "ID": {
+                    "type": "integer"
+                },
+                "VehicleModel_S1": {
+                    "type": "string"
+                },
+                "VehicleType": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.VehicleColorResponse": {
+            "type": "object",
+            "properties": {
+                "lst": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.VehicleColor"
+                    }
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.VehicleMessageResponse"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.VehicleMessageResponse": {
+            "type": "object",
+            "properties": {
+                "ErrorCode": {
+                    "type": "integer"
+                },
+                "ErrorMessage": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.VehicleModel": {
+            "type": "object",
+            "properties": {
+                "ModelId": {
+                    "type": "integer"
+                },
+                "ModelName": {
+                    "type": "string"
+                },
+                "Variants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.Variant"
+                    }
+                }
+            }
+        },
+        "response.VehicleResponse": {
+            "type": "object",
+            "properties": {
+                "lst": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/middleware-mmksi_mmksi_response.Vehicle"
+                    }
+                },
+                "messages": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.VehicleMessageResponse"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
         }
-      }
+    }
 }`
 
 type swaggerInfo struct {

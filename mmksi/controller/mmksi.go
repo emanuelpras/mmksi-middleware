@@ -49,6 +49,15 @@ func (c *mmksiController) GetToken(gc *gin.Context) {
 	}
 }
 
+// Vehicle godoc
+// @Summary Get Vehicle
+// @Description Get Vehicle from MMKSI
+// @Produce json
+// @Param Auth header string true "Auth"
+// @Param requestbody body request.VehicleRequest true "Vehicle"
+// @Success 200 {object} response.VehicleResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /mmksi/getData [post]
 func (c *mmksiController) GetVehicle(gc *gin.Context) {
 	var form request.VehicleRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
@@ -65,6 +74,15 @@ func (c *mmksiController) GetVehicle(gc *gin.Context) {
 	gc.JSON(http.StatusOK, res)
 }
 
+// Vehicle Color godoc
+// @Summary Get Vehicle Color
+// @Description Get Vehicle Color from MMKSI
+// @Produce json
+// @Param Auth header string true "Auth"
+// @Param requestbody body request.VehicleRequest true "Vehicle Color"
+// @Success 200 {object} response.VehicleColorResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /mmksi/vehicle [post]
 func (c *mmksiController) GetVehicleColor(gc *gin.Context) {
 	var form request.VehicleRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {

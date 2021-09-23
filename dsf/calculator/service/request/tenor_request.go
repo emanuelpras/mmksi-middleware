@@ -11,43 +11,43 @@ type HeaderTenorRequest struct {
 }
 
 type TenorRequest struct {
-	UnitPrice           interface{}
-	Province            interface{}
-	City                interface{}
-	DsfBranchCode       interface{}
-	Brand               interface{}
-	Model               interface{}
-	Variant             interface{}
-	DsfAssetCode        interface{}
-	CarCondition        interface{}
-	ManufacturedYear    interface{}
-	LoanPackageName     interface{}
-	Caroserie           interface{}
-	PaymentType         interface{}
+	UnitPrice           int
+	Province            string
+	City                string
+	DsfBranchCode       string
+	Brand               string
+	Model               string
+	Variant             string
+	DsfAssetCode        string
+	CarCondition        string
+	ManufacturedYear    string
+	LoanPackageName     string
+	Caroserie           int
+	PaymentType         string
 	Insurances          insurances
 	Fee                 fee
-	ProvisionPercentage interface{}
-	TenorInMonths       interface{}
-	SimulationType      interface{}
-	SimulationValue     interface{}
+	ProvisionPercentage int
+	TenorInMonths       int
+	SimulationType      string
+	SimulationValue     int
 }
 
 type insurances struct {
-	InsuranceType            interface{}
-	AdditionalInsurances     interface{}
-	LifeInsurance            interface{}
+	InsuranceType            string
+	AdditionalInsurances     []string
+	LifeInsurance            bool
 	TanggungJawabPihakKetiga tanggungJawabPihakKetiga
-	PutAsOnLoan              interface{}
+	PutAsOnLoan              bool
 }
 
 type tanggungJawabPihakKetiga struct {
-	IsApplied         interface{}
-	UangPertanggungan interface{}
+	IsApplied         bool
+	UangPertanggungan int
 }
 
 type fee struct {
-	BeaPolis interface{}
-	AdminFee interface{}
+	BeaPolis int
+	AdminFee int
 }
 
 func (f *HeaderTenorRequest) Validate() error {
