@@ -44,3 +44,9 @@ main.go                 # main
 - Fill local in `MIDDLEWARE_SERVER` on your `.env`
 - Run `go run main.go`
 - Run page `localhost:8080/{endpoint}` in your postman
+
+## How to generate Swagger
+- Run command `go mod tidy` to install dependency
+- Run swag init
+- Run `go run main.go`
+- Run page `localhost:8080/swagger/index.html` in your browser
