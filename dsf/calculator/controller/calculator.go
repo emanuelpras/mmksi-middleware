@@ -39,7 +39,6 @@ func NewDsfPaymentController(
 // @Router /dsf/calculator/perTenor [post]
 func (c *dsfPaymentController) GetTenor(gc *gin.Context) {
 	cors.AllowCors(gc)
-	cors.AllowCors(gc)
 	var params request.HeaderTenorRequest
 	if err := gc.ShouldBindHeader(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
