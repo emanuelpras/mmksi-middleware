@@ -45,8 +45,10 @@ main.go                 # main
 - Run `go run main.go`
 - Run page `localhost:8080/{endpoint}` in your postman
 
+## swagger library `https://github.com/swaggo/gin-swagger`
 ## How to generate Swagger
 - Run command `go mod tidy` to install dependency
-- Run swag init
+- Add `export PATH=$(go env GOPATH)/bin:$PATH` to your bashrc
+- Run `swag init` to generate folder docs (docs.go, swagger.json, and swagger.yaml) 
 - Run `go run main.go`
 - Run page `localhost:8080/swagger/index.html` in your browser
