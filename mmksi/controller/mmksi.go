@@ -5,6 +5,7 @@ import (
 
 	"middleware-mmksi/mmksi/service"
 	"middleware-mmksi/mmksi/service/request"
+	"middleware-mmksi/server/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -60,7 +61,7 @@ func (c *mmksiController) GetToken(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /mmksi/getData [post]
 func (c *mmksiController) GetVehicle(gc *gin.Context) {
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var form request.VehicleRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -87,7 +88,7 @@ func (c *mmksiController) GetVehicle(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /mmksi/vehicle [post]
 func (c *mmksiController) GetVehicleColor(gc *gin.Context) {
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var form request.VehicleRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

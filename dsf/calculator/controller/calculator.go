@@ -3,6 +3,7 @@ package controller
 import (
 	"middleware-mmksi/dsf/calculator/service"
 	"middleware-mmksi/dsf/calculator/service/request"
+	"middleware-mmksi/server/cors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -37,7 +38,8 @@ func NewDsfPaymentController(
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/calculator/perTenor [post]
 func (c *dsfPaymentController) GetTenor(gc *gin.Context) {
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
+	cors.AllowCors(gc)
 	var params request.HeaderTenorRequest
 	if err := gc.ShouldBindHeader(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -71,7 +73,7 @@ func (c *dsfPaymentController) GetTenor(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/calculator/allTenors [post]
 func (c *dsfPaymentController) GetAllTenor(gc *gin.Context) {
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var params request.HeaderTenorRequest
 	if err := gc.ShouldBindHeader(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

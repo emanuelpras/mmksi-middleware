@@ -3,6 +3,7 @@ package controller
 import (
 	"middleware-mmksi/dsf/metadata/service"
 	"middleware-mmksi/dsf/metadata/service/request"
+	"middleware-mmksi/server/cors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -49,7 +50,7 @@ func NewDsfProgramController(
 // @Router /dsf/metadata/additionalInsurance [get]
 func (c *dsfProgramController) GetAdditionalInsurance(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	res, err := c.dsfProgramService.GetAdditionalInsurance()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -74,7 +75,7 @@ func (c *dsfProgramController) GetAdditionalInsurance(gc *gin.Context) {
 // @Router /dsf/metadata/packageNames [get]
 func (c *dsfProgramController) GetPackageNames(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var params request.HeaderPackageNameRequest
 	if err := gc.ShouldBindHeader(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -106,7 +107,7 @@ func (c *dsfProgramController) GetPackageNames(gc *gin.Context) {
 // @Router /dsf/metadata/carConditions [get]
 func (c *dsfProgramController) GetCarConditions(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	res, err := c.dsfProgramService.GetCarConditions()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -129,7 +130,7 @@ func (c *dsfProgramController) GetCarConditions(gc *gin.Context) {
 // @Router /dsf/metadata/packages [post]
 func (c *dsfProgramController) GetPackages(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var applicationName request.HeaderPackageRequest
 	if err := gc.ShouldBindHeader(&applicationName); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -163,7 +164,7 @@ func (c *dsfProgramController) GetPackages(gc *gin.Context) {
 // @Router /dsf/metadata/variants [get]
 func (c *dsfProgramController) GetVariants(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var applicationName request.HeaderUnitByModelsRequest
 	if err := gc.ShouldBindHeader(&applicationName); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -190,7 +191,7 @@ func (c *dsfProgramController) GetVariants(gc *gin.Context) {
 // @Router /dsf/metadata/paymentTypes [get]
 func (c *dsfProgramController) GetPaymentTypes(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	res, err := c.dsfProgramService.GetPaymentTypes()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -212,7 +213,7 @@ func (c *dsfProgramController) GetPaymentTypes(gc *gin.Context) {
 // @Router /dsf/metadata/models [get]
 func (c *dsfProgramController) GetModels(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var params request.ModelsRequest
 	if err := gc.ShouldBindQuery(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -238,7 +239,7 @@ func (c *dsfProgramController) GetModels(gc *gin.Context) {
 // @Router /dsf/metadata/brands [get]
 func (c *dsfProgramController) GetBrands(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var brandRequest request.BrandsRequest
 	if err := gc.ShouldBindQuery(&brandRequest); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -264,7 +265,7 @@ func (c *dsfProgramController) GetBrands(gc *gin.Context) {
 // @Router /dsf/metadata/vehicleCategory [get]
 func (c *dsfProgramController) GetVehicleCategory(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	res, err := c.dsfProgramService.GetVehicleCategory()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -285,7 +286,7 @@ func (c *dsfProgramController) GetVehicleCategory(gc *gin.Context) {
 // @Router /dsf/metadata/branchID [get]
 func (c *dsfProgramController) GetBranchID(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	res, err := c.dsfProgramService.GetBranchID()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -306,7 +307,7 @@ func (c *dsfProgramController) GetBranchID(gc *gin.Context) {
 // @Router /dsf/metadata/insuranceTypes [get]
 func (c *dsfProgramController) GetInsuranceTypes(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	res, err := c.dsfProgramService.GetInsuranceTypes()
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -331,7 +332,7 @@ func (c *dsfProgramController) GetInsuranceTypes(gc *gin.Context) {
 // @Router /dsf/metadata/insurances [get]
 func (c *dsfProgramController) GetInsurance(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var params request.InsuranceRequest
 	if err := gc.ShouldBindQuery(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -361,7 +362,7 @@ func (c *dsfProgramController) GetInsurance(gc *gin.Context) {
 // @Router /dsf/metadata/assetCode [post]
 func (c *dsfProgramController) GetAssetCode(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var applicationName request.HeaderAssetCodeRequest
 	if err := gc.ShouldBindHeader(&applicationName); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -395,7 +396,7 @@ func (c *dsfProgramController) GetAssetCode(gc *gin.Context) {
 // @Router /dsf/metadata/province [get]
 func (c *dsfProgramController) GetProvinces(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var params request.ProvincesRequest
 	if err := gc.ShouldBindQuery(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -423,7 +424,7 @@ func (c *dsfProgramController) GetProvinces(gc *gin.Context) {
 // @Router /dsf/metadata/cities [get]
 func (c *dsfProgramController) GetCities(gc *gin.Context) {
 
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var params request.CitiesRequest
 	if err := gc.ShouldBindQuery(&params); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

@@ -5,6 +5,7 @@ import (
 
 	"middleware-mmksi/dsf/mrp/service"
 	"middleware-mmksi/dsf/mrp/service/request"
+	"middleware-mmksi/server/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,7 +39,7 @@ func NewMrpController(
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/tradein/vehicles [get]
 func (c *mrpController) GetVehicles(gc *gin.Context) {
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var form request.GetVehicleRequest
 	if err := gc.ShouldBindQuery(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -65,7 +66,7 @@ func (c *mrpController) GetVehicles(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/tradein/regions [get]
 func (c *mrpController) GetRegions(gc *gin.Context) {
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var form request.GetRegionsRequest
 	if err := gc.ShouldBindQuery(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -92,7 +93,7 @@ func (c *mrpController) GetRegions(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/tradein/prediction [post]
 func (c *mrpController) GetPrediction(gc *gin.Context) {
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var form request.PredictionRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
