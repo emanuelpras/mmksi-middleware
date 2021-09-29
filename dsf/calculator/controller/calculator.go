@@ -79,7 +79,7 @@ func (c *dsfPaymentController) GetAllTenor(gc *gin.Context) {
 		return
 	}
 
-	var reqBody request.TenorRequest
+	var reqBody request.AllTenorRequest
 	if err := gc.ShouldBind(&reqBody); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

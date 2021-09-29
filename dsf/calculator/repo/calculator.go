@@ -12,7 +12,7 @@ import (
 
 type DsfPaymentRepo interface {
 	GetTenor(params request.HeaderTenorRequest, reqBody request.TenorRequest) (*response.TenorResponse, error)
-	GetAllTenor(params request.HeaderTenorRequest, reqBody request.TenorRequest) (*response.TenorResponse, error)
+	GetAllTenor(params request.HeaderTenorRequest, reqBody request.AllTenorRequest) (*response.AllTenorResponse, error)
 }
 
 type dsfPaymentRepo struct {
@@ -62,7 +62,7 @@ func (r *dsfPaymentRepo) GetTenor(params request.HeaderTenorRequest, reqBody req
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *dsfPaymentRepo) GetAllTenor(params request.HeaderTenorRequest, reqBody request.TenorRequest) (*response.TenorResponse, error) {
+func (r *dsfPaymentRepo) GetAllTenor(params request.HeaderTenorRequest, reqBody request.AllTenorRequest) (*response.AllTenorResponse, error) {
 
 	payload, err := json.Marshal(reqBody)
 	if err != nil {
@@ -91,6 +91,6 @@ func (r *dsfPaymentRepo) GetAllTenor(params request.HeaderTenorRequest, reqBody 
 		return nil, err
 	}
 
-	response := new(response.TenorResponse)
+	response := new(response.AllTenorResponse)
 	return response, json.Unmarshal(result, response)
 }

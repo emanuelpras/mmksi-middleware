@@ -1286,12 +1286,6 @@ var doc = `{
                 "city": {
                     "type": "string"
                 },
-                "dsfAssetCode": {
-                    "type": "string"
-                },
-                "dsfBranchCode": {
-                    "type": "string"
-                },
                 "fee": {
                     "$ref": "#/definitions/request.fee"
                 },
@@ -1440,9 +1434,7 @@ var doc = `{
         "response.BrandsResponse": {
             "type": "object",
             "properties": {
-                "data": {
-                    "type": "object"
-                },
+                "data": {},
                 "message": {
                     "type": "string"
                 },
@@ -1460,9 +1452,7 @@ var doc = `{
                 "current_total_item": {
                     "type": "integer"
                 },
-                "data": {
-                    "type": "object"
-                },
+                "data": {},
                 "message": {
                     "type": "string"
                 },
@@ -1524,29 +1514,17 @@ var doc = `{
         "response.InsuranceResponse": {
             "type": "object",
             "properties": {
-                "additionalRates": {
-                    "type": "object"
-                },
-                "basicInsuranceRates": {
-                    "type": "object"
-                },
-                "loadingRate": {
-                    "type": "object"
-                },
-                "palprate": {
-                    "type": "object"
-                },
-                "tjhrates": {
-                    "type": "object"
-                }
+                "additionalRates": {},
+                "basicInsuranceRates": {},
+                "loadingRate": {},
+                "palprate": {},
+                "tjhrates": {}
             }
         },
         "response.ModelsResponse": {
             "type": "object",
             "properties": {
-                "data": {
-                    "type": "object"
-                },
+                "data": {},
                 "message": {
                     "type": "string"
                 },
@@ -1601,9 +1579,7 @@ var doc = `{
                 "current_total_item": {
                     "type": "integer"
                 },
-                "data": {
-                    "type": "object"
-                },
+                "data": {},
                 "message": {
                     "type": "string"
                 },
@@ -1618,14 +1594,15 @@ var doc = `{
         "response.TenorResponse": {
             "type": "object",
             "properties": {
-                "data": {
-                    "type": "object"
-                },
+                "data": {},
                 "message": {
                     "type": "string"
                 },
                 "status": {
                     "type": "boolean"
+                },
+                "statusCode": {
+                    "type": "string"
                 }
             }
         },

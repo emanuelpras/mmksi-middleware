@@ -6,6 +6,7 @@ import (
 	"middleware-mmksi/jwt/repo"
 	"middleware-mmksi/jwt/service"
 	"middleware-mmksi/jwt/service/request"
+	"middleware-mmksi/server/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,7 +40,7 @@ func NewJwtController(
 // @Failure 400 {object} response.ErrorResponse
 // @Router /auth/token [post]
 func (c *jwtController) CreateToken(gc *gin.Context) {
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var paramJwt request.TokenMmksiRequest
 	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -65,7 +66,7 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 // @Failure 400 {object} response.ErrorResponse
 // @Router /token/refresh [post]
 func (c *jwtController) RefreshToken(gc *gin.Context) {
-	gc.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+	cors.AllowCors(gc)
 	var paramJwt request.TokenRefreshRequest
 	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

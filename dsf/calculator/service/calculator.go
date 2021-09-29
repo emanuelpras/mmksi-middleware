@@ -8,7 +8,7 @@ import (
 
 type DsfPaymentService interface {
 	GetTenor(params request.HeaderTenorRequest, reqBody request.TenorRequest) (*response.TenorResponse, error)
-	GetAllTenor(params request.HeaderTenorRequest, reqBody request.TenorRequest) (*response.TenorResponse, error)
+	GetAllTenor(params request.HeaderTenorRequest, reqBody request.AllTenorRequest) (*response.AllTenorResponse, error)
 }
 
 type dsfPaymentService struct {
@@ -35,11 +35,9 @@ func (s *dsfPaymentService) GetTenor(params request.HeaderTenorRequest, reqBody 
 		UnitPrice:           reqBody.UnitPrice,
 		Province:            reqBody.Province,
 		City:                reqBody.City,
-		DsfBranchCode:       reqBody.DsfBranchCode,
 		Brand:               reqBody.Brand,
 		Model:               reqBody.Model,
 		Variant:             reqBody.Variant,
-		DsfAssetCode:        reqBody.DsfAssetCode,
 		CarCondition:        reqBody.CarCondition,
 		ManufacturedYear:    reqBody.ManufacturedYear,
 		LoanPackageName:     reqBody.LoanPackageName,
@@ -59,7 +57,7 @@ func (s *dsfPaymentService) GetTenor(params request.HeaderTenorRequest, reqBody 
 	return result, nil
 }
 
-func (s *dsfPaymentService) GetAllTenor(params request.HeaderTenorRequest, reqBody request.TenorRequest) (*response.TenorResponse, error) {
+func (s *dsfPaymentService) GetAllTenor(params request.HeaderTenorRequest, reqBody request.AllTenorRequest) (*response.AllTenorResponse, error) {
 
 	if err := params.Validate(); err != nil {
 		return nil, err
@@ -67,15 +65,13 @@ func (s *dsfPaymentService) GetAllTenor(params request.HeaderTenorRequest, reqBo
 
 	result, err := s.dsfPaymentRepo.GetAllTenor(request.HeaderTenorRequest{
 		ApplicationName: params.ApplicationName,
-	}, request.TenorRequest{
+	}, request.AllTenorRequest{
 		UnitPrice:           reqBody.UnitPrice,
 		Province:            reqBody.Province,
 		City:                reqBody.City,
-		DsfBranchCode:       reqBody.DsfBranchCode,
 		Brand:               reqBody.Brand,
 		Model:               reqBody.Model,
 		Variant:             reqBody.Variant,
-		DsfAssetCode:        reqBody.DsfAssetCode,
 		CarCondition:        reqBody.CarCondition,
 		ManufacturedYear:    reqBody.ManufacturedYear,
 		LoanPackageName:     reqBody.LoanPackageName,
@@ -84,7 +80,6 @@ func (s *dsfPaymentService) GetAllTenor(params request.HeaderTenorRequest, reqBo
 		Insurances:          reqBody.Insurances,
 		Fee:                 reqBody.Fee,
 		ProvisionPercentage: reqBody.ProvisionPercentage,
-		TenorInMonths:       reqBody.TenorInMonths,
 		SimulationType:      reqBody.SimulationType,
 		SimulationValue:     reqBody.SimulationValue,
 	})
