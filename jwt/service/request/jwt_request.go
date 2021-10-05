@@ -16,6 +16,12 @@ type TokenRefreshRequest struct {
 	RefreshToken string `form:"refreshToken"`
 }
 
+type AwsRequest struct {
+	UserPoolID   string
+	ClientID     string
+	ClientSecret string
+}
+
 func (f *TokenMmksiRequest) Validate() error {
 	if err := validation.Validate(f.Company, validation.Required); err != nil {
 		return &response.ErrorResponse{
