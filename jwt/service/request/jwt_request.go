@@ -7,7 +7,9 @@ import (
 )
 
 type TokenMmksiRequest struct {
-	Company string `form:"company"`
+	Company  string `json:"company"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type TokenRefreshRequest struct {
@@ -23,15 +25,41 @@ func (f *TokenMmksiRequest) Validate() error {
 				"id": "Company harus diisi",
 			},
 		}
-	} else if f.Company == "mmksi" || f.Company == "dsf" {
-		return nil
 	}
-	return &response.ErrorResponse{
-		ErrorID: 400,
-		Msg: map[string]string{
-			"en": "Company unregistered",
-			"id": "Company tidak terdaftar",
-		},
+
+	if err := validation.Validate(f.Username, validation.Required); err != nil {
+		return &response.ErrorResponse{
+			ErrorID: 422,
+			Msg: map[string]string{
+				"en": "Username cannot be empty",
+				"id": "Username harus diisi",
+			},
+		}
+	}
+
+	if err := validation.Validate(f.Password, validation.Required); err != nil {
+		return &response.ErrorResponse{
+			ErrorID: 422,
+			Msg: map[string]string{
+				"en": "Password cannot be empty",
+				"id": "Password harus diisi",
+			},
+		}
+	}
+
+	switch f.Company {
+	case "mmksi":
+		return nil
+	case "dsf":
+		return nil
+	default:
+		return &response.ErrorResponse{
+			ErrorID: 400,
+			Msg: map[string]string{
+				"en": "Company unregistered",
+				"id": "Company tidak terdaftar",
+			},
+		}
 	}
 }
 

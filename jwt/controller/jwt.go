@@ -42,7 +42,7 @@ func NewJwtController(
 func (c *jwtController) CreateToken(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var paramJwt request.TokenMmksiRequest
-	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
+	if err := gc.ShouldBindJSON(&paramJwt); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
