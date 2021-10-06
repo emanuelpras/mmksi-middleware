@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 
 	"middleware-mmksi/jwt/repo"
@@ -19,6 +20,7 @@ type JwtController interface {
 	CreateToken(gc *gin.Context)
 	RefreshToken(gc *gin.Context)
 	Auth(gc *gin.Context)
+	SigninAws(gc *gin.Context)
 }
 
 func NewJwtController(
@@ -91,5 +93,18 @@ func (c *jwtController) Auth(gc *gin.Context) {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
 		gc.Abort()
 	}
+	gc.Next()
+}
+
+func (c *jwtController) SigninAws(gc *gin.Context) {
+	var bodyRequest request.TokenMmksiRequest
+	if err := gc.ShouldBindJSON(&bodyRequest); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := c.jwtService.SigninAws(gc, bodyRequest, request.AwsRequest{})
+	log.Println(err)
+
 	gc.Next()
 }

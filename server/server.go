@@ -80,7 +80,7 @@ func registerRoute(r *gin.Engine) {
 	)
 
 	// token route
-	r.POST("/auth/token", authController.CreateToken)
+	r.POST("/auth/token", authController.SigninAws, authController.CreateToken)
 	r.POST("/token/refresh", authController.RefreshToken)
 
 	// dsf route

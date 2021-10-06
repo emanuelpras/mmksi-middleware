@@ -13,6 +13,7 @@ type JwtService interface {
 	CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, auth request.AuthRequest) error
+	SigninAws(gc *gin.Context, param request.TokenMmksiRequest, config request.AwsRequest) error
 }
 
 type jwtService struct {
@@ -76,6 +77,27 @@ func (s *jwtService) Auth(gc *gin.Context, auth request.AuthRequest) error {
 			return err
 		}
 		return nil
+	}
+
+	return nil
+}
+
+func (s *jwtService) SigninAws(gc *gin.Context, param request.TokenMmksiRequest, config request.AwsRequest) error {
+	if err := param.Validate(); err != nil {
+		return err
+	}
+
+	err := s.jwtRepo.SigninAws(request.TokenMmksiRequest{
+		Username: param.Username,
+		Password: param.Password,
+	}, request.AwsRequest{
+		UserPoolID:   os.Getenv("AWS_USER_POOL_ID"),
+		ClientID:     os.Getenv("AWS_CLIENT_ID"),
+		ClientSecret: os.Getenv("AWS_CLIENT_SECRET"),
+	})
+
+	if err != nil {
+		return err
 	}
 
 	return nil
