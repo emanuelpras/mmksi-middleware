@@ -13,7 +13,7 @@ type JwtService interface {
 	CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, auth request.AuthRequest) error
-	SigninAws(gc *gin.Context, param request.TokenMmksiRequest, config request.AwsRequest) error
+	SigninAws(gc *gin.Context, param request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error)
 }
 
 type jwtService struct {
@@ -82,23 +82,23 @@ func (s *jwtService) Auth(gc *gin.Context, auth request.AuthRequest) error {
 	return nil
 }
 
-func (s *jwtService) SigninAws(gc *gin.Context, param request.TokenMmksiRequest, config request.AwsRequest) error {
+func (s *jwtService) SigninAws(gc *gin.Context, param request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error) {
 	if err := param.Validate(); err != nil {
-		return err
+		return nil, err
 	}
 
-	err := s.jwtRepo.SigninAws(request.TokenMmksiRequest{
+	result, err := s.jwtRepo.SigninAws(request.TokenAWSRequest{
 		Username: param.Username,
 		Password: param.Password,
 	}, request.AwsRequest{
-		UserPoolID:   os.Getenv("AWS_USER_POOL_ID"),
-		ClientID:     os.Getenv("AWS_CLIENT_ID"),
-		ClientSecret: os.Getenv("AWS_CLIENT_SECRET"),
+		Region:       os.Getenv("REGION_AWS"),
+		ClientID:     os.Getenv("CLIENT_ID_AWS"),
+		ClientSecret: os.Getenv("CLIENT_SECRET_AWS"),
 	})
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return result, nil
 }

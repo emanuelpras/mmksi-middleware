@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"log"
 	"net/http"
 
 	"middleware-mmksi/jwt/repo"
@@ -44,7 +43,7 @@ func NewJwtController(
 func (c *jwtController) CreateToken(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var paramJwt request.TokenMmksiRequest
-	if err := gc.ShouldBindJSON(&paramJwt); err != nil {
+	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -97,14 +96,16 @@ func (c *jwtController) Auth(gc *gin.Context) {
 }
 
 func (c *jwtController) SigninAws(gc *gin.Context) {
-	var bodyRequest request.TokenMmksiRequest
+	var bodyRequest request.TokenAWSRequest
 	if err := gc.ShouldBindJSON(&bodyRequest); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	err := c.jwtService.SigninAws(gc, bodyRequest, request.AwsRequest{})
-	log.Println(err)
-
-	gc.Next()
+	res, err := c.jwtService.SigninAws(gc, bodyRequest, request.AwsRequest{})
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	gc.JSON(http.StatusOK, res)
 }

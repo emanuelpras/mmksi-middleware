@@ -6,10 +6,13 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
-type TokenMmksiRequest struct {
-	Company  string `json:"company"`
+type TokenAWSRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type TokenMmksiRequest struct {
+	Company string `form:"company"`
 }
 
 type TokenRefreshRequest struct {
@@ -17,21 +20,12 @@ type TokenRefreshRequest struct {
 }
 
 type AwsRequest struct {
-	UserPoolID   string
+	Region       string
 	ClientID     string
 	ClientSecret string
 }
 
-func (f *TokenMmksiRequest) Validate() error {
-	if err := validation.Validate(f.Company, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Company cannot be empty",
-				"id": "Company harus diisi",
-			},
-		}
-	}
+func (f *TokenAWSRequest) Validate() error {
 
 	if err := validation.Validate(f.Username, validation.Required); err != nil {
 		return &response.ErrorResponse{
@@ -52,21 +46,20 @@ func (f *TokenMmksiRequest) Validate() error {
 			},
 		}
 	}
+	return nil
+}
 
-	switch f.Company {
-	case "mmksi":
-		return nil
-	case "dsf":
-		return nil
-	default:
+func (f *TokenMmksiRequest) Validate() error {
+	if err := validation.Validate(f.Company, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 400,
+			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "Company unregistered",
-				"id": "Company tidak terdaftar",
+				"en": "Company cannot be empty",
+				"id": "Company harus diisi",
 			},
 		}
 	}
+	return nil
 }
 
 func (f *TokenRefreshRequest) Validate() error {
