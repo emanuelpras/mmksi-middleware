@@ -156,8 +156,8 @@ func (r *jwtRepo) SigninAws(params request.TokenAWSRequest, config request.AwsRe
 		return nil, &response.ErrorResponse{
 			ErrorID: 400,
 			Msg: map[string]string{
-				"en": "the username or password is incorrect",
-				"id": "username atau password salah",
+				"en": "Username or password is incorrect",
+				"id": "Username atau password salah",
 			},
 		}
 	}
@@ -166,5 +166,6 @@ func (r *jwtRepo) SigninAws(params request.TokenAWSRequest, config request.AwsRe
 			AccessToken:  *res.AuthenticationResult.AccessToken,
 			RefreshToken: *res.AuthenticationResult.RefreshToken,
 		},
+
 		nil
 }
