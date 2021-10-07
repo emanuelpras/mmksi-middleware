@@ -49,6 +49,6 @@ main.go                 # main
 ## How to generate Swagger
 - Run command `go mod tidy` to install dependency
 - Add `export PATH=$(go env GOPATH)/bin:$PATH` to your bashrc
-- Run `swag init` to generate folder docs (docs.go, swagger.json, and swagger.yaml) 
+- Run `swag init -g server/server.go` to generate folder docs (docs.go, swagger.json, and swagger.yaml) into latest api documentation
 - Run `go run main.go`
 - Run page `localhost:8080/swagger/index.html` in your browser
