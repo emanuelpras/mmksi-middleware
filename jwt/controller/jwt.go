@@ -95,7 +95,18 @@ func (c *jwtController) Auth(gc *gin.Context) {
 	gc.Next()
 }
 
+// Authenticate godoc
+// @Tags Token
+// @Summary Provides a Sign In
+// @Description Authenticates a user and provides a JWT to Authorize API calls
+// @Consume application/x-www-form-urlencoded
+// @Produce json
+// @Param requestbody body request.TokenAWSRequest true "Request Body"
+// @Success 200 {object} response.TokenAWSResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /auth/signin [post]
 func (c *jwtController) SigninAws(gc *gin.Context) {
+	cors.AllowCors(gc)
 	var bodyRequest request.TokenAWSRequest
 	if err := gc.ShouldBindJSON(&bodyRequest); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

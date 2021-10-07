@@ -23,6 +23,43 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth/signin": {
+            "post": {
+                "description": "Authenticates a user and provides a JWT to Authorize API calls",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Provides a Sign In",
+                "parameters": [
+                    {
+                        "description": "Request Body",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.TokenAWSRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.TokenAWSResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/token": {
             "post": {
                 "description": "Authenticates a user and provides a JWT to Authorize API calls",
@@ -1327,6 +1364,17 @@ var doc = `{
                 }
             }
         },
+        "request.TokenAWSRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "request.VehicleRequest": {
             "type": "object",
             "properties": {
@@ -1602,6 +1650,20 @@ var doc = `{
                     "type": "boolean"
                 },
                 "statusCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.TokenAWSResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "id_token": {
+                    "type": "string"
+                },
+                "refresh_token": {
                     "type": "string"
                 }
             }

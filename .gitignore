@@ -2,3 +2,6 @@
 main
 main.zip
 docs
+docs.go
+swagger.json
+swagger.yaml

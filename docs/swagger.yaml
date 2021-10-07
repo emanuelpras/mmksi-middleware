@@ -111,6 +111,13 @@ definitions:
       variant:
         type: string
     type: object
+  request.TokenAWSRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
   request.VehicleRequest:
     properties:
       find:
@@ -294,6 +301,15 @@ definitions:
       statusCode:
         type: string
     type: object
+  response.TokenAWSResponse:
+    properties:
+      access_token:
+        type: string
+      id_token:
+        type: string
+      refresh_token:
+        type: string
+    type: object
   response.TokenMmksiResponse:
     properties:
       access_token:
@@ -386,6 +402,30 @@ definitions:
 info:
   contact: {}
 paths:
+  /auth/signin:
+    post:
+      description: Authenticates a user and provides a JWT to Authorize API calls
+      parameters:
+      - description: Request Body
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/request.TokenAWSRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.TokenAWSResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Provides a Sign In
+      tags:
+      - Token
   /auth/token:
     post:
       description: Authenticates a user and provides a JWT to Authorize API calls
