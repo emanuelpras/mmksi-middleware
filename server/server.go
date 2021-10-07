@@ -2,7 +2,6 @@ package server
 
 import (
 	"log"
-	"middleware-mmksi/docs"
 	"middleware-mmksi/util"
 	"os"
 
@@ -14,6 +13,8 @@ import (
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+
+	_ "middleware-mmksi/docs"
 
 	"github.com/apex/gateway"
 	"github.com/gin-gonic/gin"
@@ -63,12 +64,12 @@ func routerEngine() *gin.Engine {
 
 func registerRoute(r *gin.Engine) {
 
-	docs.SwaggerInfo.Title = "API Documentation"
-	docs.SwaggerInfo.Description = "MMKSI Middleware API Documentation"
-	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = "xuu77ziiri.execute-api.us-east-2.amazonaws.com/"
-	docs.SwaggerInfo.BasePath = "development/"
-	docs.SwaggerInfo.Schemes = []string{"https", "http"}
+	// @title MMKSI Middleware API Documentation
+	// @description MMKSI Middleware API Documentation
+	// @version 1.0
+	// @host xuu77ziiri.execute-api.us-east-2.amazonaws.com/
+	// @basePath development
+	// @Schemes  https http
 
 	var (
 		authController       jwtControllers.JwtController               = jwtControllers.NewJwtController(util.ProvideAuthService())
@@ -87,8 +88,8 @@ func registerRoute(r *gin.Engine) {
 
 	// Middleware signin method
 	// you can comment the code if you want to use middleware signin method
-	/* r.POST("/auth/token", authController.CreateToken)
-	r.POST("/token/refresh", authController.RefreshToken) */
+	r.POST("/auth/token", authController.CreateToken)
+	r.POST("/token/refresh", authController.RefreshToken)
 
 	// Dsf route
 	r.GET("/dsf/tradein/vehicles", authController.Auth, mrpController.GetVehicles)
@@ -120,6 +121,7 @@ func registerRoute(r *gin.Engine) {
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
 	r.POST("/mmksi/vehicle", authController.Auth, tokenController.GetToken, mmksiController.GetVehicleColor)
 
+	// Swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 }

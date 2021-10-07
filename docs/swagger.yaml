@@ -1,3 +1,4 @@
+basePath: development
 definitions:
   middleware-mmksi_dsf_mrp_response.Vehicle:
     properties:
@@ -399,8 +400,12 @@ definitions:
       total:
         type: integer
     type: object
+host: xuu77ziiri.execute-api.us-east-2.amazonaws.com/
 info:
   contact: {}
+  description: MMKSI Middleware API Documentation
+  title: MMKSI Middleware API Documentation
+  version: "1.0"
 paths:
   /auth/signin:
     post:
@@ -1169,4 +1174,7 @@ paths:
       summary: Provides a Refresh Token
       tags:
       - Token
+schemes:
+- https
+- http
 swagger: "2.0"

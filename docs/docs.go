@@ -1820,12 +1820,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
-	Host:        "",
-	BasePath:    "",
-	Schemes:     []string{},
-	Title:       "",
-	Description: "",
+	Version:     "1.0",
+	Host:        "xuu77ziiri.execute-api.us-east-2.amazonaws.com/",
+	BasePath:    "development",
+	Schemes:     []string{"https", "http"},
+	Title:       "MMKSI Middleware API Documentation",
+	Description: "MMKSI Middleware API Documentation",
 }
 
 type s struct{}
