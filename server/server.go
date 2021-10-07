@@ -79,17 +79,23 @@ func registerRoute(r *gin.Engine) {
 		dsfPaymentController dsfPaymentControllers.DsfPaymentController = dsfPaymentControllers.NewDsfPaymentController(util.ProvideDsfPaymentService())
 	)
 
-	// token route
+	// Token route
+	// Aws cognito sign in
+	// you can comment the code if you don't need signin method with aws
+	// if you need to signin with aws, you should uncomment this code
 	r.POST("/auth/signin", authController.SigninAws)
-	r.POST("/auth/token", authController.CreateToken)
-	r.POST("/token/refresh", authController.RefreshToken)
 
-	// dsf route
+	// Middleware signin method
+	// you can comment the code if you want to use middleware signin method
+	/* r.POST("/auth/token", authController.CreateToken)
+	r.POST("/token/refresh", authController.RefreshToken) */
+
+	// Dsf route
 	r.GET("/dsf/tradein/vehicles", authController.Auth, mrpController.GetVehicles)
 	r.GET("/dsf/tradein/regions", authController.Auth, mrpController.GetRegions)
 	r.POST("/dsf/tradein/prediction", authController.Auth, mrpController.GetPrediction)
 
-	// metadata
+	// Metadata route
 	r.GET("/dsf/metadata/additionalInsurance", authController.Auth, dsfProgramController.GetAdditionalInsurance)
 	r.GET("/dsf/metadata/packageNames", authController.Auth, dsfProgramController.GetPackageNames)
 	r.GET("/dsf/metadata/carConditions", authController.Auth, dsfProgramController.GetCarConditions)
@@ -106,11 +112,11 @@ func registerRoute(r *gin.Engine) {
 	r.GET("/dsf/metadata/provinces", authController.Auth, dsfProgramController.GetProvinces)
 	r.GET("/dsf/metadata/cities", authController.Auth, dsfProgramController.GetCities)
 
-	// calculator
+	// Dsf calculator route
 	r.POST("/dsf/calculator/perTenor", authController.Auth, dsfPaymentController.GetTenor)
 	r.POST("/dsf/calculator/allTenors", authController.Auth, dsfPaymentController.GetAllTenor)
 
-	// mmksi route
+	// Mmksi master data route
 	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
 	r.POST("/mmksi/vehicle", authController.Auth, tokenController.GetToken, mmksiController.GetVehicleColor)
 
