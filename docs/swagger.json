@@ -25,6 +25,13 @@
                 "summary": "Provides a Refresh Token",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Company",
+                        "name": "company",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Request Body",
                         "name": "requestbody",
                         "in": "body",
@@ -32,13 +39,6 @@
                         "schema": {
                             "$ref": "#/definitions/request.RefreshTokenAWSRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "Company",
-                        "name": "company",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -69,6 +69,13 @@
                 "summary": "Provides a Sign In",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Company",
+                        "name": "company",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Request Body",
                         "name": "requestbody",
                         "in": "body",
@@ -76,13 +83,6 @@
                         "schema": {
                             "$ref": "#/definitions/request.TokenAWSRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "Company",
-                        "name": "company",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -561,7 +561,7 @@
                     {
                         "type": "string",
                         "description": "Dsf Branch ID",
-                        "name": "dsfBranchId",
+                        "name": "DsfBranchId",
                         "in": "query",
                         "required": true
                     },
@@ -582,7 +582,7 @@
                     {
                         "type": "string",
                         "description": "Car Condition",
-                        "name": "Condition",
+                        "name": "CarCondition",
                         "in": "query",
                         "required": true
                     }
@@ -807,7 +807,7 @@
                 }
             }
         },
-        "/dsf/metadata/province": {
+        "/dsf/metadata/provinces": {
             "get": {
                 "description": "Get Province",
                 "produces": [
@@ -857,7 +857,7 @@
                 }
             }
         },
-        "/dsf/metadata/variants": {
+        "/dsf/metadata/variant": {
             "get": {
                 "description": "Get Variants",
                 "produces": [

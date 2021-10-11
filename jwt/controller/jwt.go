@@ -102,8 +102,8 @@ func (c *jwtController) Auth(gc *gin.Context) {
 // @Description Authenticates a user and provides a JWT to Authorize API calls
 // @Consume application/x-www-form-urlencoded
 // @Produce json
-// @Param requestbody body request.TokenAWSRequest true "Request Body"
 // @Param company header string true "Company"
+// @Param requestbody body request.TokenAWSRequest true "Request Body"
 // @Success 200 {object} response.TokenAWSResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /auth/signin [post]
@@ -136,8 +136,8 @@ func (c *jwtController) SigninAws(gc *gin.Context) {
 // @Description Authenticates a user and provides a JWT to Authorize API calls
 // @Consume application/x-www-form-urlencoded
 // @Produce json
-// @Param requestbody body request.RefreshTokenAWSRequest true "Request Body"
 // @Param company header string true "Company"
+// @Param requestbody body request.RefreshTokenAWSRequest true "Request Body"
 // @Success 200 {object} response.TokenAWSResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /auth/resignin [post]

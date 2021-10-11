@@ -161,7 +161,7 @@ func (c *dsfProgramController) GetPackages(gc *gin.Context) {
 // @Param applicationName header string true "Application Name"
 // @Success 200 {object} response.VariantsResponse
 // @Failure 400 {object} response.ErrorResponse
-// @Router /dsf/metadata/variants [get]
+// @Router /dsf/metadata/variant [get]
 func (c *dsfProgramController) GetVariants(gc *gin.Context) {
 
 	cors.AllowCors(gc)
@@ -323,10 +323,10 @@ func (c *dsfProgramController) GetInsuranceTypes(gc *gin.Context) {
 // @Description Get Insurances
 // @Produce json
 // @Param Authentication header string true "Authentication"
-// @Param dsfBranchId query string true "Dsf Branch ID"
+// @Param DsfBranchId query string true "Dsf Branch ID"
 // @Param VehicleCategory query string true "Vehicle Category"
 // @Param InsuranceTypeCode query string true "Insurance Type Code"
-// @Param Car Condition query string true "Car Condition"
+// @Param CarCondition query string true "Car Condition"
 // @Success 200 {object} response.InsuranceResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/metadata/insurances [get]
@@ -393,7 +393,7 @@ func (c *dsfProgramController) GetAssetCode(gc *gin.Context) {
 // @Param province query request.ProvincesRequest true "Province Request"
 // @Success 200 {object} response.ProvincesResponse
 // @Failure 400 {object} response.ErrorResponse
-// @Router /dsf/metadata/province [get]
+// @Router /dsf/metadata/provinces [get]
 func (c *dsfProgramController) GetProvinces(gc *gin.Context) {
 
 	cors.AllowCors(gc)

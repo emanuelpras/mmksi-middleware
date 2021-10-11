@@ -35,6 +35,13 @@ var doc = `{
                 "summary": "Provides a Refresh Token",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Company",
+                        "name": "company",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Request Body",
                         "name": "requestbody",
                         "in": "body",
@@ -42,13 +49,6 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/request.RefreshTokenAWSRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "Company",
-                        "name": "company",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -79,6 +79,13 @@ var doc = `{
                 "summary": "Provides a Sign In",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "Company",
+                        "name": "company",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "Request Body",
                         "name": "requestbody",
                         "in": "body",
@@ -86,13 +93,6 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/request.TokenAWSRequest"
                         }
-                    },
-                    {
-                        "type": "string",
-                        "description": "Company",
-                        "name": "company",
-                        "in": "header",
-                        "required": true
                     }
                 ],
                 "responses": {
@@ -571,7 +571,7 @@ var doc = `{
                     {
                         "type": "string",
                         "description": "Dsf Branch ID",
-                        "name": "dsfBranchId",
+                        "name": "DsfBranchId",
                         "in": "query",
                         "required": true
                     },
@@ -592,7 +592,7 @@ var doc = `{
                     {
                         "type": "string",
                         "description": "Car Condition",
-                        "name": "Condition",
+                        "name": "CarCondition",
                         "in": "query",
                         "required": true
                     }
@@ -817,7 +817,7 @@ var doc = `{
                 }
             }
         },
-        "/dsf/metadata/province": {
+        "/dsf/metadata/provinces": {
             "get": {
                 "description": "Get Province",
                 "produces": [
@@ -867,7 +867,7 @@ var doc = `{
                 }
             }
         },
-        "/dsf/metadata/variants": {
+        "/dsf/metadata/variant": {
             "get": {
                 "description": "Get Variants",
                 "produces": [
