@@ -135,12 +135,19 @@ func (c *jwtController) SigninAws(gc *gin.Context) {
 func (c *jwtController) ReSigninAws(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var bodyRequest request.RefreshTokenAWSRequest
+	var headerRequest request.TokenMmksiRequest
+
 	if err := gc.ShouldBindJSON(&bodyRequest); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	res, err := c.jwtService.ReSigninAws(gc, bodyRequest, request.AwsRequest{})
+	if err := gc.ShouldBindHeader(&headerRequest); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.jwtService.ReSigninAws(gc, bodyRequest, headerRequest, request.AwsRequest{})
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return

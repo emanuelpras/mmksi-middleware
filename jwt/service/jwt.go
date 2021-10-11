@@ -14,7 +14,7 @@ type JwtService interface {
 	RefreshToken(gc *gin.Context, paramJwt request.RefreshTokenRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, auth request.AuthRequest) error
 	SigninAws(gc *gin.Context, param request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error)
-	ReSigninAws(gc *gin.Context, param request.RefreshTokenAWSRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
+	ReSigninAws(gc *gin.Context, bodyRequest request.RefreshTokenAWSRequest, headerRequest request.TokenMmksiRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
 }
 
 type jwtService struct {
@@ -104,14 +104,19 @@ func (s *jwtService) SigninAws(gc *gin.Context, param request.TokenAWSRequest, c
 	return result, nil
 }
 
-func (s *jwtService) ReSigninAws(gc *gin.Context, param request.RefreshTokenAWSRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
-	if err := param.Validate(); err != nil {
+func (s *jwtService) ReSigninAws(gc *gin.Context, bodyRequest request.RefreshTokenAWSRequest, headerRequest request.TokenMmksiRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
+	if err := bodyRequest.Validate(); err != nil {
+		return nil, err
+	}
+	if err := headerRequest.Validate(); err != nil {
 		return nil, err
 	}
 
 	result, err := s.jwtRepo.ReSigninAws(request.RefreshTokenAWSRequest{
-		Username:     param.Username,
-		RefreshToken: param.RefreshToken,
+		Username:     bodyRequest.Username,
+		RefreshToken: bodyRequest.RefreshToken,
+	}, request.TokenMmksiRequest{
+		Company: headerRequest.Company,
 	}, request.AwsRequest{
 		Region:       os.Getenv("REGION_AWS"),
 		ClientID:     os.Getenv("CLIENT_ID_AWS"),

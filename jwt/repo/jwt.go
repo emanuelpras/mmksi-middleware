@@ -28,7 +28,7 @@ type JwtRepo interface {
 	RefreshToken(params request.RefreshTokenRequest, timeout Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, params request.AuthRequest, timeout Timeout) error
 	SigninAws(params request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error)
-	ReSigninAws(params request.RefreshTokenAWSRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
+	ReSigninAws(bodyRequest request.RefreshTokenAWSRequest, headerRequest request.TokenMmksiRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
 }
 type jwtRepo struct {
 	httpClient *http.Client
@@ -169,20 +169,20 @@ func (r *jwtRepo) SigninAws(params request.TokenAWSRequest, config request.AwsRe
 		nil
 }
 
-func (r *jwtRepo) ReSigninAws(params request.RefreshTokenAWSRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
+func (r *jwtRepo) ReSigninAws(bodyRequest request.RefreshTokenAWSRequest, headerRequest request.TokenMmksiRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
 
 	conf := &aws.Config{Region: aws.String(config.Region)}
 	sess := session.Must(session.NewSession(conf))
 	mac := hmac.New(sha256.New, []byte(config.ClientSecret))
-	mac.Write([]byte(params.Username + config.ClientID))
+	mac.Write([]byte(bodyRequest.Username + config.ClientID))
 	secretHash := base64.StdEncoding.EncodeToString(mac.Sum(nil))
 	cognitoClient := cognitoidentityprovider.New(sess)
 
 	authTry := &cognitoidentityprovider.InitiateAuthInput{
 		AuthFlow: aws.String("REFRESH_TOKEN_AUTH"),
 		AuthParameters: map[string]*string{
-			"USERNAME":      aws.String(params.Username),
-			"REFRESH_TOKEN": aws.String(params.RefreshToken),
+			"USERNAME":      aws.String(bodyRequest.Username),
+			"REFRESH_TOKEN": aws.String(bodyRequest.RefreshToken),
 			"SECRET_HASH":   aws.String(secretHash),
 		},
 		ClientId: aws.String(config.ClientID),
