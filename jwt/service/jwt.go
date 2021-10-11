@@ -13,7 +13,7 @@ type JwtService interface {
 	CreateToken(gc *gin.Context, paramJwt request.HeaderTokenRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	RefreshToken(gc *gin.Context, paramJwt request.RefreshTokenRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, auth request.AuthRequest) error
-	SigninAws(gc *gin.Context, param request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error)
+	SigninAws(gc *gin.Context, param request.TokenAWSRequest, headerRequest request.HeaderTokenRequest, config request.AwsRequest) (*response.TokenAWSResponse, error)
 	ReSigninAws(gc *gin.Context, bodyRequest request.RefreshTokenAWSRequest, headerRequest request.HeaderTokenRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
 }
 
@@ -83,14 +83,18 @@ func (s *jwtService) Auth(gc *gin.Context, auth request.AuthRequest) error {
 	return nil
 }
 
-func (s *jwtService) SigninAws(gc *gin.Context, param request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error) {
-	if err := param.Validate(); err != nil {
+func (s *jwtService) SigninAws(gc *gin.Context, bodyRequest request.TokenAWSRequest, headerRequest request.HeaderTokenRequest, config request.AwsRequest) (*response.TokenAWSResponse, error) {
+	if err := bodyRequest.Validate(); err != nil {
+		return nil, err
+	}
+
+	if err := headerRequest.Validate(); err != nil {
 		return nil, err
 	}
 
 	result, err := s.jwtRepo.SigninAws(request.TokenAWSRequest{
-		Username: param.Username,
-		Password: param.Password,
+		Username: bodyRequest.Username,
+		Password: bodyRequest.Password,
 	}, request.AwsRequest{
 		Region:       os.Getenv("REGION_AWS"),
 		ClientID:     os.Getenv("CLIENT_ID_AWS"),
@@ -115,8 +119,6 @@ func (s *jwtService) ReSigninAws(gc *gin.Context, bodyRequest request.RefreshTok
 	result, err := s.jwtRepo.ReSigninAws(request.RefreshTokenAWSRequest{
 		Username:     bodyRequest.Username,
 		RefreshToken: bodyRequest.RefreshToken,
-	}, request.HeaderTokenRequest{
-		Company: headerRequest.Company,
 	}, request.AwsRequest{
 		Region:       os.Getenv("REGION_AWS"),
 		ClientID:     os.Getenv("CLIENT_ID_AWS"),

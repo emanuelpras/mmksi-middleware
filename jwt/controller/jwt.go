@@ -103,18 +103,26 @@ func (c *jwtController) Auth(gc *gin.Context) {
 // @Consume application/x-www-form-urlencoded
 // @Produce json
 // @Param requestbody body request.TokenAWSRequest true "Request Body"
+// @Param company header string true "Company"
 // @Success 200 {object} response.TokenAWSResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /auth/signin [post]
 func (c *jwtController) SigninAws(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var bodyRequest request.TokenAWSRequest
+	var headerRequest request.HeaderTokenRequest
+
 	if err := gc.ShouldBindJSON(&bodyRequest); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	res, err := c.jwtService.SigninAws(gc, bodyRequest, request.AwsRequest{})
+	if err := gc.ShouldBindHeader(&headerRequest); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.jwtService.SigninAws(gc, bodyRequest, headerRequest, request.AwsRequest{})
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return

@@ -86,6 +86,13 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/request.TokenAWSRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Company",
+                        "name": "company",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {

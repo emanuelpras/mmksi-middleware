@@ -453,6 +453,11 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/request.TokenAWSRequest'
+      - description: Company
+        in: header
+        name: company
+        required: true
+        type: string
       produces:
       - application/json
       responses:
