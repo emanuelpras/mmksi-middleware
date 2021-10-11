@@ -11,11 +11,16 @@ type TokenAWSRequest struct {
 	Password string `json:"password"`
 }
 
+type RefreshTokenAWSRequest struct {
+	Username     string `json:"username"`
+	RefreshToken string `json:"refresh_token"`
+}
+
 type TokenMmksiRequest struct {
 	Company string `form:"company"`
 }
 
-type TokenRefreshRequest struct {
+type RefreshTokenRequest struct {
 	RefreshToken string `form:"refreshToken"`
 }
 
@@ -49,6 +54,30 @@ func (f *TokenAWSRequest) Validate() error {
 	return nil
 }
 
+func (f *RefreshTokenAWSRequest) Validate() error {
+
+	if err := validation.Validate(f.Username, validation.Required); err != nil {
+		return &response.ErrorResponse{
+			ErrorID: 422,
+			Msg: map[string]string{
+				"en": "Username cannot be empty",
+				"id": "Username harus diisi",
+			},
+		}
+	}
+
+	if err := validation.Validate(f.RefreshToken, validation.Required); err != nil {
+		return &response.ErrorResponse{
+			ErrorID: 422,
+			Msg: map[string]string{
+				"en": "Refresh Token cannot be empty",
+				"id": "Refresh Token harus diisi",
+			},
+		}
+	}
+	return nil
+}
+
 func (f *TokenMmksiRequest) Validate() error {
 	if err := validation.Validate(f.Company, validation.Required); err != nil {
 		return &response.ErrorResponse{
@@ -62,7 +91,7 @@ func (f *TokenMmksiRequest) Validate() error {
 	return nil
 }
 
-func (f *TokenRefreshRequest) Validate() error {
+func (f *RefreshTokenRequest) Validate() error {
 	if err := validation.Validate(f.RefreshToken, validation.Required); err != nil {
 		return &response.ErrorResponse{
 			ErrorID: 422,

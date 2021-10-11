@@ -7,6 +7,11 @@ type TokenMmksiResponse struct {
 
 type TokenAWSResponse struct {
 	IDToken      string `json:"id_token"`
-	AccessToken  string `json:"access_token"`
+	TokenType    string `json:"token_type"`
 	RefreshToken string `json:"refresh_token"`
+}
+
+type RefreshTokenAWSResponse struct {
+	IDToken   string `json:"id_token"`
+	TokenType string `json:"token_type"`
 }

@@ -20,6 +20,7 @@ type JwtController interface {
 	RefreshToken(gc *gin.Context)
 	Auth(gc *gin.Context)
 	SigninAws(gc *gin.Context)
+	ReSigninAws(gc *gin.Context)
 }
 
 func NewJwtController(
@@ -68,7 +69,7 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 // @Router /token/refresh [post]
 func (c *jwtController) RefreshToken(gc *gin.Context) {
 	cors.AllowCors(gc)
-	var paramJwt request.TokenRefreshRequest
+	var paramJwt request.RefreshTokenRequest
 	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -114,6 +115,32 @@ func (c *jwtController) SigninAws(gc *gin.Context) {
 	}
 
 	res, err := c.jwtService.SigninAws(gc, bodyRequest, request.AwsRequest{})
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+	gc.JSON(http.StatusOK, res)
+}
+
+// Authenticate godoc
+// @Tags Token
+// @Summary Provides a Refresh Token
+// @Description Authenticates a user and provides a JWT to Authorize API calls
+// @Consume application/x-www-form-urlencoded
+// @Produce json
+// @Param requestbody body request.RefreshTokenAWSRequest true "Request Body"
+// @Success 200 {object} response.TokenAWSResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /auth/resignin [post]
+func (c *jwtController) ReSigninAws(gc *gin.Context) {
+	cors.AllowCors(gc)
+	var bodyRequest request.RefreshTokenAWSRequest
+	if err := gc.ShouldBindJSON(&bodyRequest); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.jwtService.ReSigninAws(gc, bodyRequest, request.AwsRequest{})
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return

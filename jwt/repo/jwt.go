@@ -25,9 +25,10 @@ type Timeout struct {
 }
 type JwtRepo interface {
 	CreateToken(params request.TokenMmksiRequest, timeout Timeout) (*response.TokenMmksiResponse, error)
-	RefreshToken(params request.TokenRefreshRequest, timeout Timeout) (*response.TokenMmksiResponse, error)
+	RefreshToken(params request.RefreshTokenRequest, timeout Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, params request.AuthRequest, timeout Timeout) error
 	SigninAws(params request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error)
+	ReSigninAws(params request.RefreshTokenAWSRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
 }
 type jwtRepo struct {
 	httpClient *http.Client
@@ -45,7 +46,7 @@ func (r *jwtRepo) CreateToken(params request.TokenMmksiRequest, timeout Timeout)
 
 }
 
-func (r *jwtRepo) RefreshToken(params request.TokenRefreshRequest, timeout Timeout) (*response.TokenMmksiResponse, error) {
+func (r *jwtRepo) RefreshToken(params request.RefreshTokenRequest, timeout Timeout) (*response.TokenMmksiResponse, error) {
 
 	return r.TokenValidation(params.RefreshToken, timeout)
 
@@ -131,14 +132,12 @@ func (r *jwtRepo) GenerateToken(company string, timeout Timeout) (*response.Toke
 }
 
 func (r *jwtRepo) SigninAws(params request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error) {
+
 	conf := &aws.Config{Region: aws.String(config.Region)}
 	sess := session.Must(session.NewSession(conf))
-
 	mac := hmac.New(sha256.New, []byte(config.ClientSecret))
 	mac.Write([]byte(params.Username + config.ClientID))
-
 	secretHash := base64.StdEncoding.EncodeToString(mac.Sum(nil))
-
 	cognitoClient := cognitoidentityprovider.New(sess)
 
 	authTry := &cognitoidentityprovider.InitiateAuthInput{
@@ -163,8 +162,45 @@ func (r *jwtRepo) SigninAws(params request.TokenAWSRequest, config request.AwsRe
 	}
 	return &response.TokenAWSResponse{
 			IDToken:      *res.AuthenticationResult.IdToken,
-			AccessToken:  *res.AuthenticationResult.AccessToken,
+			TokenType:    *res.AuthenticationResult.TokenType,
 			RefreshToken: *res.AuthenticationResult.RefreshToken,
+		},
+
+		nil
+}
+
+func (r *jwtRepo) ReSigninAws(params request.RefreshTokenAWSRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
+
+	conf := &aws.Config{Region: aws.String(config.Region)}
+	sess := session.Must(session.NewSession(conf))
+	mac := hmac.New(sha256.New, []byte(config.ClientSecret))
+	mac.Write([]byte(params.Username + config.ClientID))
+	secretHash := base64.StdEncoding.EncodeToString(mac.Sum(nil))
+	cognitoClient := cognitoidentityprovider.New(sess)
+
+	authTry := &cognitoidentityprovider.InitiateAuthInput{
+		AuthFlow: aws.String("REFRESH_TOKEN_AUTH"),
+		AuthParameters: map[string]*string{
+			"USERNAME":      aws.String(params.Username),
+			"REFRESH_TOKEN": aws.String(params.RefreshToken),
+			"SECRET_HASH":   aws.String(secretHash),
+		},
+		ClientId: aws.String(config.ClientID),
+	}
+
+	res, err := cognitoClient.InitiateAuth(authTry)
+	if err != nil {
+		return nil, &response.ErrorResponse{
+			ErrorID: 400,
+			Msg: map[string]string{
+				"en": "Invalid Refresh Token or Username is incorrect or Refresh Token has been expired",
+				"id": "Refresh Token tidak valid atau Username salah atau Refresh Token telah kedaluwarsa",
+			},
+		}
+	}
+	return &response.RefreshTokenAWSResponse{
+			IDToken:   *res.AuthenticationResult.IdToken,
+			TokenType: *res.AuthenticationResult.TokenType,
 		},
 
 		nil

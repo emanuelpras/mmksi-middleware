@@ -85,6 +85,7 @@ func registerRoute(r *gin.Engine) {
 	// you can comment the code if you don't need signin method with aws
 	// if you need to signin with aws, you should uncomment this code
 	r.POST("/auth/signin", authController.SigninAws)
+	r.POST("/auth/resignin", authController.ReSigninAws)
 
 	// Middleware signin method
 	// you can comment the code if you want to use middleware signin method

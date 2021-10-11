@@ -11,9 +11,10 @@ import (
 
 type JwtService interface {
 	CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
-	RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
+	RefreshToken(gc *gin.Context, paramJwt request.RefreshTokenRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, auth request.AuthRequest) error
 	SigninAws(gc *gin.Context, param request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error)
+	ReSigninAws(gc *gin.Context, param request.RefreshTokenAWSRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
 }
 
 type jwtService struct {
@@ -46,11 +47,11 @@ func (s *jwtService) CreateToken(gc *gin.Context, paramJwt request.TokenMmksiReq
 	return result, nil
 }
 
-func (s *jwtService) RefreshToken(gc *gin.Context, paramJwt request.TokenRefreshRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error) {
+func (s *jwtService) RefreshToken(gc *gin.Context, paramJwt request.RefreshTokenRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error) {
 	if err := paramJwt.Validate(); err != nil {
 		return nil, err
 	}
-	result, err := s.jwtRepo.RefreshToken(request.TokenRefreshRequest{
+	result, err := s.jwtRepo.RefreshToken(request.RefreshTokenRequest{
 		RefreshToken: paramJwt.RefreshToken,
 	}, repo.Timeout{
 		TimeoutAccessToken:  os.Getenv("ACCESS_TOKEN_TIMEOUT"),
@@ -90,6 +91,27 @@ func (s *jwtService) SigninAws(gc *gin.Context, param request.TokenAWSRequest, c
 	result, err := s.jwtRepo.SigninAws(request.TokenAWSRequest{
 		Username: param.Username,
 		Password: param.Password,
+	}, request.AwsRequest{
+		Region:       os.Getenv("REGION_AWS"),
+		ClientID:     os.Getenv("CLIENT_ID_AWS"),
+		ClientSecret: os.Getenv("CLIENT_SECRET_AWS"),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *jwtService) ReSigninAws(gc *gin.Context, param request.RefreshTokenAWSRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
+	if err := param.Validate(); err != nil {
+		return nil, err
+	}
+
+	result, err := s.jwtRepo.ReSigninAws(request.RefreshTokenAWSRequest{
+		Username:     param.Username,
+		RefreshToken: param.RefreshToken,
 	}, request.AwsRequest{
 		Region:       os.Getenv("REGION_AWS"),
 		ClientID:     os.Getenv("CLIENT_ID_AWS"),
