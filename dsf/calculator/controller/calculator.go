@@ -31,7 +31,7 @@ func NewDsfPaymentController(
 // @Summary Get Pertenor
 // @Description Get Calculator Pertenor
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param applicationName header string true "Application Name"
 // @Param requestbody body request.TenorRequest true "Request Body"
 // @Success 200 {object} response.TenorResponse
@@ -65,7 +65,7 @@ func (c *dsfPaymentController) GetTenor(gc *gin.Context) {
 // @Summary Get All Tenor
 // @Description Get Calculator All Tenor
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param applicationName header string true "Application Name"
 // @Param requestbody body request.TenorRequest true "Request Body"
 // @Success 200 {object} response.TenorResponse

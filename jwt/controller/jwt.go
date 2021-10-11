@@ -32,15 +32,15 @@ func NewJwtController(
 }
 
 // Authenticate godoc
-// @Tags Token
-// @Summary Provides a JSON Web Token
-// @Description Authenticates a user and provides a JWT to Authorize API calls
-// @Consume application/x-www-form-urlencoded
-// @Produce json
-// @Param company header string true "Company"
-// @Success 200 {object} response.TokenMmksiResponse
-// @Failure 400 {object} response.ErrorResponse
-// @Router /auth/token [post]
+// Tags Token
+// Summary Provides a JSON Web Token
+// Description Authenticates a user and provides a JWT to Authorize API calls
+// Consume application/x-www-form-urlencoded
+// Produce json
+// Param company header string true "Company"
+// Success 200 {object} response.TokenMmksiResponse
+// Failure 400 {object} response.ErrorResponse
+// Router /auth/token [post]
 func (c *jwtController) CreateToken(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var paramJwt request.HeaderTokenRequest
@@ -58,15 +58,15 @@ func (c *jwtController) CreateToken(gc *gin.Context) {
 }
 
 // Authenticate godoc
-// @Tags Token
-// @Summary Provides a Refresh Token
-// @Description Authenticates a user and provides a JWT to Authorize API calls
-// @Consume application/x-www-form-urlencoded
-// @Produce json
-// @Param refreshToken header string true "Refresh Token"
-// @Success 200 {object} response.TokenMmksiResponse
-// @Failure 400 {object} response.ErrorResponse
-// @Router /token/refresh [post]
+// Tags Token
+// Summary Provides a Refresh Token
+// Description Authenticates a user and provides a JWT to Authorize API calls
+// Consume application/x-www-form-urlencoded
+// Produce json
+// Param refreshToken header string true "Refresh Token"
+// Success 200 {object} response.TokenMmksiResponse
+// Failure 400 {object} response.ErrorResponse
+// Router /token/refresh [post]
 func (c *jwtController) RefreshToken(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var paramJwt request.RefreshTokenRequest

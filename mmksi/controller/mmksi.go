@@ -55,7 +55,7 @@ func (c *mmksiController) GetToken(gc *gin.Context) {
 // @Summary Get Vehicle
 // @Description Get Vehicle from MMKSI
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param requestbody body request.VehicleRequest true "Vehicle"
 // @Success 200 {object} response.VehicleResponse
 // @Failure 400 {object} response.ErrorResponse
@@ -82,7 +82,7 @@ func (c *mmksiController) GetVehicle(gc *gin.Context) {
 // @Summary Get Vehicle Color
 // @Description Get Vehicle Color from MMKSI
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param requestbody body request.VehicleRequest true "Vehicle Color"
 // @Success 200 {object} response.VehicleColorResponse
 // @Failure 400 {object} response.ErrorResponse

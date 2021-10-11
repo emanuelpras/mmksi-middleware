@@ -33,7 +33,7 @@ func NewMrpController(
 // @Summary Get Vehicle
 // @Description Get Vehicle
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param vehicle query request.GetVehicleRequest true "Vehicle Request"
 // @Success 200 {object} response.GetVehiclesResponse
 // @Failure 400 {object} response.ErrorResponse
@@ -60,7 +60,7 @@ func (c *mrpController) GetVehicles(gc *gin.Context) {
 // @Summary Get Regions
 // @Description Get Regions
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param province query request.GetRegionsRequest true "Province"
 // @Success 200 {object} response.GetRegionsResponse
 // @Failure 400 {object} response.ErrorResponse
@@ -87,7 +87,7 @@ func (c *mrpController) GetRegions(gc *gin.Context) {
 // @Summary Get Prediction
 // @Description Get Prediction
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param requestbody body request.PredictionRequest true "Request Body"
 // @Success 200 {object} response.PredictionResponse
 // @Failure 400 {object} response.ErrorResponse

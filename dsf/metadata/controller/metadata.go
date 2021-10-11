@@ -44,7 +44,7 @@ func NewDsfProgramController(
 // @Summary Get Additional Insurance
 // @Description Get Additional Insurance
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Success 200 {object} response.AdditionalInsuranceResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/metadata/additionalInsurance [get]
@@ -65,7 +65,7 @@ func (c *dsfProgramController) GetAdditionalInsurance(gc *gin.Context) {
 // @Summary Get Package Names
 // @Description Get Package Names
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param applicationName header string true "Application Name"
 // @Param assetCode header string true "Asset Code"
 // @Param branchCode header string true "Branch Code"
@@ -101,7 +101,7 @@ func (c *dsfProgramController) GetPackageNames(gc *gin.Context) {
 // @Summary Get Car Condition
 // @Description Get Car Condition
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Success 200 {object} response.CarConditionResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/metadata/carConditions [get]
@@ -122,7 +122,7 @@ func (c *dsfProgramController) GetCarConditions(gc *gin.Context) {
 // @Summary Get Packages
 // @Description Get Packages
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param applicationName header string true "Application Name"
 // @Param requestbody body request.PackageRequest true "Package"
 // @Success 200 {object} response.PackageResponse
@@ -157,7 +157,7 @@ func (c *dsfProgramController) GetPackages(gc *gin.Context) {
 // @Summary Get Variants
 // @Description Get Variants
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param applicationName header string true "Application Name"
 // @Success 200 {object} response.VariantsResponse
 // @Failure 400 {object} response.ErrorResponse
@@ -185,7 +185,7 @@ func (c *dsfProgramController) GetVariants(gc *gin.Context) {
 // @Summary Get Payment Types
 // @Description Get Payment Types
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Success 200 {object} response.PaymentTypesResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/metadata/paymentTypes [get]
@@ -206,7 +206,7 @@ func (c *dsfProgramController) GetPaymentTypes(gc *gin.Context) {
 // @Summary Get Models
 // @Description Get Models
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param brands query request.ModelsRequest true "Models"
 // @Success 200 {object} response.ModelsResponse
 // @Failure 400 {object} response.ErrorResponse
@@ -232,7 +232,7 @@ func (c *dsfProgramController) GetModels(gc *gin.Context) {
 // @Summary Get Brands
 // @Description Get Brands
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param brands query request.BrandsRequest true "Brands Request"
 // @Success 200 {object} response.BrandsResponse
 // @Failure 400 {object} response.ErrorResponse
@@ -259,7 +259,7 @@ func (c *dsfProgramController) GetBrands(gc *gin.Context) {
 // @Summary Get Vehicle Category
 // @Description Get Vehicle Category
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Success 200 {object} response.VehicleCategory
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/metadata/vehicleCategory [get]
@@ -280,7 +280,7 @@ func (c *dsfProgramController) GetVehicleCategory(gc *gin.Context) {
 // @Summary Get BranchID
 // @Description Get BranchID
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Success 200 {object} response.BranchResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/metadata/branchID [get]
@@ -301,7 +301,7 @@ func (c *dsfProgramController) GetBranchID(gc *gin.Context) {
 // @Summary Get Insurance Types
 // @Description Get Insurance Types
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Success 200 {object} response.InsuranceTypesResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /dsf/metadata/insuranceTypes [get]
@@ -322,7 +322,7 @@ func (c *dsfProgramController) GetInsuranceTypes(gc *gin.Context) {
 // @Summary Get Insurances
 // @Description Get Insurances
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param dsfBranchId query string true "Dsf Branch ID"
 // @Param VehicleCategory query string true "Vehicle Category"
 // @Param InsuranceTypeCode query string true "Insurance Type Code"
@@ -354,7 +354,7 @@ func (c *dsfProgramController) GetInsurance(gc *gin.Context) {
 // @Description Get Asset Code
 // @Consume json
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param applicationName header string true "Application Name"
 // @Param requestbody body request.AssetCodeRequest true "Asset Code Request"
 // @Success 200 {object} response.AssetCodeResponse
@@ -389,7 +389,7 @@ func (c *dsfProgramController) GetAssetCode(gc *gin.Context) {
 // @Summary Get Province
 // @Description Get Province
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param province query request.ProvincesRequest true "Province Request"
 // @Success 200 {object} response.ProvincesResponse
 // @Failure 400 {object} response.ErrorResponse
@@ -417,7 +417,7 @@ func (c *dsfProgramController) GetProvinces(gc *gin.Context) {
 // @Summary Get Cities
 // @Description Get Cities
 // @Produce json
-// @Param Auth header string true "Auth"
+// @Param Authentication header string true "Authentication"
 // @Param cities query request.CitiesRequest true "Cities Request"
 // @Success 200 {object} response.CitiesResponse
 // @Failure 400 {object} response.ErrorResponse

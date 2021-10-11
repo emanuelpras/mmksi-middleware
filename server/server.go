@@ -89,38 +89,38 @@ func registerRoute(r *gin.Engine) {
 
 	// Middleware signin method
 	// you can comment the code if you want to use middleware signin method
-	r.POST("/auth/token", authController.CreateToken)
-	r.POST("/token/refresh", authController.RefreshToken)
+	/* r.POST("/auth/token", authController.CreateToken)
+	r.POST("/token/refresh", authController.RefreshToken) */
 
 	// Dsf route
-	r.GET("/dsf/tradein/vehicles", authController.Auth, mrpController.GetVehicles)
-	r.GET("/dsf/tradein/regions", authController.Auth, mrpController.GetRegions)
-	r.POST("/dsf/tradein/prediction", authController.Auth, mrpController.GetPrediction)
+	r.GET("/dsf/tradein/vehicles", mrpController.GetVehicles)
+	r.GET("/dsf/tradein/regions", mrpController.GetRegions)
+	r.POST("/dsf/tradein/prediction", mrpController.GetPrediction)
 
 	// Metadata route
-	r.GET("/dsf/metadata/additionalInsurance", authController.Auth, dsfProgramController.GetAdditionalInsurance)
-	r.GET("/dsf/metadata/packageNames", authController.Auth, dsfProgramController.GetPackageNames)
-	r.GET("/dsf/metadata/carConditions", authController.Auth, dsfProgramController.GetCarConditions)
-	r.POST("/dsf/metadata/packages", authController.Auth, dsfProgramController.GetPackages)
-	r.GET("/dsf/metadata/variant", authController.Auth, dsfProgramController.GetVariants)
-	r.GET("/dsf/metadata/paymentTypes", authController.Auth, dsfProgramController.GetPaymentTypes)
-	r.GET("/dsf/metadata/brands", authController.Auth, dsfProgramController.GetBrands)
-	r.GET("/dsf/metadata/models", authController.Auth, dsfProgramController.GetModels)
-	r.GET("/dsf/metadata/vehicleCategory", authController.Auth, dsfProgramController.GetVehicleCategory)
-	r.GET("/dsf/metadata/branchID", authController.Auth, dsfProgramController.GetBranchID)
-	r.GET("/dsf/metadata/insuranceTypes", authController.Auth, dsfProgramController.GetInsuranceTypes)
-	r.GET("/dsf/metadata/insurances", authController.Auth, dsfProgramController.GetInsurance)
-	r.POST("/dsf/metadata/assetCode", authController.Auth, dsfProgramController.GetAssetCode)
-	r.GET("/dsf/metadata/provinces", authController.Auth, dsfProgramController.GetProvinces)
-	r.GET("/dsf/metadata/cities", authController.Auth, dsfProgramController.GetCities)
+	r.GET("/dsf/metadata/additionalInsurance", dsfProgramController.GetAdditionalInsurance)
+	r.GET("/dsf/metadata/packageNames", dsfProgramController.GetPackageNames)
+	r.GET("/dsf/metadata/carConditions", dsfProgramController.GetCarConditions)
+	r.POST("/dsf/metadata/packages", dsfProgramController.GetPackages)
+	r.GET("/dsf/metadata/variant", dsfProgramController.GetVariants)
+	r.GET("/dsf/metadata/paymentTypes", dsfProgramController.GetPaymentTypes)
+	r.GET("/dsf/metadata/brands", dsfProgramController.GetBrands)
+	r.GET("/dsf/metadata/models", dsfProgramController.GetModels)
+	r.GET("/dsf/metadata/vehicleCategory", dsfProgramController.GetVehicleCategory)
+	r.GET("/dsf/metadata/branchID", dsfProgramController.GetBranchID)
+	r.GET("/dsf/metadata/insuranceTypes", dsfProgramController.GetInsuranceTypes)
+	r.GET("/dsf/metadata/insurances", dsfProgramController.GetInsurance)
+	r.POST("/dsf/metadata/assetCode", dsfProgramController.GetAssetCode)
+	r.GET("/dsf/metadata/provinces", dsfProgramController.GetProvinces)
+	r.GET("/dsf/metadata/cities", dsfProgramController.GetCities)
 
 	// Dsf calculator route
-	r.POST("/dsf/calculator/perTenor", authController.Auth, dsfPaymentController.GetTenor)
-	r.POST("/dsf/calculator/allTenors", authController.Auth, dsfPaymentController.GetAllTenor)
+	r.POST("/dsf/calculator/perTenor", dsfPaymentController.GetTenor)
+	r.POST("/dsf/calculator/allTenors", dsfPaymentController.GetAllTenor)
 
 	// Mmksi master data route
-	r.POST("/mmksi/getData", authController.Auth, tokenController.GetToken, mmksiController.GetVehicle)
-	r.POST("/mmksi/vehicle", authController.Auth, tokenController.GetToken, mmksiController.GetVehicleColor)
+	r.POST("/mmksi/getData", tokenController.GetToken, mmksiController.GetVehicle)
+	r.POST("/mmksi/vehicle", tokenController.GetToken, mmksiController.GetVehicleColor)
 
 	// Swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

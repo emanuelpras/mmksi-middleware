@@ -318,13 +318,6 @@ definitions:
       token_type:
         type: string
     type: object
-  response.TokenMmksiResponse:
-    properties:
-      access_token:
-        type: string
-      refresh_token:
-        type: string
-    type: object
   response.Variant:
     properties:
       id:
@@ -472,36 +465,13 @@ paths:
       summary: Provides a Sign In
       tags:
       - Token
-  /auth/token:
-    post:
-      description: Authenticates a user and provides a JWT to Authorize API calls
-      parameters:
-      - description: Company
-        in: header
-        name: company
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.TokenMmksiResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.ErrorResponse'
-      summary: Provides a JSON Web Token
-      tags:
-      - Token
   /dsf/calculator/allTenors:
     post:
       description: Get Calculator All Tenor
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Application Name
@@ -533,9 +503,9 @@ paths:
     post:
       description: Get Calculator Pertenor
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Application Name
@@ -567,9 +537,9 @@ paths:
     get:
       description: Get Additional Insurance
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       produces:
@@ -595,9 +565,9 @@ paths:
     post:
       description: Get Asset Code
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Application Name
@@ -629,9 +599,9 @@ paths:
     get:
       description: Get BranchID
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       produces:
@@ -659,9 +629,9 @@ paths:
     get:
       description: Get Brands
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - in: query
@@ -691,9 +661,9 @@ paths:
     get:
       description: Get Car Condition
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       produces:
@@ -721,9 +691,9 @@ paths:
     get:
       description: Get Cities
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - in: query
@@ -756,9 +726,9 @@ paths:
     get:
       description: Get Insurance Types
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       produces:
@@ -786,9 +756,9 @@ paths:
     get:
       description: Get Insurances
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Dsf Branch ID
@@ -829,9 +799,9 @@ paths:
     get:
       description: Get Models
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - in: query
@@ -855,9 +825,9 @@ paths:
     get:
       description: Get Package Names
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Application Name
@@ -898,9 +868,9 @@ paths:
     post:
       description: Get Packages
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Application Name
@@ -934,9 +904,9 @@ paths:
     get:
       description: Get Payment Types
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       produces:
@@ -964,9 +934,9 @@ paths:
     get:
       description: Get Province
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - in: query
@@ -996,9 +966,9 @@ paths:
     get:
       description: Get Variants
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Application Name
@@ -1024,9 +994,9 @@ paths:
     get:
       description: Get Vehicle Category
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       produces:
@@ -1054,9 +1024,9 @@ paths:
     post:
       description: Get Prediction
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Request Body
@@ -1083,9 +1053,9 @@ paths:
     get:
       description: Get Regions
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - in: query
@@ -1109,9 +1079,9 @@ paths:
     get:
       description: Get Vehicle
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - in: query
@@ -1138,9 +1108,9 @@ paths:
     post:
       description: Get Vehicle from MMKSI
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Vehicle
@@ -1167,9 +1137,9 @@ paths:
     post:
       description: Get Vehicle Color from MMKSI
       parameters:
-      - description: Auth
+      - description: Authentication
         in: header
-        name: Auth
+        name: Authentication
         required: true
         type: string
       - description: Vehicle Color
@@ -1192,29 +1162,6 @@ paths:
       summary: Get Vehicle Color
       tags:
       - MMKSI Vehicle
-  /token/refresh:
-    post:
-      description: Authenticates a user and provides a JWT to Authorize API calls
-      parameters:
-      - description: Refresh Token
-        in: header
-        name: refreshToken
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/response.TokenMmksiResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/response.ErrorResponse'
-      summary: Provides a Refresh Token
-      tags:
-      - Token
 schemes:
 - https
 - http

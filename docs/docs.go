@@ -111,41 +111,6 @@ var doc = `{
                 }
             }
         },
-        "/auth/token": {
-            "post": {
-                "description": "Authenticates a user and provides a JWT to Authorize API calls",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Token"
-                ],
-                "summary": "Provides a JSON Web Token",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Company",
-                        "name": "company",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.TokenMmksiResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/dsf/calculator/allTenors": {
             "post": {
                 "description": "Get Calculator All Tenor",
@@ -159,8 +124,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -210,8 +175,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -261,8 +226,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     }
@@ -304,8 +269,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -355,8 +320,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     }
@@ -401,8 +366,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -451,8 +416,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     }
@@ -497,8 +462,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -552,8 +517,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     }
@@ -598,8 +563,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -661,8 +626,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -701,8 +666,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -765,8 +730,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -819,8 +784,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     }
@@ -865,8 +830,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -915,8 +880,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -957,8 +922,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     }
@@ -1003,8 +968,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -1047,8 +1012,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -1087,8 +1052,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -1132,8 +1097,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -1176,8 +1141,8 @@ var doc = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Auth",
-                        "name": "Auth",
+                        "description": "Authentication",
+                        "name": "Authentication",
                         "in": "header",
                         "required": true
                     },
@@ -1196,41 +1161,6 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/response.VehicleColorResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/token/refresh": {
-            "post": {
-                "description": "Authenticates a user and provides a JWT to Authorize API calls",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Token"
-                ],
-                "summary": "Provides a Refresh Token",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Refresh Token",
-                        "name": "refreshToken",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/response.TokenMmksiResponse"
                         }
                     },
                     "400": {
@@ -1726,17 +1656,6 @@ var doc = `{
                     "type": "string"
                 },
                 "token_type": {
-                    "type": "string"
-                }
-            }
-        },
-        "response.TokenMmksiResponse": {
-            "type": "object",
-            "properties": {
-                "access_token": {
-                    "type": "string"
-                },
-                "refresh_token": {
                     "type": "string"
                 }
             }
