@@ -10,11 +10,11 @@ import (
 )
 
 type JwtService interface {
-	CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
+	CreateToken(gc *gin.Context, paramJwt request.HeaderTokenRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	RefreshToken(gc *gin.Context, paramJwt request.RefreshTokenRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, auth request.AuthRequest) error
 	SigninAws(gc *gin.Context, param request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error)
-	ReSigninAws(gc *gin.Context, bodyRequest request.RefreshTokenAWSRequest, headerRequest request.TokenMmksiRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
+	ReSigninAws(gc *gin.Context, bodyRequest request.RefreshTokenAWSRequest, headerRequest request.HeaderTokenRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
 }
 
 type jwtService struct {
@@ -29,12 +29,12 @@ func NewJwtService(
 	}
 }
 
-func (s *jwtService) CreateToken(gc *gin.Context, paramJwt request.TokenMmksiRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error) {
+func (s *jwtService) CreateToken(gc *gin.Context, paramJwt request.HeaderTokenRequest, timeout repo.Timeout) (*response.TokenMmksiResponse, error) {
 	if err := paramJwt.Validate(); err != nil {
 		return nil, err
 	}
 
-	result, err := s.jwtRepo.CreateToken(request.TokenMmksiRequest{
+	result, err := s.jwtRepo.CreateToken(request.HeaderTokenRequest{
 		Company: paramJwt.Company,
 	}, repo.Timeout{
 		TimeoutAccessToken:  os.Getenv("ACCESS_TOKEN_TIMEOUT"),
@@ -104,7 +104,7 @@ func (s *jwtService) SigninAws(gc *gin.Context, param request.TokenAWSRequest, c
 	return result, nil
 }
 
-func (s *jwtService) ReSigninAws(gc *gin.Context, bodyRequest request.RefreshTokenAWSRequest, headerRequest request.TokenMmksiRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
+func (s *jwtService) ReSigninAws(gc *gin.Context, bodyRequest request.RefreshTokenAWSRequest, headerRequest request.HeaderTokenRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
 	if err := bodyRequest.Validate(); err != nil {
 		return nil, err
 	}
@@ -115,7 +115,7 @@ func (s *jwtService) ReSigninAws(gc *gin.Context, bodyRequest request.RefreshTok
 	result, err := s.jwtRepo.ReSigninAws(request.RefreshTokenAWSRequest{
 		Username:     bodyRequest.Username,
 		RefreshToken: bodyRequest.RefreshToken,
-	}, request.TokenMmksiRequest{
+	}, request.HeaderTokenRequest{
 		Company: headerRequest.Company,
 	}, request.AwsRequest{
 		Region:       os.Getenv("REGION_AWS"),

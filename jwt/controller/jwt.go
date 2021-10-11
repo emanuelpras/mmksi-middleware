@@ -43,7 +43,7 @@ func NewJwtController(
 // @Router /auth/token [post]
 func (c *jwtController) CreateToken(gc *gin.Context) {
 	cors.AllowCors(gc)
-	var paramJwt request.TokenMmksiRequest
+	var paramJwt request.HeaderTokenRequest
 	if err := gc.ShouldBindHeader(&paramJwt); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -129,13 +129,14 @@ func (c *jwtController) SigninAws(gc *gin.Context) {
 // @Consume application/x-www-form-urlencoded
 // @Produce json
 // @Param requestbody body request.RefreshTokenAWSRequest true "Request Body"
+// @Param company header string true "Company"
 // @Success 200 {object} response.TokenAWSResponse
 // @Failure 400 {object} response.ErrorResponse
 // @Router /auth/resignin [post]
 func (c *jwtController) ReSigninAws(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var bodyRequest request.RefreshTokenAWSRequest
-	var headerRequest request.TokenMmksiRequest
+	var headerRequest request.HeaderTokenRequest
 
 	if err := gc.ShouldBindJSON(&bodyRequest); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

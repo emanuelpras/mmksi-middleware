@@ -23,6 +23,50 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/auth/resignin": {
+            "post": {
+                "description": "Authenticates a user and provides a JWT to Authorize API calls",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Provides a Refresh Token",
+                "parameters": [
+                    {
+                        "description": "Request Body",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.RefreshTokenAWSRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Company",
+                        "name": "company",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.TokenAWSResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/signin": {
             "post": {
                 "description": "Authenticates a user and provides a JWT to Authorize API calls",
@@ -1308,6 +1352,17 @@ var doc = `{
                 }
             }
         },
+        "request.RefreshTokenAWSRequest": {
+            "type": "object",
+            "properties": {
+                "refresh_token": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "request.TenorRequest": {
             "type": "object",
             "properties": {
@@ -1657,13 +1712,13 @@ var doc = `{
         "response.TokenAWSResponse": {
             "type": "object",
             "properties": {
-                "access_token": {
-                    "type": "string"
-                },
                 "id_token": {
                     "type": "string"
                 },
                 "refresh_token": {
+                    "type": "string"
+                },
+                "token_type": {
                     "type": "string"
                 }
             }

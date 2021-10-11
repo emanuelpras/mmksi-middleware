@@ -24,11 +24,11 @@ type Timeout struct {
 	TimeoutRefreshToken string
 }
 type JwtRepo interface {
-	CreateToken(params request.TokenMmksiRequest, timeout Timeout) (*response.TokenMmksiResponse, error)
+	CreateToken(params request.HeaderTokenRequest, timeout Timeout) (*response.TokenMmksiResponse, error)
 	RefreshToken(params request.RefreshTokenRequest, timeout Timeout) (*response.TokenMmksiResponse, error)
 	Auth(gc *gin.Context, params request.AuthRequest, timeout Timeout) error
 	SigninAws(params request.TokenAWSRequest, config request.AwsRequest) (*response.TokenAWSResponse, error)
-	ReSigninAws(bodyRequest request.RefreshTokenAWSRequest, headerRequest request.TokenMmksiRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
+	ReSigninAws(bodyRequest request.RefreshTokenAWSRequest, headerRequest request.HeaderTokenRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error)
 }
 type jwtRepo struct {
 	httpClient *http.Client
@@ -40,7 +40,7 @@ func NewJwtRepo(httpClient *http.Client) JwtRepo {
 	}
 }
 
-func (r *jwtRepo) CreateToken(params request.TokenMmksiRequest, timeout Timeout) (*response.TokenMmksiResponse, error) {
+func (r *jwtRepo) CreateToken(params request.HeaderTokenRequest, timeout Timeout) (*response.TokenMmksiResponse, error) {
 
 	return r.GenerateToken(params.Company, timeout)
 
@@ -169,7 +169,7 @@ func (r *jwtRepo) SigninAws(params request.TokenAWSRequest, config request.AwsRe
 		nil
 }
 
-func (r *jwtRepo) ReSigninAws(bodyRequest request.RefreshTokenAWSRequest, headerRequest request.TokenMmksiRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
+func (r *jwtRepo) ReSigninAws(bodyRequest request.RefreshTokenAWSRequest, headerRequest request.HeaderTokenRequest, config request.AwsRequest) (*response.RefreshTokenAWSResponse, error) {
 
 	conf := &aws.Config{Region: aws.String(config.Region)}
 	sess := session.Must(session.NewSession(conf))

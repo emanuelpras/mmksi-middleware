@@ -16,7 +16,7 @@ type RefreshTokenAWSRequest struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-type TokenMmksiRequest struct {
+type HeaderTokenRequest struct {
 	Company string `form:"company"`
 }
 
@@ -78,7 +78,7 @@ func (f *RefreshTokenAWSRequest) Validate() error {
 	return nil
 }
 
-func (f *TokenMmksiRequest) Validate() error {
+func (f *HeaderTokenRequest) Validate() error {
 	if err := validation.Validate(f.Company, validation.Required); err != nil {
 		return &response.ErrorResponse{
 			ErrorID: 422,
