@@ -83,7 +83,7 @@ func ProvideTokenSalesforceService() salesforceService.SalesforceService {
 }
 
 func ProvideTokenSalesforceRepo() salesforceRepository.SalesforceRepo {
-	return salesforceRepository.NewSalesforceRepo(os.Getenv("SALESFORCE_URL_LOGIN"), ProvideHttpClient())
+	return salesforceRepository.NewSalesforceRepo(os.Getenv("SERVER_SALESFORCE_TOKEN"), ProvideHttpClient())
 }
 
 func ProvideSalesforceService() salesforceService.SalesforceService {

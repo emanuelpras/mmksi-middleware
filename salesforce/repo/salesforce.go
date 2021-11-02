@@ -5,16 +5,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
+	"net/url"
+	"os"
 
 	"middleware-mmksi/salesforce/response"
 	"middleware-mmksi/salesforce/service/request"
 )
 
 type SalesforceRepo interface {
-	GetToken(params request.TokenOauthRequest) (*response.TokenOauthResponse, error)
-	GetServiceHistory(params request.ServiceHistoryRequest, header request.HeaderAuthorizationRequest) (*response.ServiceHistoryResponse, error)
+	GetTokenSales() (*response.TokenOauthResponse, error)
+	GetServiceHistory(params request.ServiceHistoryRequest, authorizationSalesforce request.SalesRequestAuthorization) (*response.ServiceHistoryResponse, error)
 	GetSparepartSalesHistory(params request.SparepartSalesHistoryRequest, authorizationSalesforce request.SalesRequestAuthorization) (*response.ServiceHistoryResponse, error)
 }
 
@@ -30,25 +31,28 @@ func NewSalesforceRepo(salesforceServer string, httpClient *http.Client) Salesfo
 	}
 }
 
-func (r *salesforceRepo) GetToken(params request.TokenOauthRequest) (*response.TokenOauthResponse, error) {
-	payload, err := json.Marshal(params)
-	if err != nil {
-		return nil, err
-	}
-	log.Print("params", params)
+func (r *salesforceRepo) GetTokenSales() (*response.TokenOauthResponse, error) {
+
+	var p = url.Values{}
+	p.Set("grant_type", os.Getenv("SALESFORCE_GRANT_TYPE"))
+	p.Set("client_id", os.Getenv("SALESFORCE_CLIENT_ID"))
+	p.Set("client_secret", os.Getenv("SALESFORCE_CLIENT_SECRET"))
+	p.Set("username", os.Getenv("SALESFORCE_USERNAME"))
+	p.Set("password", os.Getenv("SALESFORCE_PASSWORD"))
+
+	payload := bytes.NewBufferString(p.Encode())
 
 	url := fmt.Sprintf("%s/token", r.salesforceServer)
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	req, err := http.NewRequest("POST", url, payload)
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Cookie", "BrowserId=1m7avDt-Eey3klOYloBy9A; CookieConsentPolicy=0:0; LSKey-c$CookieConsentPolicy=0:0")
+
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
-	log.Print(url, res.Header)
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
@@ -56,7 +60,6 @@ func (r *salesforceRepo) GetToken(params request.TokenOauthRequest) (*response.T
 	}
 
 	result, err := ioutil.ReadAll(res.Body)
-	log.Print("repo", result)
 	if err != nil {
 		return nil, err
 	}
@@ -65,22 +68,21 @@ func (r *salesforceRepo) GetToken(params request.TokenOauthRequest) (*response.T
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *salesforceRepo) GetServiceHistory(params request.ServiceHistoryRequest, header request.HeaderAuthorizationRequest) (*response.ServiceHistoryResponse, error) {
+func (r *salesforceRepo) GetServiceHistory(params request.ServiceHistoryRequest, authorizationSalesforce request.SalesRequestAuthorization) (*response.ServiceHistoryResponse, error) {
 
 	payload, err := json.Marshal(params)
 	if err != nil {
 		return nil, err
 	}
 
-	url := fmt.Sprintf("%s/services/apexrest/paramServiceHistory", r.salesforceServer)
+	url := fmt.Sprintf("%s/services/apexrest/paramServiceHistory", authorizationSalesforce.InstanceURL)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
 	if err != nil {
 		return nil, err
 	}
 
-	// salesforceToken := authorizationSalesforce.TokenType + " " + authorizationSalesforce.AccessToken
-	// req.Header.Set("Authorization", "Bearer 00D0l0000000NLq!ARAAQP3pHJ9kPTQduYykvQvPJNbobRzGjsBybPgcN0cAHiK5t2qsLL8zx7Xr0FWe4xZJwR3d8HSWZ1J07J9sldm38tq0v5MZ")
-	req.Header.Set("Authorization", header.Authorization)
+	salesToken := authorizationSalesforce.TokenType + " " + authorizationSalesforce.AccessToken
+	req.Header.Set("Authorization", salesToken)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {
@@ -108,13 +110,14 @@ func (r *salesforceRepo) GetSparepartSalesHistory(params request.SparepartSalesH
 		return nil, err
 	}
 
-	url := fmt.Sprintf("%s/services/apexrest/paramSparepartSalesHistory", r.salesforceServer)
+	url := fmt.Sprintf("%s/services/apexrest/paramSparepartSalesHistory", authorizationSalesforce.InstanceURL)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
 	if err != nil {
 		return nil, err
 	}
 
-	// req.Header.Set("Authorization", "Bearer 00D0l0000000NLq!ARAAQP3pHJ9kPTQduYykvQvPJNbobRzGjsBybPgcN0cAHiK5t2qsLL8zx7Xr0FWe4xZJwR3d8HSWZ1J07J9sldm38tq0v5MZ")
+	salesToken := authorizationSalesforce.TokenType + " " + authorizationSalesforce.AccessToken
+	req.Header.Set("Authorization", salesToken)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {

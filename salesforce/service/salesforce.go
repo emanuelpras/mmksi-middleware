@@ -1,15 +1,14 @@
 package service
 
 import (
-	"log"
 	"middleware-mmksi/salesforce/repo"
 	"middleware-mmksi/salesforce/response"
 	"middleware-mmksi/salesforce/service/request"
 )
 
 type SalesforceService interface {
-	GetToken(params request.TokenOauthRequest) (*response.TokenOauthResponse, error)
-	GetServiceHistory(params request.ServiceHistoryRequest, header request.HeaderAuthorizationRequest) (*response.ServiceHistoryResponse, error)
+	GetTokenSales() (*response.TokenOauthResponse, error)
+	GetServiceHistory(params request.ServiceHistoryRequest, authorizationSalesforce request.SalesRequestAuthorization) (*response.ServiceHistoryResponse, error)
 	GetSparepartSalesHistory(params request.SparepartSalesHistoryRequest, authorizationSalesforce request.SalesRequestAuthorization) (*response.ServiceHistoryResponse, error)
 }
 
@@ -25,16 +24,9 @@ func NewSalesforceService(
 	}
 }
 
-func (s *salesforceService) GetToken(params request.TokenOauthRequest) (*response.TokenOauthResponse, error) {
-	log.Print("service", params)
+func (s *salesforceService) GetTokenSales() (*response.TokenOauthResponse, error) {
 
-	result, err := s.salesforceRepo.GetToken(request.TokenOauthRequest{
-		GrantType:    params.GrantType,
-		ClientID:     params.ClientID,
-		ClientSecret: params.ClientSecret,
-		Username:     params.Username,
-		Password:     params.Password,
-	})
+	result, err := s.salesforceRepo.GetTokenSales()
 
 	if err != nil {
 		return nil, err
@@ -43,7 +35,7 @@ func (s *salesforceService) GetToken(params request.TokenOauthRequest) (*respons
 	return result, nil
 }
 
-func (s *salesforceService) GetServiceHistory(params request.ServiceHistoryRequest, header request.HeaderAuthorizationRequest) (*response.ServiceHistoryResponse, error) {
+func (s *salesforceService) GetServiceHistory(params request.ServiceHistoryRequest, authorizationSalesforce request.SalesRequestAuthorization) (*response.ServiceHistoryResponse, error) {
 	if err := params.Validate(); err != nil {
 		return nil, err
 	}
@@ -64,11 +56,10 @@ func (s *salesforceService) GetServiceHistory(params request.ServiceHistoryReque
 		Stall_Code__c:         params.Stall_Code__c,
 		Booking_Code__c:       params.Booking_Code__c,
 		Status__c:             params.Status__c,
-		// }, request.SalesRequestAuthorization{
-		// 	AccessToken: authorizationSalesforce.AccessToken,
-		// 	TokenType:   authorizationSalesforce.TokenType,
-	}, request.HeaderAuthorizationRequest{
-		Authorization: header.Authorization,
+	}, request.SalesRequestAuthorization{
+		AccessToken: authorizationSalesforce.AccessToken,
+		TokenType:   authorizationSalesforce.TokenType,
+		InstanceURL: authorizationSalesforce.InstanceURL,
 	})
 
 	if err != nil {
@@ -93,6 +84,7 @@ func (s *salesforceService) GetSparepartSalesHistory(params request.SparepartSal
 	}, request.SalesRequestAuthorization{
 		AccessToken: authorizationSalesforce.AccessToken,
 		TokenType:   authorizationSalesforce.TokenType,
+		InstanceURL: authorizationSalesforce.InstanceURL,
 	})
 
 	if err != nil {

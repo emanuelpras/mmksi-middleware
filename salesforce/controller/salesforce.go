@@ -15,7 +15,7 @@ type salesforceController struct {
 }
 
 type SalesforceController interface {
-	GetToken(context *gin.Context)
+	GetTokenSales(context *gin.Context)
 	GetServiceHistory(context *gin.Context)
 	GetSparepartSalesHistory(context *gin.Context)
 }
@@ -28,21 +28,27 @@ func NewSalesforceController(
 	}
 }
 
-var SalesforceToken = request.SalesRequestAuthorization{}
+var SalesToken = request.SalesRequestAuthorization{}
 
-func (c *salesforceController) GetToken(gc *gin.Context) {
-	var form request.TokenOauthRequest
-	if err := gc.ShouldBind(&form); err != nil {
+func (c *salesforceController) GetTokenSales(gc *gin.Context) {
+
+	res, err := c.salesforceService.GetTokenSales()
+	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
 		return
 	}
 
-	res, err := c.salesforceService.GetToken(request.TokenOauthRequest{})
-	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error2": err.Error()})
-		return
+	SalesToken = request.SalesRequestAuthorization{
+		AccessToken: res.AccessToken,
+		TokenType:   res.TokenType,
+		InstanceURL: res.InstanceURL,
 	}
 
+	if res.AccessToken != "" {
+		gc.Next()
+	} else {
+		gc.Abort()
+	}
 	gc.JSON(http.StatusOK, res)
 }
 
@@ -58,21 +64,15 @@ func (c *salesforceController) GetToken(gc *gin.Context) {
 // @Router /salesforce/services/serviceHistory [post]
 func (c *salesforceController) GetServiceHistory(gc *gin.Context) {
 	cors.AllowCors(gc)
-	var params request.HeaderAuthorizationRequest
-	if err := gc.ShouldBindHeader(&params); err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
 	var form request.ServiceHistoryRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error2": err.Error()})
 		return
 	}
 
-	res, err := c.salesforceService.GetServiceHistory(form, params)
+	res, err := c.salesforceService.GetServiceHistory(form, SalesToken)
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error3": err.Error()})
 		return
 	}
 
@@ -97,7 +97,7 @@ func (c *salesforceController) GetSparepartSalesHistory(gc *gin.Context) {
 		return
 	}
 
-	res, err := c.salesforceService.GetSparepartSalesHistory(form, SalesforceToken)
+	res, err := c.salesforceService.GetSparepartSalesHistory(form, SalesToken)
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

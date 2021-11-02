@@ -25,8 +25,9 @@ type ServiceHistoryRequest struct {
 }
 
 type SalesRequestAuthorization struct {
-	AccessToken string `form:"AccessToken"`
-	TokenType   string `form:"TokenType"`
+	AccessToken string
+	TokenType   string
+	InstanceURL string
 }
 
 type HeaderAuthorizationRequest struct {
