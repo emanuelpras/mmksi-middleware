@@ -18,6 +18,8 @@ import (
 	jwtService "middleware-mmksi/jwt/service"
 	mmksiRepository "middleware-mmksi/mmksi/repo"
 	mmksiService "middleware-mmksi/mmksi/service"
+	salesforceRepository "middleware-mmksi/salesforce/repo"
+	salesforceService "middleware-mmksi/salesforce/service"
 )
 
 var (
@@ -74,6 +76,22 @@ func ProvideDsfPaymentService() dsfPaymentService.DsfPaymentService {
 
 func ProvideDsfPaymentRepo() dsfPaymentRepository.DsfPaymentRepo {
 	return dsfPaymentRepository.NewDsfPaymentRepo(os.Getenv("SERVER_DSF_CALCULATOR"), os.Getenv("APIKey_DSF_CALCULATOR"), ProvideHttpClient())
+}
+
+func ProvideTokenSalesforceService() salesforceService.SalesforceService {
+	return salesforceService.NewSalesforceService(ProvideTokenSalesforceRepo())
+}
+
+func ProvideTokenSalesforceRepo() salesforceRepository.SalesforceRepo {
+	return salesforceRepository.NewSalesforceRepo(os.Getenv("SALESFORCE_URL_LOGIN"), ProvideHttpClient())
+}
+
+func ProvideSalesforceService() salesforceService.SalesforceService {
+	return salesforceService.NewSalesforceService(ProvideSalesforceRepo())
+}
+
+func ProvideSalesforceRepo() salesforceRepository.SalesforceRepo {
+	return salesforceRepository.NewSalesforceRepo(os.Getenv("SERVER_SALESFORCE"), ProvideHttpClient())
 }
 
 func ProvideHttpClient() *http.Client {

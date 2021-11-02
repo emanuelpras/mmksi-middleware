@@ -1,0 +1,107 @@
+package controller
+
+import (
+	"net/http"
+
+	"middleware-mmksi/salesforce/service"
+	"middleware-mmksi/salesforce/service/request"
+	"middleware-mmksi/server/cors"
+
+	"github.com/gin-gonic/gin"
+)
+
+type salesforceController struct {
+	salesforceService service.SalesforceService
+}
+
+type SalesforceController interface {
+	GetToken(context *gin.Context)
+	GetServiceHistory(context *gin.Context)
+	GetSparepartSalesHistory(context *gin.Context)
+}
+
+func NewSalesforceController(
+	salesforceService service.SalesforceService,
+) *salesforceController {
+	return &salesforceController{
+		salesforceService: salesforceService,
+	}
+}
+
+var SalesforceToken = request.SalesRequestAuthorization{}
+
+func (c *salesforceController) GetToken(gc *gin.Context) {
+	var form request.TokenOauthRequest
+	if err := gc.ShouldBind(&form); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
+		return
+	}
+
+	res, err := c.salesforceService.GetToken(request.TokenOauthRequest{})
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error2": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+// Salesforce godoc
+// @Tags Salesforce Service History
+// @Summary Get Service History
+// @Description Get Service History from Salesforce
+// @Produce json
+// @Param Authentication header string true "Authentication"
+// @Param requestbody body request.ServiceHistoryRequest true "Service History"
+// @Success 200 {object} response.ServiceHistoryResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /salesforce/services/serviceHistory [post]
+func (c *salesforceController) GetServiceHistory(gc *gin.Context) {
+	cors.AllowCors(gc)
+	var params request.HeaderAuthorizationRequest
+	if err := gc.ShouldBindHeader(&params); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var form request.ServiceHistoryRequest
+	if err := gc.ShouldBindJSON(&form); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.salesforceService.GetServiceHistory(form, params)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+// Salesforce godoc
+// @Tags Salesforce Sparepart Sales History
+// @Summary Get Sparepart Sales History
+// @Description Get Sparepart Sales History from Salesforce
+// @Produce json
+// @Param Authentication header string true "Authentication"
+// @Param requestbody body request.SparepartSalesHistoryRequest true "Sparepart Sales History"
+// @Success 200 {object} response.ServiceHistoryResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /salesforce/services/sparepartSalesHistory [post]
+func (c *salesforceController) GetSparepartSalesHistory(gc *gin.Context) {
+	cors.AllowCors(gc)
+	var form request.SparepartSalesHistoryRequest
+	if err := gc.ShouldBindJSON(&form); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.salesforceService.GetSparepartSalesHistory(form, SalesforceToken)
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
