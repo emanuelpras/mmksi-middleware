@@ -34,7 +34,7 @@ func (c *salesforceController) GetTokenSales(gc *gin.Context) {
 
 	res, err := c.salesforceService.GetTokenSales()
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error1": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -49,7 +49,6 @@ func (c *salesforceController) GetTokenSales(gc *gin.Context) {
 	} else {
 		gc.Abort()
 	}
-	gc.JSON(http.StatusOK, res)
 }
 
 // Salesforce godoc
@@ -66,13 +65,13 @@ func (c *salesforceController) GetServiceHistory(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var form request.ServiceHistoryRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error2": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	res, err := c.salesforceService.GetServiceHistory(form, SalesToken)
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error3": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
