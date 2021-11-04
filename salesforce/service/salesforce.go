@@ -71,7 +71,12 @@ func (s *salesforceService) GetServiceHistory(params request.ServiceHistoryReque
 
 func (s *salesforceService) GetSparepartSalesHistory(params request.SparepartSalesHistoryRequest, authorizationSalesforce request.SalesRequestAuthorization) (*response.ServiceHistoryResponse, error) {
 
+	if err := params.Validate(); err != nil {
+		return nil, err
+	}
+
 	result, err := s.salesforceRepo.GetSparepartSalesHistory(request.SparepartSalesHistoryRequest{
+		SalesforceID:            params.SalesforceID,
 		Dnet_ID__c:              params.Dnet_ID__c,
 		Transaction_Date__c:     params.Transaction_Date__c,
 		Parts_Code__c:           params.Parts_Code__c,
@@ -81,6 +86,7 @@ func (s *salesforceService) GetSparepartSalesHistory(params request.SparepartSal
 		Campaign_No__c:          params.Campaign_No__c,
 		Campaign_Description__c: params.Campaign_Description__c,
 		Status__c:               params.Status__c,
+		Sales_Price__c:          params.Sales_Price__c,
 	}, request.SalesRequestAuthorization{
 		AccessToken: authorizationSalesforce.AccessToken,
 		TokenType:   authorizationSalesforce.TokenType,
