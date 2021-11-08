@@ -126,7 +126,7 @@ func registerRoute(r *gin.Engine) {
 	r.POST("/mmksi/vehicle", tokenController.GetToken, mmksiController.GetVehicleColor)
 
 	// Salesforce route
-	r.POST("/salesforce/services/serviceHistory", tokenSalesforceController.GetTokenSales, salesforceController.GetServiceHistory)
+	r.POST("/salesforce/services/serviceHistory", tokenSalesforceController.CheckToken, salesforceController.GetServiceHistory)
 	r.POST("/salesforce/services/sparepartSalesHistory", tokenSalesforceController.GetTokenSales, salesforceController.GetSparepartSalesHistory)
 
 	// Swagger route

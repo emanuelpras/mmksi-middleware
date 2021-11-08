@@ -18,6 +18,7 @@ type SalesforceController interface {
 	GetTokenSales(context *gin.Context)
 	GetServiceHistory(context *gin.Context)
 	GetSparepartSalesHistory(context *gin.Context)
+	CheckToken(context *gin.Context)
 }
 
 func NewSalesforceController(
@@ -29,6 +30,7 @@ func NewSalesforceController(
 }
 
 var SalesToken = request.SalesRequestAuthorization{}
+var statusCode int
 
 func (c *salesforceController) GetTokenSales(gc *gin.Context) {
 
@@ -70,6 +72,9 @@ func (c *salesforceController) GetServiceHistory(gc *gin.Context) {
 	}
 
 	res, err := c.salesforceService.GetServiceHistory(form, SalesToken)
+
+	statusCode = res.StatusCode
+
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -103,4 +108,16 @@ func (c *salesforceController) GetSparepartSalesHistory(gc *gin.Context) {
 	}
 
 	gc.JSON(http.StatusOK, res)
+}
+
+func (c *salesforceController) CheckToken(gc *gin.Context) {
+	if SalesToken.AccessToken != "" {
+		c.GetServiceHistory(gc)
+	} else if SalesToken.AccessToken != "" && statusCode == 401 {
+		c.GetTokenSales(gc)
+		c.GetServiceHistory(gc)
+	} else {
+		c.GetTokenSales(gc)
+		c.GetServiceHistory(gc)
+	}
 }
