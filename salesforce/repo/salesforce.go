@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strconv"
 
 	"middleware-mmksi/salesforce/response"
 	"middleware-mmksi/salesforce/service/request"
@@ -42,7 +43,7 @@ func (r *salesforceRepo) GetTokenSales() (*response.TokenOauthResponse, error) {
 
 	payload := bytes.NewBufferString(p.Encode())
 
-	url := fmt.Sprintf("%s/token", r.salesforceServer)
+	url := fmt.Sprintf("%s/token", os.Getenv("SERVER_SALESFORCE_TOKEN"))
 	req, err := http.NewRequest("POST", url, payload)
 	if err != nil {
 		return nil, err
@@ -85,6 +86,7 @@ func (r *salesforceRepo) GetServiceHistory(params request.ServiceHistoryRequest,
 	req.Header.Set("Authorization", salesToken)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
+	os.Setenv("STATUSCODE", strconv.Itoa(res.StatusCode))
 	if err != nil {
 		return nil, err
 	}
@@ -120,6 +122,7 @@ func (r *salesforceRepo) GetSparepartSalesHistory(params request.SparepartSalesH
 	req.Header.Set("Authorization", salesToken)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
+	os.Setenv("STATUSCODE", strconv.Itoa(res.StatusCode))
 	if err != nil {
 		return nil, err
 	}

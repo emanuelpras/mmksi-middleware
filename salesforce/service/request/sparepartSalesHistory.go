@@ -84,15 +84,6 @@ func (f *SparepartSalesHistoryRequest) Validate() error {
 			},
 		}
 	}
-	if err := validation.Validate(f.Campaign_No__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Campaign_No__c not found",
-				"id": "Campaign_No__c tidak ditemukan",
-			},
-		}
-	}
 	if err := validation.Validate(f.Campaign_Description__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
 			ErrorID: 422,

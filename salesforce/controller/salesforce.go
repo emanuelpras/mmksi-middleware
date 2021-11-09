@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"os"
 
 	"middleware-mmksi/salesforce/service"
 	"middleware-mmksi/salesforce/service/request"
@@ -18,6 +19,7 @@ type SalesforceController interface {
 	GetTokenSales(context *gin.Context)
 	GetServiceHistory(context *gin.Context)
 	GetSparepartSalesHistory(context *gin.Context)
+	CheckToken(context *gin.Context)
 }
 
 func NewSalesforceController(
@@ -103,4 +105,14 @@ func (c *salesforceController) GetSparepartSalesHistory(gc *gin.Context) {
 	}
 
 	gc.JSON(http.StatusOK, res)
+}
+
+func (c *salesforceController) CheckToken(gc *gin.Context) {
+
+	if SalesToken.AccessToken != "" && os.Getenv("STATUSCODE") != "401" {
+		return
+	} else if SalesToken.AccessToken != "" && os.Getenv("STATUSCODE") == "401" || SalesToken.AccessToken == "" {
+		c.GetTokenSales(gc)
+		return
+	}
 }

@@ -78,14 +78,6 @@ func ProvideDsfPaymentRepo() dsfPaymentRepository.DsfPaymentRepo {
 	return dsfPaymentRepository.NewDsfPaymentRepo(os.Getenv("SERVER_DSF_CALCULATOR"), os.Getenv("APIKey_DSF_CALCULATOR"), ProvideHttpClient())
 }
 
-func ProvideTokenSalesforceService() salesforceService.SalesforceService {
-	return salesforceService.NewSalesforceService(ProvideTokenSalesforceRepo())
-}
-
-func ProvideTokenSalesforceRepo() salesforceRepository.SalesforceRepo {
-	return salesforceRepository.NewSalesforceRepo(os.Getenv("SERVER_SALESFORCE_TOKEN"), ProvideHttpClient())
-}
-
 func ProvideSalesforceService() salesforceService.SalesforceService {
 	return salesforceService.NewSalesforceService(ProvideSalesforceRepo())
 }

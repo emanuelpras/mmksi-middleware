@@ -73,14 +73,13 @@ func registerRoute(r *gin.Engine) {
 	// @Schemes  https http
 
 	var (
-		authController            jwtControllers.JwtController               = jwtControllers.NewJwtController(util.ProvideAuthService())
-		mrpController             mrpControllers.MrpController               = mrpControllers.NewMrpController(util.ProvideMrpService())
-		tokenController           mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideTokenService())
-		mmksiController           mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideMmksiService())
-		dsfProgramController      dsfProgramControllers.DsfProgramController = dsfProgramControllers.NewDsfProgramController(util.ProvideDsfProgramService())
-		dsfPaymentController      dsfPaymentControllers.DsfPaymentController = dsfPaymentControllers.NewDsfPaymentController(util.ProvideDsfPaymentService())
-		tokenSalesforceController salesforceControllers.SalesforceController = salesforceControllers.NewSalesforceController(util.ProvideTokenSalesforceService())
-		salesforceController      salesforceControllers.SalesforceController = salesforceControllers.NewSalesforceController(util.ProvideSalesforceService())
+		authController       jwtControllers.JwtController               = jwtControllers.NewJwtController(util.ProvideAuthService())
+		mrpController        mrpControllers.MrpController               = mrpControllers.NewMrpController(util.ProvideMrpService())
+		tokenController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideTokenService())
+		mmksiController      mmksiControllers.MmksiController           = mmksiControllers.NewMmksiController(util.ProvideMmksiService())
+		dsfProgramController dsfProgramControllers.DsfProgramController = dsfProgramControllers.NewDsfProgramController(util.ProvideDsfProgramService())
+		dsfPaymentController dsfPaymentControllers.DsfPaymentController = dsfPaymentControllers.NewDsfPaymentController(util.ProvideDsfPaymentService())
+		salesforceController salesforceControllers.SalesforceController = salesforceControllers.NewSalesforceController(util.ProvideSalesforceService())
 	)
 
 	// Token route
@@ -126,8 +125,8 @@ func registerRoute(r *gin.Engine) {
 	r.POST("/mmksi/vehicle", tokenController.GetToken, mmksiController.GetVehicleColor)
 
 	// Salesforce route
-	r.POST("/salesforce/services/serviceHistory", tokenSalesforceController.GetTokenSales, salesforceController.GetServiceHistory)
-	r.POST("/salesforce/services/sparepartSalesHistory", tokenSalesforceController.GetTokenSales, salesforceController.GetSparepartSalesHistory)
+	r.POST("/salesforce/services/serviceHistory", salesforceController.CheckToken, salesforceController.GetServiceHistory)
+	r.POST("/salesforce/services/sparepartSalesHistory", salesforceController.CheckToken, salesforceController.GetSparepartSalesHistory)
 
 	// Swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

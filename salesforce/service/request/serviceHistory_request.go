@@ -6,6 +6,13 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
+type HeaderRequest struct {
+	Authorization string
+}
+
+type Misal struct {
+	Code int
+}
 type ServiceHistoryRequest struct {
 	MSP_No__c             string
 	Dnet_ID__c            string
@@ -28,10 +35,6 @@ type SalesRequestAuthorization struct {
 	AccessToken string
 	TokenType   string
 	InstanceURL string
-}
-
-type HeaderAuthorizationRequest struct {
-	Authorization string `form:"Authorization"`
 }
 
 func (f *ServiceHistoryRequest) Validate() error {
@@ -170,5 +173,19 @@ func (f *ServiceHistoryRequest) Validate() error {
 			},
 		}
 	}
+	return nil
+}
+
+func (f *HeaderRequest) Validate() error {
+	if err := validation.Validate(f.Authorization, validation.Required); err != nil {
+		return &response.ErrorResponse{
+			ErrorID: 422,
+			Msg: map[string]string{
+				"en": "Authorization not found",
+				"id": "Authorization tidak ditemukan",
+			},
+		}
+	}
+
 	return nil
 }
