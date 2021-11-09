@@ -92,6 +92,9 @@ func (r *salesforceRepo) GetServiceHistory(params request.ServiceHistoryRequest,
 	}
 	defer res.Body.Close()
 
+	code := response.ServiceHistoryResponse{}
+	code.StatusCode = res.StatusCode
+
 	if res.StatusCode != 200 {
 		return nil, fmt.Errorf("salesforce: response status %d", res.StatusCode)
 	}

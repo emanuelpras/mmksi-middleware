@@ -31,6 +31,7 @@ func NewSalesforceController(
 }
 
 var SalesToken = request.SalesRequestAuthorization{}
+var statusCode int
 
 func (c *salesforceController) GetTokenSales(gc *gin.Context) {
 
@@ -72,6 +73,9 @@ func (c *salesforceController) GetServiceHistory(gc *gin.Context) {
 	}
 
 	res, err := c.salesforceService.GetServiceHistory(form, SalesToken)
+
+	statusCode = res.StatusCode
+
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
