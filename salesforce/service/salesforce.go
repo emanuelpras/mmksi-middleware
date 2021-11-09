@@ -62,9 +62,6 @@ func (s *salesforceService) GetServiceHistory(params request.ServiceHistoryReque
 		InstanceURL: authorizationSalesforce.InstanceURL,
 	})
 
-	code := response.ServiceHistoryResponse{}
-	code.StatusCode = result.StatusCode
-
 	if err != nil {
 		return nil, err
 	}
