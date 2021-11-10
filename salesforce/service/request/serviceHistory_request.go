@@ -21,6 +21,7 @@ type ServiceHistoryRequest struct {
 	Service_Start_Time__c string
 	Service_End_Date__c   string
 	Service_End_Time__c   string
+	Mechanic_Name__c      string
 	Work_Order_Number__c  string
 	No_Rangka__c          string
 	Service_Kind__c       string
@@ -29,6 +30,7 @@ type ServiceHistoryRequest struct {
 	Stall_Code__c         string
 	Booking_Code__c       string
 	Status__c             string
+	Mechanic_Notes__c     string
 }
 
 type SalesRequestAuthorization struct {
@@ -38,15 +40,7 @@ type SalesRequestAuthorization struct {
 }
 
 func (f *ServiceHistoryRequest) Validate() error {
-	if err := validation.Validate(f.MSP_No__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "MSP_NO not found",
-				"id": "MSP_NO tidak ditemukan",
-			},
-		}
-	}
+
 	if err := validation.Validate(f.Dnet_ID__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
 			ErrorID: 422,
@@ -101,75 +95,12 @@ func (f *ServiceHistoryRequest) Validate() error {
 			},
 		}
 	}
-	if err := validation.Validate(f.Work_Order_Number__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "WORK_ORDER not found",
-				"id": "WORK_ORDER tidak ditemukan",
-			},
-		}
-	}
 	if err := validation.Validate(f.No_Rangka__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
 				"en": "NO_RANGKA not found",
 				"id": "NO_RANGKA tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Service_Kind__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "SERVICE_KIND not found",
-				"id": "SERVICE_KIND tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Odometer__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "ODOMETER not found",
-				"id": "ODOMETER tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Service_Type__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "SERVICE_TYPE not found",
-				"id": "SERVICE_TYPE tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Stall_Code__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "STALL_Code not found",
-				"id": "STALL_Code tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Booking_Code__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Booking_Code not found",
-				"id": "Booking_Code tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Status__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "STATUS not found",
-				"id": "STATUS tidak ditemukan",
 			},
 		}
 	}

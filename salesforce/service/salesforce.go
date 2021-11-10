@@ -48,6 +48,7 @@ func (s *salesforceService) GetServiceHistory(params request.ServiceHistoryReque
 		Service_Start_Time__c: params.Service_Start_Time__c,
 		Service_End_Date__c:   params.Service_End_Date__c,
 		Service_End_Time__c:   params.Service_End_Time__c,
+		Mechanic_Name__c:      params.Mechanic_Name__c,
 		Work_Order_Number__c:  params.Work_Order_Number__c,
 		No_Rangka__c:          params.No_Rangka__c,
 		Service_Kind__c:       params.Service_Kind__c,
@@ -56,6 +57,7 @@ func (s *salesforceService) GetServiceHistory(params request.ServiceHistoryReque
 		Stall_Code__c:         params.Stall_Code__c,
 		Booking_Code__c:       params.Booking_Code__c,
 		Status__c:             params.Status__c,
+		Mechanic_Notes__c:     params.Mechanic_Notes__c,
 	}, request.SalesRequestAuthorization{
 		AccessToken: authorizationSalesforce.AccessToken,
 		TokenType:   authorizationSalesforce.TokenType,

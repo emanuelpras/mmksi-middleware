@@ -21,15 +21,6 @@ type SparepartSalesHistoryRequest struct {
 }
 
 func (f *SparepartSalesHistoryRequest) Validate() error {
-	if err := validation.Validate(f.SalesforceID, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "SalesforceID not found",
-				"id": "SalesforceID tidak ditemukan",
-			},
-		}
-	}
 	if err := validation.Validate(f.Dnet_ID__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
 			ErrorID: 422,
@@ -45,69 +36,6 @@ func (f *SparepartSalesHistoryRequest) Validate() error {
 			Msg: map[string]string{
 				"en": "Transaction_Date__c not found",
 				"id": "Transaction_Date__c tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Parts_Code__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Parts_Code__c not found",
-				"id": "Parts_Code__c tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Parts_Name__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Parts_Name__c not found",
-				"id": "Parts_Name__c tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Quantity__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Quantity__c not found",
-				"id": "Quantity__c tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Is_Campaign__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Is_Campaign__c not found",
-				"id": "Is_Campaign__c tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Campaign_Description__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Campaign_Description__c not found",
-				"id": "Campaign_Description__c tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Status__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Status__c not found",
-				"id": "Status__c tidak ditemukan",
-			},
-		}
-	}
-	if err := validation.Validate(f.Sales_Price__c, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"en": "Sales_Price__c not found",
-				"id": "Sales_Price__c tidak ditemukan",
 			},
 		}
 	}
