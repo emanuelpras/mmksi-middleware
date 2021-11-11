@@ -74,7 +74,7 @@ func (c *salesforceController) GetServiceHistory(gc *gin.Context) {
 	res, err := c.salesforceService.GetServiceHistory(form, SalesToken)
 
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
 
@@ -101,7 +101,7 @@ func (c *salesforceController) GetSparepartSalesHistory(gc *gin.Context) {
 
 	res, err := c.salesforceService.GetSparepartSalesHistory(form, SalesToken)
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
 		return
 	}
 

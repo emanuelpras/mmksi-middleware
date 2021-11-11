@@ -43,7 +43,7 @@ func (f *ServiceHistoryRequest) Validate() error {
 
 	if err := validation.Validate(f.Dnet_ID__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",
@@ -52,7 +52,7 @@ func (f *ServiceHistoryRequest) Validate() error {
 	}
 	if err := validation.Validate(f.Dealer_code__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",
@@ -61,7 +61,7 @@ func (f *ServiceHistoryRequest) Validate() error {
 	}
 	if err := validation.Validate(f.Service_Start_Date__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",
@@ -70,7 +70,7 @@ func (f *ServiceHistoryRequest) Validate() error {
 	}
 	if err := validation.Validate(f.Service_Start_Time__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",
@@ -79,7 +79,7 @@ func (f *ServiceHistoryRequest) Validate() error {
 	}
 	if err := validation.Validate(f.Service_End_Date__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",
@@ -88,7 +88,7 @@ func (f *ServiceHistoryRequest) Validate() error {
 	}
 	if err := validation.Validate(f.Service_End_Time__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",
@@ -97,7 +97,7 @@ func (f *ServiceHistoryRequest) Validate() error {
 	}
 	if err := validation.Validate(f.No_Rangka__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",
@@ -110,7 +110,7 @@ func (f *ServiceHistoryRequest) Validate() error {
 func (f *HeaderRequest) Validate() error {
 	if err := validation.Validate(f.Authorization, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",

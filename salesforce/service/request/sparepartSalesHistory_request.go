@@ -23,7 +23,7 @@ type SparepartSalesHistoryRequest struct {
 func (f *SparepartSalesHistoryRequest) Validate() error {
 	if err := validation.Validate(f.Dnet_ID__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",
@@ -32,7 +32,7 @@ func (f *SparepartSalesHistoryRequest) Validate() error {
 	}
 	if err := validation.Validate(f.Transaction_Date__c, validation.Required); err != nil {
 		return &response.ErrorResponse{
-			ErrorID: 422,
+			ErrorID: 400,
 			Msg: map[string]string{
 				"id": "Format data tidak sesuai",
 				"en": "Invalid data format",
