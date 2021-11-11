@@ -45,8 +45,8 @@ func (f *ServiceHistoryRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "DNET_ID not found",
-				"id": "DNET_ID tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}
@@ -54,8 +54,8 @@ func (f *ServiceHistoryRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "DEALER_CODE not found",
-				"id": "DEALER_CODE tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}
@@ -63,8 +63,8 @@ func (f *ServiceHistoryRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "SERVICE_START_DATE not found",
-				"id": "SERVICE_START_DATE tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}
@@ -72,8 +72,8 @@ func (f *ServiceHistoryRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "SERVICE_START_TIME not found",
-				"id": "SERVICE_START_TIME tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}
@@ -81,8 +81,8 @@ func (f *ServiceHistoryRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "SERVICE_END_DATE not found",
-				"id": "SERVICE_END_DATE tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}
@@ -90,8 +90,8 @@ func (f *ServiceHistoryRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "SERVICE_END_TIME not found",
-				"id": "SERVICE_END_TIME tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}
@@ -99,8 +99,8 @@ func (f *ServiceHistoryRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "NO_RANGKA not found",
-				"id": "NO_RANGKA tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}
@@ -112,8 +112,8 @@ func (f *HeaderRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "Authorization not found",
-				"id": "Authorization tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}

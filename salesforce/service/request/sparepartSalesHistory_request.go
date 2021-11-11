@@ -25,8 +25,8 @@ func (f *SparepartSalesHistoryRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "Dnet_ID__c not found",
-				"id": "Dnet_ID__c tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}
@@ -34,8 +34,8 @@ func (f *SparepartSalesHistoryRequest) Validate() error {
 		return &response.ErrorResponse{
 			ErrorID: 422,
 			Msg: map[string]string{
-				"en": "Transaction_Date__c not found",
-				"id": "Transaction_Date__c tidak ditemukan",
+				"id": "Format data tidak sesuai",
+				"en": "Invalid data format",
 			},
 		}
 	}
