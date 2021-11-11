@@ -93,7 +93,9 @@ func (r *salesforceRepo) GetServiceHistory(params request.ServiceHistoryRequest,
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		return nil, fmt.Errorf("salesforce: response status %d", res.StatusCode)
+		if res.StatusCode != 401 {
+			return nil, fmt.Errorf("salesforce: response status %d", res.StatusCode)
+		}
 	}
 
 	result, err := ioutil.ReadAll(res.Body)
@@ -129,7 +131,9 @@ func (r *salesforceRepo) GetSparepartSalesHistory(params request.SparepartSalesH
 	defer res.Body.Close()
 
 	if res.StatusCode != 200 {
-		return nil, fmt.Errorf("salesforce: response status %d", res.StatusCode)
+		if res.StatusCode != 401 {
+			return nil, fmt.Errorf("salesforce: response status %d", res.StatusCode)
+		}
 	}
 
 	result, err := ioutil.ReadAll(res.Body)

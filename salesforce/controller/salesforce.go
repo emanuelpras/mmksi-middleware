@@ -110,10 +110,10 @@ func (c *salesforceController) GetSparepartSalesHistory(gc *gin.Context) {
 
 func (c *salesforceController) CheckToken(gc *gin.Context) {
 
-	if SalesToken.AccessToken != "" && os.Getenv("STATUSCODE") != "401" {
-		return
-	} else if SalesToken.AccessToken != "" && os.Getenv("STATUSCODE") == "401" || SalesToken.AccessToken == "" {
+	if os.Getenv("STATUSCODE") != "401" {
+		gc.Next()
+	}
+	if os.Getenv("STATUSCODE") == "401" {
 		c.GetTokenSales(gc)
-		return
 	}
 }
