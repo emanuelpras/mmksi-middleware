@@ -6,13 +6,14 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 
 	"middleware-mmksi/mmid/response"
 	"middleware-mmksi/mmid/service/request"
 )
 
 type MmidRepo interface {
-	GetServiceHistory(authorization request.HeaderRequest, params request.ServiceHistoryRequest) (*response.ServiceHistoryResponse, error)
+	GetServiceHistory(params request.ServiceHistoryRequest) (*response.ServiceHistoryResponse, error)
 }
 
 type mmidRepo struct {
@@ -27,7 +28,7 @@ func NewMmidRepo(mmidServer string, httpClient *http.Client) MmidRepo {
 	}
 }
 
-func (r *mmidRepo) GetServiceHistory(authorization request.HeaderRequest, params request.ServiceHistoryRequest) (*response.ServiceHistoryResponse, error) {
+func (r *mmidRepo) GetServiceHistory(params request.ServiceHistoryRequest) (*response.ServiceHistoryResponse, error) {
 
 	payload, err := json.Marshal(params)
 	if err != nil {
@@ -40,7 +41,7 @@ func (r *mmidRepo) GetServiceHistory(authorization request.HeaderRequest, params
 		return nil, err
 	}
 
-	req.Header.Set("Token", authorization.Token)
+	req.Header.Set("Token", os.Getenv("TOKEN_MMID"))
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
 	if err != nil {

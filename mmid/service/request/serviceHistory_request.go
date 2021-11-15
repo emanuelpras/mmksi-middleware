@@ -6,10 +6,6 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
-type HeaderRequest struct {
-	Token string `form:"token"`
-}
-
 type ServiceHistoryRequest struct {
 	Dnet_ID__c            string
 	Dealer_code__c        string
@@ -160,19 +156,5 @@ func (f *ServiceHistoryRequest) Validate() error {
 			},
 		}
 	}
-	return nil
-}
-
-func (f *HeaderRequest) Validate() error {
-	if err := validation.Validate(f.Token, validation.Required); err != nil {
-		return &response.ErrorResponse{
-			ErrorID: 422,
-			Msg: map[string]string{
-				"id": "Token tidak ditemukan",
-				"en": "Missing Token",
-			},
-		}
-	}
-
 	return nil
 }

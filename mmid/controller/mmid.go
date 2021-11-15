@@ -39,18 +39,13 @@ func NewMmidController(
 // @Router /mmid/services/serviceHistory [post]
 func (c *mmidController) GetServiceHistory(gc *gin.Context) {
 	cors.AllowCors(gc)
-	var header request.HeaderRequest
 	var form request.ServiceHistoryRequest
-	if err := gc.ShouldBindHeader(&header); err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 	if err := gc.ShouldBindJSON(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	res, err := c.mmidService.GetServiceHistory(header, form)
+	res, err := c.mmidService.GetServiceHistory(form)
 
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
