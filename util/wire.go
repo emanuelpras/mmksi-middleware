@@ -16,6 +16,8 @@ import (
 	mrpService "middleware-mmksi/dsf/mrp/service"
 	jwtRepository "middleware-mmksi/jwt/repo"
 	jwtService "middleware-mmksi/jwt/service"
+	mmidRepository "middleware-mmksi/mmid/repo"
+	mmidService "middleware-mmksi/mmid/service"
 	mmksiRepository "middleware-mmksi/mmksi/repo"
 	mmksiService "middleware-mmksi/mmksi/service"
 	salesforceRepository "middleware-mmksi/salesforce/repo"
@@ -84,6 +86,14 @@ func ProvideSalesforceService() salesforceService.SalesforceService {
 
 func ProvideSalesforceRepo() salesforceRepository.SalesforceRepo {
 	return salesforceRepository.NewSalesforceRepo(os.Getenv("SERVER_SALESFORCE"), ProvideHttpClient())
+}
+
+func ProvideMmidService() mmidService.MmidService {
+	return mmidService.NewMmidService(ProvideMmidRepo())
+}
+
+func ProvideMmidRepo() mmidRepository.MmidRepo {
+	return mmidRepository.NewMmidRepo(os.Getenv("SERVER_MMID"), ProvideHttpClient())
 }
 
 func ProvideHttpClient() *http.Client {

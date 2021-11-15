@@ -9,6 +9,7 @@ import (
 	dsfProgramControllers "middleware-mmksi/dsf/metadata/controller"
 	mrpControllers "middleware-mmksi/dsf/mrp/controller"
 	jwtControllers "middleware-mmksi/jwt/controller"
+	mmidControllers "middleware-mmksi/mmid/controller"
 	mmksiControllers "middleware-mmksi/mmksi/controller"
 	salesforceControllers "middleware-mmksi/salesforce/controller"
 
@@ -80,6 +81,7 @@ func registerRoute(r *gin.Engine) {
 		dsfProgramController dsfProgramControllers.DsfProgramController = dsfProgramControllers.NewDsfProgramController(util.ProvideDsfProgramService())
 		dsfPaymentController dsfPaymentControllers.DsfPaymentController = dsfPaymentControllers.NewDsfPaymentController(util.ProvideDsfPaymentService())
 		salesforceController salesforceControllers.SalesforceController = salesforceControllers.NewSalesforceController(util.ProvideSalesforceService())
+		mmidController       mmidControllers.MmidController             = mmidControllers.NewMmidController(util.ProvideMmidService())
 	)
 
 	// Token route
@@ -127,6 +129,9 @@ func registerRoute(r *gin.Engine) {
 	// Salesforce route
 	r.POST("/salesforce/services/serviceHistory", salesforceController.CheckToken, salesforceController.GetServiceHistory)
 	r.POST("/salesforce/services/sparepartSalesHistory", salesforceController.CheckToken, salesforceController.GetSparepartSalesHistory)
+
+	// Mmid route
+	r.POST("/mmid/services/serviceHistory", mmidController.GetServiceHistory)
 
 	// Swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
