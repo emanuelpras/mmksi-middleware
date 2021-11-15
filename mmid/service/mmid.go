@@ -24,9 +24,6 @@ func NewMmidService(
 }
 
 func (s *mmidService) GetServiceHistory(params request.ServiceHistoryRequest) (*response.ServiceHistoryResponse, error) {
-	if err := params.Validate(); err != nil {
-		return nil, err
-	}
 
 	result, err := s.mmidRepo.GetServiceHistory(request.ServiceHistoryRequest{
 		Dnet_ID__c:            params.Dnet_ID__c,
