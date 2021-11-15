@@ -18,6 +18,7 @@ type mmidController struct {
 type MmidController interface {
 	GetServiceHistory(context *gin.Context)
 	GetServiceHistoryBatch(context *gin.Context)
+	GetSparepartList(context *gin.Context)
 }
 
 func NewMmidController(
@@ -75,6 +76,34 @@ func (c *mmidController) GetServiceHistoryBatch(gc *gin.Context) {
 	}
 
 	res, err := c.mmidService.GetServiceHistoryBatch(form)
+
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+// Mmid godoc
+// @Tags Mmid Spareparts List
+// @Summary Get Spareparts List
+// @Description Get Sparepart List from Mmid
+// @Produce json
+// @Param Authentication header string true "Authentication"
+// @Param requestbody body request.SparepartListRequest true "Service History"
+// @Success 200 {object} response.SparepartListResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /mmid/services/serviceHistory [post]
+func (c *mmidController) GetSparepartList(gc *gin.Context) {
+	cors.AllowCors(gc)
+	var form request.SparepartListRequest
+	if err := gc.ShouldBindJSON(&form); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.mmidService.GetSparepartList(form)
 
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})

@@ -25,3 +25,9 @@ type DataBatch struct {
 	Insert_count int `json:"insert_count"`
 	Update_count int `json:"update_count"`
 }
+
+type SparepartListResponse struct {
+	Error  bool      `json:"error"`
+	Alerts Alerts    `json:"alerts"`
+	Data   DataBatch `json:"data"`
+}

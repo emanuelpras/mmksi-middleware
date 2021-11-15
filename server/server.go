@@ -133,6 +133,7 @@ func registerRoute(r *gin.Engine) {
 	// Mmid route
 	r.POST("/mmid/services/serviceHistory", mmidController.GetServiceHistory)
 	r.POST("/mmid/services/serviceHistoryBatch", mmidController.GetServiceHistoryBatch)
+	r.POST("/mmid/services/sparepartList", mmidController.GetSparepartList)
 
 	// Swagger route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

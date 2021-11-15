@@ -15,6 +15,7 @@ import (
 type MmidRepo interface {
 	GetServiceHistory(params request.ServiceHistoryRequest) (*response.ServiceHistoryResponse, error)
 	GetServiceHistoryBatch(params request.Batch) (*response.ServiceHistoryBatchResponse, error)
+	GetSparepartList(params request.SparepartListRequest) (*response.SparepartListResponse, error)
 }
 
 type mmidRepo struct {
@@ -94,5 +95,39 @@ func (r *mmidRepo) GetServiceHistoryBatch(params request.Batch) (*response.Servi
 	}
 
 	response := new(response.ServiceHistoryBatchResponse)
+	return response, json.Unmarshal(result, response)
+}
+
+func (r *mmidRepo) GetSparepartList(params request.SparepartListRequest) (*response.SparepartListResponse, error) {
+
+	payload, err := json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+
+	url := fmt.Sprintf("%s/service-history/spareparts", r.mmidServer)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Token", os.Getenv("TOKEN_MMID"))
+	req.Header.Set("Content-Type", "application/json")
+	res, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != 200 {
+		return nil, fmt.Errorf("salesforce: response status %d", res.StatusCode)
+	}
+
+	result, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	response := new(response.SparepartListResponse)
 	return response, json.Unmarshal(result, response)
 }
