@@ -1,11 +1,14 @@
 package response
 
 type ServiceHistoryResponse struct {
-	Error  bool        `json:"error"`
-	Alerts Alerts      `json:"alerts"`
-	Data   interface{} `json:"data"`
+	Error  bool   `json:"error"`
+	Alerts Alerts `json:"alerts"`
+	Data   Data   `json:"data"`
 }
 
+type Data struct {
+	Status string `json:"status"`
+}
 type ServiceHistoryBatchResponse struct {
 	Error  bool      `json:"error"`
 	Alerts Alerts    `json:"alerts"`
