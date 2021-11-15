@@ -8,6 +8,7 @@ import (
 
 type MmidService interface {
 	GetServiceHistory(params request.ServiceHistoryRequest) (*response.ServiceHistoryResponse, error)
+	GetServiceHistoryBatch(params request.Batch) (*response.ServiceHistoryBatchResponse, error)
 }
 
 type mmidService struct {
@@ -46,6 +47,17 @@ func (s *mmidService) GetServiceHistory(params request.ServiceHistoryRequest) (*
 		Booking_Code__c:       params.Booking_Code__c,
 		Status__c:             params.Status__c,
 	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func (s *mmidService) GetServiceHistoryBatch(params request.Batch) (*response.ServiceHistoryBatchResponse, error) {
+
+	result, err := s.mmidRepo.GetServiceHistoryBatch(params)
 
 	if err != nil {
 		return nil, err

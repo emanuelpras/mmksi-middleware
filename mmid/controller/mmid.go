@@ -17,6 +17,7 @@ type mmidController struct {
 
 type MmidController interface {
 	GetServiceHistory(context *gin.Context)
+	GetServiceHistoryBatch(context *gin.Context)
 }
 
 func NewMmidController(
@@ -46,6 +47,34 @@ func (c *mmidController) GetServiceHistory(gc *gin.Context) {
 	}
 
 	res, err := c.mmidService.GetServiceHistory(form)
+
+	if err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+
+	gc.JSON(http.StatusOK, res)
+}
+
+// Mmid godoc
+// @Tags Mmid Service History Batch
+// @Summary Get Service History Batch
+// @Description Get Service History Batch from Mmid
+// @Produce json
+// @Param Authentication header string true "Authentication"
+// @Param requestbody body request.ServiceHistoryRequest true "Service History"
+// @Success 200 {object} response.ServiceHistoryBatchResponse
+// @Failure 400 {object} response.ErrorResponse
+// @Router /mmid/services/serviceHistory [post]
+func (c *mmidController) GetServiceHistoryBatch(gc *gin.Context) {
+	cors.AllowCors(gc)
+	var form request.Batch
+	if err := gc.ShouldBindJSON(&form); err != nil {
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := c.mmidService.GetServiceHistoryBatch(form)
 
 	if err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
