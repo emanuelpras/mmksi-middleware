@@ -14,7 +14,7 @@ import (
 
 type MmidRepo interface {
 	GetServiceHistory(params request.ServiceHistoryRequest) (*response.ServiceHistoryResponse, error)
-	GetServiceHistoryBatch(params request.Batch) (*response.ServiceHistoryBatchResponse, error)
+	GetServiceHistoryBatch(params request.BatchServiceHistoryRequest) (*response.ServiceHistoryBatchResponse, error)
 	GetSparepartList(params request.SparepartListRequest) (*response.SparepartListResponse, error)
 }
 
@@ -64,7 +64,7 @@ func (r *mmidRepo) GetServiceHistory(params request.ServiceHistoryRequest) (*res
 	return response, json.Unmarshal(result, response)
 }
 
-func (r *mmidRepo) GetServiceHistoryBatch(params request.Batch) (*response.ServiceHistoryBatchResponse, error) {
+func (r *mmidRepo) GetServiceHistoryBatch(params request.BatchServiceHistoryRequest) (*response.ServiceHistoryBatchResponse, error) {
 
 	payload, err := json.Marshal(params)
 	if err != nil {

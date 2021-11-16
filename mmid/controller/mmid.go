@@ -69,7 +69,7 @@ func (c *mmidController) GetServiceHistory(gc *gin.Context) {
 // @Router /mmid/services/serviceHistory [post]
 func (c *mmidController) GetServiceHistoryBatch(gc *gin.Context) {
 	cors.AllowCors(gc)
-	var form request.Batch
+	var form request.BatchServiceHistoryRequest
 	if err := gc.ShouldBindJSON(&form); err != nil {
 		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

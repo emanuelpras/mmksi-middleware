@@ -20,4 +20,4 @@ type ServiceHistoryRequest struct {
 	Status__c             string
 }
 
-type Batch []ServiceHistoryRequest
+type BatchServiceHistoryRequest []ServiceHistoryRequest
