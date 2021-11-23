@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	_ "middleware-mmksi/mmid/response"
 	"middleware-mmksi/mmid/service"
@@ -50,7 +51,13 @@ func (c *mmidController) GetServiceHistory(gc *gin.Context) {
 	res, err := c.mmidService.GetServiceHistory(form)
 
 	if err != nil {
-		gc.JSON(http.StatusBadRequest, gin.H{"error": err})
+		gc.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if res.Alerts.Code != "200" {
+		code, _ := strconv.Atoi(res.Alerts.Code)
+		gc.JSON(code, res)
 		return
 	}
 

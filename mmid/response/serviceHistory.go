@@ -6,13 +6,11 @@ type ServiceHistoryResponse struct {
 	Data   Data   `json:"data"`
 }
 
-type Data struct {
-	Status string `json:"status"`
-}
+type Data interface{}
 type ServiceHistoryBatchResponse struct {
-	Error  bool      `json:"error"`
-	Alerts Alerts    `json:"alerts"`
-	Data   DataBatch `json:"data"`
+	Error  bool   `json:"error"`
+	Alerts Alerts `json:"alerts"`
+	Data   Data   `json:"data"`
 }
 
 type Alerts struct {
@@ -20,14 +18,8 @@ type Alerts struct {
 	Message string `json:"message"`
 }
 
-type DataBatch struct {
-	Processed    int `json:"processed"`
-	Insert_count int `json:"insert_count"`
-	Update_count int `json:"update_count"`
-}
-
 type SparepartListResponse struct {
-	Error  bool      `json:"error"`
-	Alerts Alerts    `json:"alerts"`
-	Data   DataBatch `json:"data"`
+	Error  bool   `json:"error"`
+	Alerts Alerts `json:"alerts"`
+	Data   Data   `json:"data"`
 }

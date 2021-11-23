@@ -51,10 +51,6 @@ func (r *mmidRepo) GetServiceHistory(params request.ServiceHistoryRequest) (*res
 	}
 	defer res.Body.Close()
 
-	if res.StatusCode != 200 {
-		return nil, fmt.Errorf("salesforce: response status %d", res.StatusCode)
-	}
-
 	result, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return nil, err
