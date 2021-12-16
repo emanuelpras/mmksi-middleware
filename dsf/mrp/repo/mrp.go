@@ -5,18 +5,19 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"middleware-mmksi/dsf/mrp/response"
 )
 
 type GetVehiclesParams struct {
-	BrandName string `json:"brand"`
-	ModelName string `json:"model"`
+	BrandName string `form:"brand"`
+	ModelName string `form:"model"`
 }
 
 type GetRegionsParams struct {
-	Province string `json:"province"`
+	Province string `form:"province"`
 }
 
 type GetPredictionParams struct {
@@ -54,19 +55,20 @@ func NewMrpRepo(mrpServer string, apiKey string, httpClient *http.Client) MrpRep
 }
 
 func (r *mrpRepo) GetVehicles(params GetVehiclesParams) (*response.GetVehiclesResponse, error) {
-	queryParams, err := json.Marshal(params)
+	url := fmt.Sprintf("%s/vehicles", r.mrpServer)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	url := fmt.Sprintf("%s/vehicles", r.mrpServer)
-	req, err := http.NewRequest("GET", url, bytes.NewBuffer(queryParams))
-	if err != nil {
-		return nil, err
-	}
+	q := req.URL.Query()
+	q.Add("brand", params.BrandName)
+	q.Add("model", params.ModelName)
+	req.URL.RawQuery = q.Encode()
 
 	req.Header.Set("ApiKey", r.apiKey)
 	req.Header.Set("Content-Type", "application/json")
+
 	res, err := r.httpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -87,19 +89,19 @@ func (r *mrpRepo) GetVehicles(params GetVehiclesParams) (*response.GetVehiclesRe
 }
 
 func (r *mrpRepo) GetRegions(params GetRegionsParams) (*response.GetRegionsResponse, error) {
-	queryParams, err := json.Marshal(params)
+	url := fmt.Sprintf("%s/regions", r.mrpServer)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	url := fmt.Sprintf("%s/regions", r.mrpServer)
-	req, err := http.NewRequest("GET", url, bytes.NewBuffer(queryParams))
-	if err != nil {
-		return nil, err
-	}
+	q := req.URL.Query()
+	q.Add("province", params.Province)
+	req.URL.RawQuery = q.Encode()
 
 	req.Header.Set("ApiKey", r.apiKey)
 	req.Header.Set("Content-Type", "application/json")
+
 	res, err := r.httpClient.Do(req)
 	if err != nil {
 		return nil, err
@@ -135,6 +137,9 @@ func (r *mrpRepo) GetPrediction(params GetPredictionParams) (*response.Predictio
 	req.Header.Set("ApiKey", r.apiKey)
 	req.Header.Set("Content-Type", "application/json")
 	res, err := r.httpClient.Do(req)
+
+	log.Println("request prediction >>>>> ", req)
+
 	if err != nil {
 		return nil, err
 	}
@@ -148,6 +153,8 @@ func (r *mrpRepo) GetPrediction(params GetPredictionParams) (*response.Predictio
 	if err != nil {
 		return nil, err
 	}
+
+	log.Println("response prediction >>>>>> ", string(result))
 
 	response := new(response.PredictionResponse)
 	return response, json.Unmarshal(result, response)
