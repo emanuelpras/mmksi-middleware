@@ -1,6 +1,6 @@
 package response
 
-type VehicleMasterResponse struct {
+type ListVehicleMasterResponse struct {
 	Meta Meta              `json:"meta"`
 	Data VehicleMasterData `json:"data"`
 }
