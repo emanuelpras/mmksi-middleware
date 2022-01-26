@@ -7,6 +7,7 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -18,6 +19,10 @@ type Config struct {
 }
 
 func LoadConfig() *Config {
+	err := godotenv.Load()
+	if err != nil {
+		fmt.Print(err)
+	}
 
 	dbUsername := os.Getenv("RDS_DB_USERNAME")
 	dbPassword := os.Getenv("RDS_DB_PASSWORD")

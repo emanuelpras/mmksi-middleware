@@ -13,6 +13,9 @@ import (
 	mmidControllers "middleware-mmksi/mmid/controller"
 	mmksiControllers "middleware-mmksi/mmksi/controller"
 	salesforceControllers "middleware-mmksi/salesforce/controller"
+	soaControllers "middleware-mmksi/soa/controller"
+	soaRepository "middleware-mmksi/soa/repo"
+	soaService "middleware-mmksi/soa/service"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -62,6 +65,9 @@ func (server *ApiServer) registerRoute() {
 	// @basePath development
 	// @Schemes  https http
 
+	soaRepo := soaRepository.NewSoaRepo(server.DB)
+	soaServ := soaService.NewSoaService(soaRepo)
+	soaContr := soaControllers.NewSoaController(soaServ)
 	var (
 		authController       jwtControllers.JwtController               = jwtControllers.NewJwtController(util.ProvideAuthService())
 		mrpController        mrpControllers.MrpController               = mrpControllers.NewMrpController(util.ProvideMrpService())
@@ -123,6 +129,9 @@ func (server *ApiServer) registerRoute() {
 	server.Router.POST("/mmid/services/serviceHistory", mmidController.GetServiceHistory)
 	server.Router.POST("/mmid/services/serviceHistoryBatch", mmidController.GetServiceHistoryBatch)
 	server.Router.POST("/mmid/services/sparepartList", mmidController.GetSparepartList)
+
+	// Soa route
+	server.Router.GET("/soa/metadata/vehicle", soaContr.VehicleMasterList)
 
 	// Swagger route
 	server.Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
