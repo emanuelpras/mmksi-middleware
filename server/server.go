@@ -1,9 +1,10 @@
 package server
 
 import (
+	"database/sql"
 	"log"
 	"middleware-mmksi/util"
-	"os"
+	"net/http"
 
 	dsfPaymentControllers "middleware-mmksi/dsf/calculator/controller"
 	dsfProgramControllers "middleware-mmksi/dsf/metadata/controller"
@@ -20,51 +21,39 @@ import (
 
 	"github.com/apex/gateway"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 )
 
-func NewServer(route string) {
-	switch route {
-	case "aws-lambda":
-		awsServer()
+type ApiServer struct {
+	DB     *sql.DB
+	Router *gin.Engine
+	Route  string
+}
 
-	case "local":
-	default:
-		err := godotenv.Load()
-
-		if err != nil {
-			log.Fatal("Error loading .env file")
-		}
-		localServer()
+func NewServer(db *sql.DB, route string) *ApiServer {
+	r := gin.New()
+	return &ApiServer{
+		DB:     db,
+		Router: r,
+		Route:  route,
 	}
 }
 
-func localServer() {
-	r := gin.Default()
-	registerRoute(r)
-	r.Run()
+func (server *ApiServer) ListenAndServe(port string) {
+	server.Router.Use(gin.Logger())
+	server.Router.Use(gin.Recovery())
+	server.registerRoute()
+
+	switch server.Route {
+	case "aws-lambda":
+		log.Fatal(gateway.ListenAndServe(":"+port, server.Router))
+	case "local":
+		http.ListenAndServe(":"+port, server.Router)
+	default:
+		http.ListenAndServe(":"+port, server.Router)
+	}
 }
 
-func awsServer() {
-	addr := ":" + os.Getenv("PORT")
-	log.Fatal(gateway.ListenAndServe(addr, routerEngine()))
-}
-
-func routerEngine() *gin.Engine {
-	// set server mode
-	gin.SetMode(gin.DebugMode)
-
-	r := gin.New()
-
-	// Global middleware
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
-
-	registerRoute(r)
-	return r
-}
-
-func registerRoute(r *gin.Engine) {
+func (server *ApiServer) registerRoute() {
 
 	// @title MMKSI Middleware API Documentation
 	// @description MMKSI Middleware API Documentation
@@ -88,8 +77,8 @@ func registerRoute(r *gin.Engine) {
 	// Aws cognito sign in
 	// you can comment the code if you don't need signin method with aws
 	// if you need to signin with aws, you should uncomment this code
-	r.POST("/auth/signin", authController.SigninAws)
-	r.POST("/auth/resignin", authController.ReSigninAws)
+	server.Router.POST("/auth/signin", authController.SigninAws)
+	server.Router.POST("/auth/resignin", authController.ReSigninAws)
 
 	// Middleware signin method
 	// you can comment the code if you want to use middleware signin method
@@ -97,45 +86,45 @@ func registerRoute(r *gin.Engine) {
 	r.POST("/token/refresh", authController.RefreshToken) */
 
 	// Dsf route
-	r.GET("/dsf/tradein/vehicles", mrpController.GetVehicles)
-	r.GET("/dsf/tradein/regions", mrpController.GetRegions)
-	r.POST("/dsf/tradein/prediction", mrpController.GetPrediction)
+	server.Router.GET("/dsf/tradein/vehicles", mrpController.GetVehicles)
+	server.Router.GET("/dsf/tradein/regions", mrpController.GetRegions)
+	server.Router.POST("/dsf/tradein/prediction", mrpController.GetPrediction)
 
 	// Metadata route
-	r.GET("/dsf/metadata/additionalInsurance", dsfProgramController.GetAdditionalInsurance)
-	r.GET("/dsf/metadata/packageNames", dsfProgramController.GetPackageNames)
-	r.GET("/dsf/metadata/carConditions", dsfProgramController.GetCarConditions)
-	r.POST("/dsf/metadata/packages", dsfProgramController.GetPackages)
-	r.GET("/dsf/metadata/variant", dsfProgramController.GetVariants)
-	r.GET("/dsf/metadata/paymentTypes", dsfProgramController.GetPaymentTypes)
-	r.GET("/dsf/metadata/brands", dsfProgramController.GetBrands)
-	r.GET("/dsf/metadata/models", dsfProgramController.GetModels)
-	r.GET("/dsf/metadata/vehicleCategory", dsfProgramController.GetVehicleCategory)
-	r.GET("/dsf/metadata/branchID", dsfProgramController.GetBranchID)
-	r.GET("/dsf/metadata/insuranceTypes", dsfProgramController.GetInsuranceTypes)
-	r.GET("/dsf/metadata/insurances", dsfProgramController.GetInsurance)
-	r.POST("/dsf/metadata/assetCode", dsfProgramController.GetAssetCode)
-	r.GET("/dsf/metadata/provinces", dsfProgramController.GetProvinces)
-	r.GET("/dsf/metadata/cities", dsfProgramController.GetCities)
+	server.Router.GET("/dsf/metadata/additionalInsurance", dsfProgramController.GetAdditionalInsurance)
+	server.Router.GET("/dsf/metadata/packageNames", dsfProgramController.GetPackageNames)
+	server.Router.GET("/dsf/metadata/carConditions", dsfProgramController.GetCarConditions)
+	server.Router.POST("/dsf/metadata/packages", dsfProgramController.GetPackages)
+	server.Router.GET("/dsf/metadata/variant", dsfProgramController.GetVariants)
+	server.Router.GET("/dsf/metadata/paymentTypes", dsfProgramController.GetPaymentTypes)
+	server.Router.GET("/dsf/metadata/brands", dsfProgramController.GetBrands)
+	server.Router.GET("/dsf/metadata/models", dsfProgramController.GetModels)
+	server.Router.GET("/dsf/metadata/vehicleCategory", dsfProgramController.GetVehicleCategory)
+	server.Router.GET("/dsf/metadata/branchID", dsfProgramController.GetBranchID)
+	server.Router.GET("/dsf/metadata/insuranceTypes", dsfProgramController.GetInsuranceTypes)
+	server.Router.GET("/dsf/metadata/insurances", dsfProgramController.GetInsurance)
+	server.Router.POST("/dsf/metadata/assetCode", dsfProgramController.GetAssetCode)
+	server.Router.GET("/dsf/metadata/provinces", dsfProgramController.GetProvinces)
+	server.Router.GET("/dsf/metadata/cities", dsfProgramController.GetCities)
 
 	// Dsf calculator route
-	r.POST("/dsf/calculator/perTenor", dsfPaymentController.GetTenor)
-	r.POST("/dsf/calculator/allTenors", dsfPaymentController.GetAllTenor)
+	server.Router.POST("/dsf/calculator/perTenor", dsfPaymentController.GetTenor)
+	server.Router.POST("/dsf/calculator/allTenors", dsfPaymentController.GetAllTenor)
 
 	// Mmksi master data route
-	r.POST("/mmksi/getData", tokenController.GetToken, mmksiController.GetVehicle)
-	r.POST("/mmksi/vehicle", tokenController.GetToken, mmksiController.GetVehicleColor)
+	server.Router.POST("/mmksi/getData", tokenController.GetToken, mmksiController.GetVehicle)
+	server.Router.POST("/mmksi/vehicle", tokenController.GetToken, mmksiController.GetVehicleColor)
 
 	// Salesforce route
-	r.POST("/salesforce/services/serviceHistory", salesforceController.CheckToken, salesforceController.GetServiceHistory)
-	r.POST("/salesforce/services/sparepartSalesHistory", salesforceController.CheckToken, salesforceController.GetSparepartSalesHistory)
+	server.Router.POST("/salesforce/services/serviceHistory", salesforceController.CheckToken, salesforceController.GetServiceHistory)
+	server.Router.POST("/salesforce/services/sparepartSalesHistory", salesforceController.CheckToken, salesforceController.GetSparepartSalesHistory)
 
 	// Mmid route
-	r.POST("/mmid/services/serviceHistory", mmidController.GetServiceHistory)
-	r.POST("/mmid/services/serviceHistoryBatch", mmidController.GetServiceHistoryBatch)
-	r.POST("/mmid/services/sparepartList", mmidController.GetSparepartList)
+	server.Router.POST("/mmid/services/serviceHistory", mmidController.GetServiceHistory)
+	server.Router.POST("/mmid/services/serviceHistoryBatch", mmidController.GetServiceHistoryBatch)
+	server.Router.POST("/mmid/services/sparepartList", mmidController.GetSparepartList)
 
 	// Swagger route
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	server.Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 }
