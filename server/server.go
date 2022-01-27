@@ -132,6 +132,7 @@ func (server *ApiServer) registerRoute() {
 
 	// Soa route
 	server.Router.GET("/soa/metadata/vehicle", soaContr.VehicleMasterList)
+	server.Router.GET("/soa/metadata/vehicle/:assetCode", soaContr.VehicleMasterByAssetCode)
 
 	// Swagger route
 	server.Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

@@ -5,6 +5,11 @@ type ListVehicleMasterResponse struct {
 	Data []VehicleMasterData `json:"data"`
 }
 
+type VehicleMasterByAssetCodeResponse struct {
+	Data      []VehicleMasterData `json:"data"`
+	TotalData int                 `json:"total_data"`
+}
+
 type Meta struct {
 	Page      int16 `json:"page"`
 	Limit     int16 `json:"limit"`
