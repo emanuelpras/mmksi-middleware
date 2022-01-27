@@ -11,6 +11,10 @@ type SoaVehicleMasterRequest struct {
 	Limit int `form:"limit"`
 }
 
+type VehicleMasterByAssetCodeRequest struct {
+	AssetCode string `query:"assetCode"`
+}
+
 func (f *SoaVehicleMasterRequest) Validate() error {
 	if err := validation.Validate(f.Page, validation.Required); err != nil {
 		return &er.ErrorResponse{

@@ -10,6 +10,7 @@ import (
 
 type SoaService interface {
 	VehicleMasterList(request request.SoaVehicleMasterRequest) (*response.ListVehicleMasterResponse, error)
+	VehicleMasterByAssetCode(request string) (*response.VehicleMasterByAssetCodeResponse, error)
 }
 
 type soaService struct {
@@ -37,7 +38,7 @@ func (s *soaService) VehicleMasterList(params request.SoaVehicleMasterRequest) (
 		response := &response.ErrorResponse{
 			ErrorID: http.StatusUnprocessableEntity,
 			Msg: map[string]string{
-				"en": err.Error(),
+				"en": "Unprocessable entity",
 				"id": "Entitas tidak dapat diproses",
 			},
 		}
@@ -59,4 +60,26 @@ func (s *soaService) VehicleMasterList(params request.SoaVehicleMasterRequest) (
 	}
 
 	return &res, nil
+}
+
+func (s *soaService) VehicleMasterByAssetCode(request string) (*response.VehicleMasterByAssetCodeResponse, error) {
+	result, counter, err := s.soaRepo.VehicleMasterByAssetCode(request)
+
+	if err != nil {
+		response := &response.ErrorResponse{
+			ErrorID: http.StatusUnprocessableEntity,
+			Msg: map[string]string{
+				"en": "Unprocessable entity",
+				"id": "Entitas tidak dapat diproses",
+			},
+		}
+		return nil, response
+	}
+
+	response := response.VehicleMasterByAssetCodeResponse{
+		Data:      *result,
+		TotalData: counter,
+	}
+
+	return &response, nil
 }
