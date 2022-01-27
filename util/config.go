@@ -43,6 +43,7 @@ func MySQL(c *Config) (*sql.DB, error) {
 	dbUri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", c.DbUsername, c.DbPassword, c.DbHost, c.DbPort, c.DbName)
 	db, err := sql.Open("mysql", dbUri)
 
+	log.Println(dbUri)
 	if err != nil {
 		return nil, err
 	}

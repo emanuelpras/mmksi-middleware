@@ -1,7 +1,7 @@
 package service
 
 import (
-	"log"
+	"math"
 	"middleware-mmksi/soa/repo"
 	"middleware-mmksi/soa/response"
 	"middleware-mmksi/soa/service/request"
@@ -27,10 +27,10 @@ func (s *soaService) VehicleMasterList(params request.SoaVehicleMasterRequest) (
 		return nil, err
 	}
 
-	result, err := s.soaRepo.VehicleMasterList(repo.Pagination{
+	result, counter, err := s.soaRepo.VehicleMasterList(repo.Pagination{
 		Page:    params.Page,
 		Limit:   params.Limit,
-		Counter: ((params.Page - 1) * params.Page),
+		Counter: ((params.Page - 1) * params.Limit),
 	})
 
 	if err != nil {
@@ -44,18 +44,19 @@ func (s *soaService) VehicleMasterList(params request.SoaVehicleMasterRequest) (
 		return nil, response
 	}
 
-	/* meta := response.Meta{
+	totalPage := math.Round(float64(counter) / float64(params.Limit))
+
+	meta := response.Meta{
 		Page:      int16(params.Page),
 		Limit:     int16(params.Limit),
-		TotalData: len(result),
-		TotalPage: int(len(result) / params.Limit),
+		TotalData: counter,
+		TotalPage: int(totalPage),
 	}
 
 	res := response.ListVehicleMasterResponse{
 		Meta: meta,
-		Data: result,
-	} */
+		Data: *result,
+	}
 
-	log.Println(result)
-	return nil, nil
+	return &res, nil
 }
