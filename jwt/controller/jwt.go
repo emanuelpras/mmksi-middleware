@@ -1,12 +1,12 @@
 package controller
 
 import (
-	"net/http"
-
 	"middleware-mmksi/jwt/repo"
 	"middleware-mmksi/jwt/service"
 	"middleware-mmksi/jwt/service/request"
+	_ "middleware-mmksi/mmid/response"
 	"middleware-mmksi/server/cors"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )

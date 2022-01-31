@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"net/http"
-
+	_ "middleware-mmksi/mmid/response"
 	"middleware-mmksi/mmksi/service"
 	"middleware-mmksi/mmksi/service/request"
 	"middleware-mmksi/server/cors"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )

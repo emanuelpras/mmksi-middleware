@@ -3,6 +3,7 @@ package controller
 import (
 	"middleware-mmksi/dsf/metadata/service"
 	"middleware-mmksi/dsf/metadata/service/request"
+	_ "middleware-mmksi/mmid/response"
 	"middleware-mmksi/server/cors"
 	"net/http"
 

@@ -70,10 +70,10 @@ func (c *mmidController) GetServiceHistory(gc *gin.Context) {
 // @Description Get Service History Batch from Mmid
 // @Produce json
 // @Param Authentication header string true "Authentication"
-// @Param requestbody body request.ServiceHistoryRequest true "Service History"
+// @Param requestbody body request.BatchServiceHistoryRequest true "Service History Batch"
 // @Success 200 {object} response.ServiceHistoryBatchResponse
 // @Failure 400 {object} response.ErrorResponse
-// @Router /mmid/services/serviceHistory [post]
+// @Router /mmid/services/serviceHistoryBatch [post]
 func (c *mmidController) GetServiceHistoryBatch(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var form request.BatchServiceHistoryRequest
@@ -98,10 +98,10 @@ func (c *mmidController) GetServiceHistoryBatch(gc *gin.Context) {
 // @Description Get Sparepart List from Mmid
 // @Produce json
 // @Param Authentication header string true "Authentication"
-// @Param requestbody body request.SparepartListRequest true "Service History"
+// @Param requestbody body request.SparepartListRequest true "Sparepart List"
 // @Success 200 {object} response.SparepartListResponse
 // @Failure 400 {object} response.ErrorResponse
-// @Router /mmid/services/serviceHistory [post]
+// @Router /mmid/services/sparepartList [post]
 func (c *mmidController) GetSparepartList(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var form request.SparepartListRequest

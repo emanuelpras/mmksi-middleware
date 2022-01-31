@@ -61,7 +61,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -105,7 +105,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -156,7 +156,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -207,7 +207,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -250,7 +250,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -301,7 +301,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -347,7 +347,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -397,7 +397,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -443,7 +443,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -498,7 +498,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -544,7 +544,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -607,7 +607,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -647,7 +647,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -711,7 +711,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -765,7 +765,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -811,7 +811,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -861,7 +861,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -903,7 +903,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -949,7 +949,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -993,7 +993,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_soa_response.ErrorResponse"
                         }
                     }
                 }
@@ -1033,7 +1033,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_soa_response.ErrorResponse"
                         }
                     }
                 }
@@ -1078,7 +1078,145 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_soa_response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mmid/services/serviceHistory": {
+            "post": {
+                "description": "Get Service History from Mmid",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Mmid Service History"
+                ],
+                "summary": "Get Service History",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication",
+                        "name": "Authentication",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Service History",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/middleware-mmksi_mmid_service_request.ServiceHistoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.ServiceHistoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mmid/services/serviceHistoryBatch": {
+            "post": {
+                "description": "Get Service History Batch from Mmid",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Mmid Service History Batch"
+                ],
+                "summary": "Get Service History Batch",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication",
+                        "name": "Authentication",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Service History Batch",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/middleware-mmksi_mmid_service_request.ServiceHistoryRequest"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.ServiceHistoryBatchResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/mmid/services/sparepartList": {
+            "post": {
+                "description": "Get Sparepart List from Mmid",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Mmid Spareparts List"
+                ],
+                "summary": "Get Spareparts List",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication",
+                        "name": "Authentication",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Sparepart List",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/request.SparepartList"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.SparepartListResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -1122,7 +1260,7 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
                         }
                     }
                 }
@@ -1166,7 +1304,182 @@ var doc = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/response.ErrorResponse"
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/salesforce/services/serviceHistory": {
+            "post": {
+                "description": "Get Service History from Salesforce",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Salesforce Service History"
+                ],
+                "summary": "Get Service History",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication",
+                        "name": "Authentication",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Service History",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/middleware-mmksi_salesforce_service_request.ServiceHistoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.ServiceHistoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/salesforce/services/sparepartSalesHistory": {
+            "post": {
+                "description": "Get Sparepart Sales History from Salesforce",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Salesforce Sparepart Sales History"
+                ],
+                "summary": "Get Sparepart Sales History",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication",
+                        "name": "Authentication",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Sparepart Sales History",
+                        "name": "requestbody",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.SparepartSalesHistoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.ServiceHistoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/middleware-mmksi_mmid_response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/soa/metadata/vehicle": {
+            "get": {
+                "description": "Get Vehicle Master from SOA",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Soa Vehicle"
+                ],
+                "summary": "Get Vehicle Master List",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication",
+                        "name": "Authentication",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.ListVehicleMasterResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/middleware-mmksi_soa_response.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/soa/metadata/vehicle/{assetCode}": {
+            "get": {
+                "description": "Get Vehicle Master from SOA",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Soa Vehicle"
+                ],
+                "summary": "Get Vehicle Master",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication",
+                        "name": "Authentication",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Soa Vehicle",
+                        "name": "vehicle",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.VehicleMasterByAssetCodeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/middleware-mmksi_soa_response.ErrorResponse"
                         }
                     }
                 }
@@ -1191,6 +1504,76 @@ var doc = `{
                 }
             }
         },
+        "middleware-mmksi_mmid_response.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error_id": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "middleware-mmksi_mmid_service_request.ServiceHistoryRequest": {
+            "type": "object",
+            "properties": {
+                "booking_Code__c": {
+                    "type": "string"
+                },
+                "dealer_code__c": {
+                    "type": "string"
+                },
+                "dnet_ID__c": {
+                    "type": "string"
+                },
+                "mechanic_Name__c": {
+                    "type": "string"
+                },
+                "mechanic_Notes__c": {
+                    "type": "string"
+                },
+                "msp_No__c": {
+                    "type": "string"
+                },
+                "no_Rangka__c": {
+                    "type": "string"
+                },
+                "odometer__c": {
+                    "type": "string"
+                },
+                "service_End_Date__c": {
+                    "type": "string"
+                },
+                "service_End_Time__c": {
+                    "type": "string"
+                },
+                "service_Kind__c": {
+                    "type": "string"
+                },
+                "service_Start_Date__c": {
+                    "type": "string"
+                },
+                "service_Start_Time__c": {
+                    "type": "string"
+                },
+                "service_Type__c": {
+                    "type": "string"
+                },
+                "stall_Code__c": {
+                    "type": "string"
+                },
+                "status__c": {
+                    "type": "string"
+                },
+                "work_Order_Number__c": {
+                    "type": "string"
+                }
+            }
+        },
         "middleware-mmksi_mmksi_response.Vehicle": {
             "type": "object",
             "properties": {
@@ -1202,6 +1585,76 @@ var doc = `{
                 },
                 "VehicleType": {
                     "type": "string"
+                }
+            }
+        },
+        "middleware-mmksi_salesforce_service_request.ServiceHistoryRequest": {
+            "type": "object",
+            "properties": {
+                "booking_Code__c": {
+                    "type": "string"
+                },
+                "dealer_code__c": {
+                    "type": "string"
+                },
+                "dnet_ID__c": {
+                    "type": "string"
+                },
+                "mechanic_Name__c": {
+                    "type": "string"
+                },
+                "mechanic_Notes__c": {
+                    "type": "string"
+                },
+                "msp_No__c": {
+                    "type": "string"
+                },
+                "no_Rangka__c": {
+                    "type": "string"
+                },
+                "odometer__c": {
+                    "type": "string"
+                },
+                "service_End_Date__c": {
+                    "type": "string"
+                },
+                "service_End_Time__c": {
+                    "type": "string"
+                },
+                "service_Kind__c": {
+                    "type": "string"
+                },
+                "service_Start_Date__c": {
+                    "type": "string"
+                },
+                "service_Start_Time__c": {
+                    "type": "string"
+                },
+                "service_Type__c": {
+                    "type": "string"
+                },
+                "stall_Code__c": {
+                    "type": "string"
+                },
+                "status__c": {
+                    "type": "string"
+                },
+                "work_Order_Number__c": {
+                    "type": "string"
+                }
+            }
+        },
+        "middleware-mmksi_soa_response.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error_id": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -1296,6 +1749,82 @@ var doc = `{
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.SparepartList": {
+            "type": "object",
+            "properties": {
+                "campaign_Description__c": {
+                    "type": "string"
+                },
+                "campaign_No__c": {
+                    "type": "string"
+                },
+                "dnet_ID__c": {
+                    "type": "string"
+                },
+                "dnet_Sparepart_ID__c": {
+                    "type": "string"
+                },
+                "is_Campaign__c": {
+                    "type": "string"
+                },
+                "parts_Code__c": {
+                    "type": "string"
+                },
+                "parts_Name__c": {
+                    "type": "string"
+                },
+                "quantity__c": {
+                    "type": "string"
+                },
+                "sales_Price__c": {
+                    "type": "string"
+                },
+                "status__c": {
+                    "type": "string"
+                },
+                "transaction_Date__c": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.SparepartSalesHistoryRequest": {
+            "type": "object",
+            "properties": {
+                "campaign_Description__c": {
+                    "type": "string"
+                },
+                "campaign_No__c": {
+                    "type": "string"
+                },
+                "dnet_ID__c": {
+                    "type": "string"
+                },
+                "is_Campaign__c": {
+                    "type": "string"
+                },
+                "parts_Code__c": {
+                    "type": "string"
+                },
+                "parts_Name__c": {
+                    "type": "string"
+                },
+                "quantity__c": {
+                    "type": "string"
+                },
+                "sales_Price__c": {
+                    "type": "string"
+                },
+                "salesforceID": {
+                    "type": "string"
+                },
+                "status__c": {
+                    "type": "string"
+                },
+                "transaction_Date__c": {
                     "type": "string"
                 }
             }
@@ -1460,6 +1989,17 @@ var doc = `{
                 }
             }
         },
+        "response.Alerts": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "response.AssetCodeResponse": {
             "type": "object",
             "properties": {
@@ -1515,20 +2055,6 @@ var doc = `{
                 }
             }
         },
-        "response.ErrorResponse": {
-            "type": "object",
-            "properties": {
-                "error_id": {
-                    "type": "integer"
-                },
-                "message": {
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string"
-                    }
-                }
-            }
-        },
         "response.GetRegionsResponse": {
             "type": "object",
             "properties": {
@@ -1559,6 +2085,37 @@ var doc = `{
                 "loadingRate": {},
                 "palprate": {},
                 "tjhrates": {}
+            }
+        },
+        "response.ListVehicleMasterResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.VehicleMasterData"
+                    }
+                },
+                "meta": {
+                    "$ref": "#/definitions/response.Meta"
+                }
+            }
+        },
+        "response.Meta": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total_data": {
+                    "type": "integer"
+                },
+                "total_page": {
+                    "type": "integer"
+                }
             }
         },
         "response.ModelsResponse": {
@@ -1628,6 +2185,42 @@ var doc = `{
                 },
                 "total_all_item": {
                     "type": "integer"
+                }
+            }
+        },
+        "response.ServiceHistoryBatchResponse": {
+            "type": "object",
+            "properties": {
+                "alerts": {
+                    "$ref": "#/definitions/response.Alerts"
+                },
+                "data": {},
+                "error": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "response.ServiceHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "alerts": {
+                    "$ref": "#/definitions/response.Alerts"
+                },
+                "data": {},
+                "error": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "response.SparepartListResponse": {
+            "type": "object",
+            "properties": {
+                "alerts": {
+                    "$ref": "#/definitions/response.Alerts"
+                },
+                "data": {},
+                "error": {
+                    "type": "boolean"
                 }
             }
         },
@@ -1739,6 +2332,52 @@ var doc = `{
                 }
             }
         },
+        "response.VehicleMasterByAssetCodeResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.VehicleMasterData"
+                    }
+                },
+                "total_data": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.VehicleMasterData": {
+            "type": "object",
+            "properties": {
+                "brand": {
+                    "type": "string"
+                },
+                "dp_min_max": {
+                    "type": "string"
+                },
+                "dsf_asset_code": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "mmksi_color": {
+                    "type": "string"
+                },
+                "mmksi_type": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "package": {
+                    "type": "string"
+                },
+                "vehicle_name": {
+                    "type": "string"
+                }
+            }
+        },
         "response.VehicleMessageResponse": {
             "type": "object",
             "properties": {
@@ -1801,12 +2440,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "1.0",
-	Host:        "xuu77ziiri.execute-api.us-east-2.amazonaws.com/",
-	BasePath:    "development",
-	Schemes:     []string{"https", "http"},
-	Title:       "MMKSI Middleware API Documentation",
-	Description: "MMKSI Middleware API Documentation",
+	Version:     "",
+	Host:        "",
+	BasePath:    "",
+	Schemes:     []string{},
+	Title:       "",
+	Description: "",
 }
 
 type s struct{}
@@ -1841,5 +2480,5 @@ func (s *s) ReadDoc() string {
 }
 
 func init() {
-	swag.Register(swag.Name, &s{})
+	swag.Register("swagger", &s{})
 }
