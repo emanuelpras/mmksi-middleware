@@ -26,6 +26,16 @@ func NewSoaController(soaService service.SoaService) *soaControlller {
 	}
 }
 
+// Mmid godoc
+// @Tags Soa Vehicle
+// @Summary Get Vehicle Master List
+// @Description Get Vehicle Master from SOA
+// @Produce json
+// @Param Authentication header string true "Authentication"
+// @Param vehicle query request.SoaVehicleMasterRequest true "Soa Vehicle List"
+// @Success 200 {object} response.ListVehicleMasterResponse
+// @Failure 400 {object} er.ErrorResponse
+// @Router /soa/metadata/vehicle [get]
 func (c *soaControlller) VehicleMasterList(gc *gin.Context) {
 	cors.AllowCors(gc)
 	var form request.SoaVehicleMasterRequest
@@ -45,6 +55,16 @@ func (c *soaControlller) VehicleMasterList(gc *gin.Context) {
 	gc.JSON(http.StatusOK, result)
 }
 
+// Mmid godoc
+// @Tags Soa Vehicle
+// @Summary Get Vehicle Master
+// @Description Get Vehicle Master from SOA
+// @Produce json
+// @Param Authentication header string true "Authentication"
+// @Param vehicle path request.VehicleMasterByAssetCodeRequest true "Soa Vehicle"
+// @Success 200 {object} response.VehicleMasterByAssetCodeResponse
+// @Failure 400 {object} er.ErrorResponse
+// @Router /soa/metadata/vehicle/{assetCode} [get]
 func (c *soaControlller) VehicleMasterByAssetCode(gc *gin.Context) {
 	cors.AllowCors(gc)
 

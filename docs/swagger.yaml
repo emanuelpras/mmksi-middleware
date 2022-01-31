@@ -1,4 +1,3 @@
-basePath: development
 definitions:
   middleware-mmksi_dsf_mrp_response.Vehicle:
     properties:
@@ -11,6 +10,52 @@ definitions:
           $ref: '#/definitions/response.VehicleModel'
         type: array
     type: object
+  middleware-mmksi_mmid_response.ErrorResponse:
+    properties:
+      error_id:
+        type: integer
+      message:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  middleware-mmksi_mmid_service_request.ServiceHistoryRequest:
+    properties:
+      booking_Code__c:
+        type: string
+      dealer_code__c:
+        type: string
+      dnet_ID__c:
+        type: string
+      mechanic_Name__c:
+        type: string
+      mechanic_Notes__c:
+        type: string
+      msp_No__c:
+        type: string
+      no_Rangka__c:
+        type: string
+      odometer__c:
+        type: string
+      service_End_Date__c:
+        type: string
+      service_End_Time__c:
+        type: string
+      service_Kind__c:
+        type: string
+      service_Start_Date__c:
+        type: string
+      service_Start_Time__c:
+        type: string
+      service_Type__c:
+        type: string
+      stall_Code__c:
+        type: string
+      status__c:
+        type: string
+      work_Order_Number__c:
+        type: string
+    type: object
   middleware-mmksi_mmksi_response.Vehicle:
     properties:
       ID:
@@ -19,6 +64,52 @@ definitions:
         type: string
       VehicleType:
         type: string
+    type: object
+  middleware-mmksi_salesforce_service_request.ServiceHistoryRequest:
+    properties:
+      booking_Code__c:
+        type: string
+      dealer_code__c:
+        type: string
+      dnet_ID__c:
+        type: string
+      mechanic_Name__c:
+        type: string
+      mechanic_Notes__c:
+        type: string
+      msp_No__c:
+        type: string
+      no_Rangka__c:
+        type: string
+      odometer__c:
+        type: string
+      service_End_Date__c:
+        type: string
+      service_End_Time__c:
+        type: string
+      service_Kind__c:
+        type: string
+      service_Start_Date__c:
+        type: string
+      service_Start_Time__c:
+        type: string
+      service_Type__c:
+        type: string
+      stall_Code__c:
+        type: string
+      status__c:
+        type: string
+      work_Order_Number__c:
+        type: string
+    type: object
+  middleware-mmksi_soa_response.ErrorResponse:
+    properties:
+      error_id:
+        type: integer
+      message:
+        additionalProperties:
+          type: string
+        type: object
     type: object
   request.AssetCodeRequest:
     properties:
@@ -80,6 +171,56 @@ definitions:
       refresh_token:
         type: string
       username:
+        type: string
+    type: object
+  request.SparepartList:
+    properties:
+      campaign_Description__c:
+        type: string
+      campaign_No__c:
+        type: string
+      dnet_ID__c:
+        type: string
+      dnet_Sparepart_ID__c:
+        type: string
+      is_Campaign__c:
+        type: string
+      parts_Code__c:
+        type: string
+      parts_Name__c:
+        type: string
+      quantity__c:
+        type: string
+      sales_Price__c:
+        type: string
+      status__c:
+        type: string
+      transaction_Date__c:
+        type: string
+    type: object
+  request.SparepartSalesHistoryRequest:
+    properties:
+      campaign_Description__c:
+        type: string
+      campaign_No__c:
+        type: string
+      dnet_ID__c:
+        type: string
+      is_Campaign__c:
+        type: string
+      parts_Code__c:
+        type: string
+      parts_Name__c:
+        type: string
+      quantity__c:
+        type: string
+      sales_Price__c:
+        type: string
+      salesforceID:
+        type: string
+      status__c:
+        type: string
+      transaction_Date__c:
         type: string
     type: object
   request.TenorRequest:
@@ -186,6 +327,13 @@ definitions:
       uangPertanggungan:
         type: integer
     type: object
+  response.Alerts:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    type: object
   response.AssetCodeResponse:
     properties:
       originalAssetCode:
@@ -222,15 +370,6 @@ definitions:
       name:
         type: string
     type: object
-  response.ErrorResponse:
-    properties:
-      error_id:
-        type: integer
-      message:
-        additionalProperties:
-          type: string
-        type: object
-    type: object
   response.GetRegionsResponse:
     properties:
       data:
@@ -252,6 +391,26 @@ definitions:
       loadingRate: {}
       palprate: {}
       tjhrates: {}
+    type: object
+  response.ListVehicleMasterResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/response.VehicleMasterData'
+        type: array
+      meta:
+        $ref: '#/definitions/response.Meta'
+    type: object
+  response.Meta:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+      total_data:
+        type: integer
+      total_page:
+        type: integer
     type: object
   response.ModelsResponse:
     properties:
@@ -298,6 +457,30 @@ definitions:
         type: boolean
       total_all_item:
         type: integer
+    type: object
+  response.ServiceHistoryBatchResponse:
+    properties:
+      alerts:
+        $ref: '#/definitions/response.Alerts'
+      data: {}
+      error:
+        type: boolean
+    type: object
+  response.ServiceHistoryResponse:
+    properties:
+      alerts:
+        $ref: '#/definitions/response.Alerts'
+      data: {}
+      error:
+        type: boolean
+    type: object
+  response.SparepartListResponse:
+    properties:
+      alerts:
+        $ref: '#/definitions/response.Alerts'
+      data: {}
+      error:
+        type: boolean
     type: object
   response.TenorResponse:
     properties:
@@ -369,6 +552,36 @@ definitions:
       total:
         type: integer
     type: object
+  response.VehicleMasterByAssetCodeResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/response.VehicleMasterData'
+        type: array
+      total_data:
+        type: integer
+    type: object
+  response.VehicleMasterData:
+    properties:
+      brand:
+        type: string
+      dp_min_max:
+        type: string
+      dsf_asset_code:
+        type: string
+      id:
+        type: integer
+      mmksi_color:
+        type: string
+      mmksi_type:
+        type: string
+      model:
+        type: string
+      package:
+        type: string
+      vehicle_name:
+        type: string
+    type: object
   response.VehicleMessageResponse:
     properties:
       ErrorCode:
@@ -400,12 +613,8 @@ definitions:
       total:
         type: integer
     type: object
-host: xuu77ziiri.execute-api.us-east-2.amazonaws.com/
 info:
   contact: {}
-  description: MMKSI Middleware API Documentation
-  title: MMKSI Middleware API Documentation
-  version: "1.0"
 paths:
   /auth/resignin:
     post:
@@ -432,7 +641,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Provides a Refresh Token
       tags:
       - Token
@@ -461,7 +670,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Provides a Sign In
       tags:
       - Token
@@ -495,7 +704,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get All Tenor
       tags:
       - Calculator
@@ -529,7 +738,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Pertenor
       tags:
       - Calculator
@@ -557,7 +766,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Additional Insurance
       tags:
       - Metadata
@@ -591,7 +800,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Asset Code
       tags:
       - Metadata
@@ -621,7 +830,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get BranchID
       tags:
       - Metadata
@@ -653,7 +862,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Brands
       tags:
       - Metadata
@@ -683,7 +892,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Car Condition
       tags:
       - Metadata
@@ -718,7 +927,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Cities
       tags:
       - Metadata
@@ -748,7 +957,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Insurance Types
       tags:
       - Metadata
@@ -791,7 +1000,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Insurances
       tags:
       - Metadata
@@ -817,7 +1026,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Models
       tags:
       - Metadata
@@ -860,7 +1069,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Package Names
       tags:
       - Metadata
@@ -896,7 +1105,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Packages
       tags:
       - Metadata
@@ -926,7 +1135,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Payment Types
       tags:
       - Metadata
@@ -958,7 +1167,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Province
       tags:
       - Metadata
@@ -986,7 +1195,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Variants
       tags:
       - Metadata
@@ -1016,7 +1225,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Vehicle Category
       tags:
       - Metadata
@@ -1045,7 +1254,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_soa_response.ErrorResponse'
       summary: Get Prediction
       tags:
       - MRP Tradein
@@ -1071,7 +1280,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_soa_response.ErrorResponse'
       summary: Get Regions
       tags:
       - MRP Tradein
@@ -1100,10 +1309,101 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_soa_response.ErrorResponse'
       summary: Get Vehicle
       tags:
       - MRP Tradein
+  /mmid/services/serviceHistory:
+    post:
+      description: Get Service History from Mmid
+      parameters:
+      - description: Authentication
+        in: header
+        name: Authentication
+        required: true
+        type: string
+      - description: Service History
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/middleware-mmksi_mmid_service_request.ServiceHistoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ServiceHistoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
+      summary: Get Service History
+      tags:
+      - Mmid Service History
+  /mmid/services/serviceHistoryBatch:
+    post:
+      description: Get Service History Batch from Mmid
+      parameters:
+      - description: Authentication
+        in: header
+        name: Authentication
+        required: true
+        type: string
+      - description: Service History Batch
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/middleware-mmksi_mmid_service_request.ServiceHistoryRequest'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ServiceHistoryBatchResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
+      summary: Get Service History Batch
+      tags:
+      - Mmid Service History Batch
+  /mmid/services/sparepartList:
+    post:
+      description: Get Sparepart List from Mmid
+      parameters:
+      - description: Authentication
+        in: header
+        name: Authentication
+        required: true
+        type: string
+      - description: Sparepart List
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/request.SparepartList'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.SparepartListResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
+      summary: Get Spareparts List
+      tags:
+      - Mmid Spareparts List
   /mmksi/getData:
     post:
       description: Get Vehicle from MMKSI
@@ -1129,7 +1429,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Vehicle
       tags:
       - MMKSI Vehicle
@@ -1158,11 +1458,123 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/response.ErrorResponse'
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
       summary: Get Vehicle Color
       tags:
       - MMKSI Vehicle
-schemes:
-- https
-- http
+  /salesforce/services/serviceHistory:
+    post:
+      description: Get Service History from Salesforce
+      parameters:
+      - description: Authentication
+        in: header
+        name: Authentication
+        required: true
+        type: string
+      - description: Service History
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/middleware-mmksi_salesforce_service_request.ServiceHistoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ServiceHistoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
+      summary: Get Service History
+      tags:
+      - Salesforce Service History
+  /salesforce/services/sparepartSalesHistory:
+    post:
+      description: Get Sparepart Sales History from Salesforce
+      parameters:
+      - description: Authentication
+        in: header
+        name: Authentication
+        required: true
+        type: string
+      - description: Sparepart Sales History
+        in: body
+        name: requestbody
+        required: true
+        schema:
+          $ref: '#/definitions/request.SparepartSalesHistoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ServiceHistoryResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middleware-mmksi_mmid_response.ErrorResponse'
+      summary: Get Sparepart Sales History
+      tags:
+      - Salesforce Sparepart Sales History
+  /soa/metadata/vehicle:
+    get:
+      description: Get Vehicle Master from SOA
+      parameters:
+      - description: Authentication
+        in: header
+        name: Authentication
+        required: true
+        type: string
+      - in: query
+        name: limit
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.ListVehicleMasterResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middleware-mmksi_soa_response.ErrorResponse'
+      summary: Get Vehicle Master List
+      tags:
+      - Soa Vehicle
+  /soa/metadata/vehicle/{assetCode}:
+    get:
+      description: Get Vehicle Master from SOA
+      parameters:
+      - description: Authentication
+        in: header
+        name: Authentication
+        required: true
+        type: string
+      - description: Soa Vehicle
+        in: path
+        name: vehicle
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.VehicleMasterByAssetCodeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/middleware-mmksi_soa_response.ErrorResponse'
+      summary: Get Vehicle Master
+      tags:
+      - Soa Vehicle
 swagger: "2.0"
